@@ -1,0 +1,29 @@
+{
+  "name": "time-shifter",
+  "version": "1.0.0",
+  "description": "Todo list app with time shifting capabilities",
+  "main": "main.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "build": "browserify js/app.tsx typings/browser.d.ts -p tsify > js/bundle.js",
+    "test": "budo js/app.tsx:js/bundle.js --live -- typings/browser.d.ts -p tsify",
+    "start": "npm run build && electron .",
+    "start:dev": "electron . --dev"
+  },
+  "author": "Volcomix",
+  "license": "ISC",
+  "dependencies": {
+    "material-design-lite": "^1.1.3",
+    "moment": "^2.12.0",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "budo": "^8.2.1",
+    "electron-prebuilt": "^0.37.6",
+    "tsify": "^0.14.7"
+  }
+}
