@@ -4,7 +4,12 @@ import { Todo } from '../documents/Todo';
 
 import TodoItem from './TodoItem';
 
-export default class TodoList extends React.Component<Props, {}> {
+export default class TodoList extends React.Component<Props, State> {
+    
+    constructor(props: Props) {
+        super(props);
+        this.state = { todos: props.initialTodos };
+    }
     
     render() {
         return (
@@ -19,15 +24,27 @@ export default class TodoList extends React.Component<Props, {}> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.todos.map((todo, index) =>
-                        <TodoItem todo={todo} index={index} key={index} />
+                    {this.state.todos.map((todo, index) =>
+                        <TodoItem
+                            todo={todo} index={index} key={index}
+                            onChange={this.todoChanged} />
                     )}
                 </tbody>
             </table>
         );
     }
+    
+    private todoChanged = (todo: Todo, index: number) => {
+        let todos = this.state.todos;
+        todos[index] = todo;
+        this.setState({ todos });
+    }
 }
 
 interface Props {
+    initialTodos: Todo[];
+}
+
+interface State {
     todos: Todo[];
 }

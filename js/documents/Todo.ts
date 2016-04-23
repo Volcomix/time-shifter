@@ -1,6 +1,6 @@
 export interface Todo {
     done?: boolean
-    hour?: Date;
+    hour?: string; // HH:mm
     task?: string;
     detail?: string;
 }
