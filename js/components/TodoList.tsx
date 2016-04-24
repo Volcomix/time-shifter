@@ -15,7 +15,8 @@ export default class TodoList extends React.Component<Props, State> {
         return (
             <table className={
                 'mdl-data-table mdl-js-data-table ' +
-                'mdl-data-table--selectable mdl-shadow--2dp'}>
+                'mdl-data-table--selectable mdl-shadow--2dp ' +
+                'todo-list'}>
                 <thead>
                     <tr>
                         <th className='mdl-data-table__cell--non-numeric'>Heure</th>

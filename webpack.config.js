@@ -11,7 +11,8 @@ module.exports = {
     },
     module: {
         loaders: [ 
-            { test: /\.tsx?$/, loaders: ['react-hot', 'ts-loader'] }
+            { test: /\.tsx?$/, loaders: ['react-hot', 'ts'] },
+            { test: /\.css$/, loaders: ['style', 'css'] }
         ]
     }
 }

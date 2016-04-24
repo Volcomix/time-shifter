@@ -4,6 +4,8 @@ import { Todo } from '../documents/Todo';
 
 import TextField from './TextField';
 
+require('./TodoItem.css');
+
 export default class TodoItem extends React.Component<Props, {}> {
     
     render() {
@@ -13,7 +15,7 @@ export default class TodoItem extends React.Component<Props, {}> {
         
         return (
             <tr className={this.props.todo.done ? 'is-selected' : ''}>
-                <td className='mdl-data-table__cell--non-numeric'>
+                <td className='mdl-data-table__cell--non-numeric hour'>
                     <TextField
                         id={hourId} value={this.props.todo.hour} type='time'
                         onChange={this.hourChanged} />
