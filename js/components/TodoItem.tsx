@@ -15,7 +15,7 @@ export default class TodoItem extends React.Component<Props, {}> {
         
         return (
             <tr className={this.props.todo.done ? 'is-selected' : ''}>
-                <td className='mdl-data-table__cell--non-numeric hour'>
+                <td className='mdl-data-table__cell--non-numeric'>
                     <TextField
                         id={hourId} value={this.props.todo.hour}
                         type='time' onChange={this.hourChanged} />
