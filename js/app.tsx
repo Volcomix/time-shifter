@@ -12,4 +12,7 @@ let todos: Todo[] = [
     { hour: moment().format('HH:mm') }
 ];
 
-ReactDOM.render(<TodoList initialTodos={todos} />, document.getElementById('react'));
+ReactDOM.render(
+    <TodoList initialTodos={todos} />,
+    document.getElementById('react')
+);

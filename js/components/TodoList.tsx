@@ -19,9 +19,15 @@ export default class TodoList extends React.Component<Props, State> {
                 'todo-list'}>
                 <thead>
                     <tr>
-                        <th className='mdl-data-table__cell--non-numeric'>Heure</th>
-                        <th className='mdl-data-table__cell--non-numeric'>Tâche</th>
-                        <th className='mdl-data-table__cell--non-numeric'>Détail</th>
+                        <th className='mdl-data-table__cell--non-numeric'>
+                            Heure
+                        </th>
+                        <th className='mdl-data-table__cell--non-numeric'>
+                            Tâche
+                        </th>
+                        <th className='mdl-data-table__cell--non-numeric'>
+                            Détail
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

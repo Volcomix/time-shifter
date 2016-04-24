@@ -6,10 +6,12 @@ export default class TextField extends React.Component<Props, {}> {
         return (
             <div className='mdl-textfield mdl-js-textfield'>
                 <input
-                    id={this.props.id} value={this.props.value || ''} type={this.props.type}
-                    onChange={this.onChange}
+                    id={this.props.id} value={this.props.value || ''}
+                    type={this.props.type} onChange={this.onChange}
                     className='mdl-textfield__input' />
-                <label htmlFor={this.props.id} className='mdl-textfield__label'>
+                <label
+                    htmlFor={this.props.id}
+                    className='mdl-textfield__label'>
                     {this.props.label}
                 </label>
             </div>

@@ -17,18 +17,18 @@ export default class TodoItem extends React.Component<Props, {}> {
             <tr className={this.props.todo.done ? 'is-selected' : ''}>
                 <td className='mdl-data-table__cell--non-numeric hour'>
                     <TextField
-                        id={hourId} value={this.props.todo.hour} type='time'
-                        onChange={this.hourChanged} />
+                        id={hourId} value={this.props.todo.hour}
+                        type='time' onChange={this.hourChanged} />
                 </td>
                 <td className='mdl-data-table__cell--non-numeric'>
                     <TextField
-                        id={taskId} value={this.props.todo.task} label='Tâche...'
-                        onChange={this.taskChanged}/>
+                        id={taskId} value={this.props.todo.task}
+                        label='Tâche...' onChange={this.taskChanged}/>
                 </td>
                 <td className='mdl-data-table__cell--non-numeric'>
                     <TextField
-                        id={detailId} value={this.props.todo.detail} label='Détail...'
-                        onChange={this.detailChanged}/>
+                        id={detailId} value={this.props.todo.detail}
+                        label='Détail...' onChange={this.detailChanged}/>
                 </td>
             </tr>
         );
