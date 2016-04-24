@@ -33,20 +33,20 @@ export default class TodoItem extends React.Component<Props, {}> {
     }
     
     private hourChanged = (newHour: string) => {
-        let { index, todo, onChange } = this.props;    
-        todo.hour = newHour;
-        onChange(todo, index);
+        this.updateTodo(todo => todo.hour = newHour);
     }
     
     private taskChanged = (newTask: string) => {
-        let { index, todo, onChange } = this.props;
-        todo.task = newTask;
-        onChange(todo, index);
+        this.updateTodo(todo => todo.task = newTask);
     }
     
     private detailChanged = (newDetail: string) => {
+        this.updateTodo(todo => todo.detail = newDetail);
+    }
+    
+    private updateTodo(updateFunction: (todo: Todo) => void) {
         let { index, todo, onChange } = this.props;
-        todo.detail = newDetail;
+        updateFunction(todo);
         onChange(todo, index);
     }
 }
