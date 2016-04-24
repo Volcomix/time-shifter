@@ -25,7 +25,7 @@ app.on('ready', function () {
 
     // and load the index.html of the app.
     if (process.argv.length === 3 && process.argv[2] === '--dev')
-        mainWindow.loadURL('http://localhost:9966');
+        mainWindow.loadURL('http://localhost:8080');
     else
         mainWindow.loadURL('file://' + __dirname + '/index.html');
 
