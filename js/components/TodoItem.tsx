@@ -2,19 +2,24 @@ import * as React from 'react';
 
 import { Todo } from '../documents/Todo';
 
+import Checkbox from './Checkbox';
 import TextField from './TextField';
-
-require('./TodoItem.css');
 
 export default class TodoItem extends React.Component<Props, {}> {
     
     render() {
-        let hourId = 'item-hour-' + this.props.index,
+        let doneId = 'item-done-' + this.props.index,
+            hourId = 'item-hour-' + this.props.index,
             taskId = 'item-task-' + this.props.index,
             detailId = 'item-detail-' + this.props.index;
         
         return (
-            <tr className={this.props.todo.done ? 'is-selected' : ''}>
+            <tr>
+                <td className='mdl-data-table__cell--non-numeric'>
+                    <Checkbox
+                        id={doneId} checked={this.props.todo.done}
+                        onChange={this.doneChanged} />
+                </td>
                 <td className='mdl-data-table__cell--non-numeric'>
                     <TextField
                         id={hourId} value={this.props.todo.hour}
@@ -32,6 +37,10 @@ export default class TodoItem extends React.Component<Props, {}> {
                 </td>
             </tr>
         );
+    }
+    
+    private doneChanged = (newChecked: boolean) => {
+        this.updateTodo(todo => todo.done = newChecked)
     }
     
     private hourChanged = (newHour: string) => {

@@ -4,6 +4,8 @@ import { Todo } from '../documents/Todo';
 
 import TodoItem from './TodoItem';
 
+require('./TodoList.css');
+
 export default class TodoList extends React.Component<Props, State> {
     
     constructor(props: Props) {
@@ -14,22 +16,9 @@ export default class TodoList extends React.Component<Props, State> {
     render() {
         return (
             <table className={
-                'mdl-data-table mdl-js-data-table ' +
-                'mdl-data-table--selectable mdl-shadow--2dp ' +
-                'todo-list'}>
-                <thead>
-                    <tr>
-                        <th className='mdl-data-table__cell--non-numeric'>
-                            Heure
-                        </th>
-                        <th className='mdl-data-table__cell--non-numeric'>
-                            Tâche
-                        </th>
-                        <th className='mdl-data-table__cell--non-numeric'>
-                            Détail
-                        </th>
-                    </tr>
-                </thead>
+                'todo-list ' +
+                'mdl-data-table mdl-js-data-table mdl-shadow--2dp'
+            }>
                 <tbody>
                     {this.state.todos.map((todo, index) =>
                         <TodoItem
