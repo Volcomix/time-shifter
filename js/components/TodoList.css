@@ -1,3 +1,15 @@
+.todo-list {
+    padding: 8px;
+}
+
+.todo-list table {
+    width: 100%;
+}
+
+.todo-list .mdl-textfield {
+    width: 100%;
+}
+
 .todo-list input {
     height: 24px;
 }

@@ -15,18 +15,19 @@ export default class TodoList extends React.Component<Props, State> {
     
     render() {
         return (
-            <table className={
-                'todo-list ' +
-                'mdl-data-table mdl-js-data-table mdl-shadow--2dp'
-            }>
-                <tbody>
-                    {this.state.todos.map((todo, index) =>
-                        <TodoItem
-                            todo={todo} index={index} key={index}
-                            onChange={this.todoChanged} />
-                    )}
-                </tbody>
-            </table>
+            <div className='todo-list'>
+                <table className={
+                    'mdl-data-table mdl-js-data-table mdl-shadow--2dp'
+                }>
+                    <tbody>
+                        {this.state.todos.map((todo, index) =>
+                            <TodoItem
+                                todo={todo} index={index} key={index}
+                                onChange={this.todoChanged} />
+                        )}
+                    </tbody>
+                </table>
+            </div>
         );
     }
     
