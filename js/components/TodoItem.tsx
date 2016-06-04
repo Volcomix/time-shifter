@@ -8,10 +8,10 @@ import TextField from './TextField';
 export default class TodoItem extends React.Component<Props, {}> {
     
     render() {
-        let doneId = 'item-done-' + this.props.index,
-            hourId = 'item-hour-' + this.props.index,
-            taskId = 'item-task-' + this.props.index,
-            detailId = 'item-detail-' + this.props.index;
+        let doneId = `item-done-${this.props.index}`,
+            hourId = `item-hour-${this.props.index}`,
+            taskId = `item-task-${this.props.index}`,
+            detailId = `item-detail-${this.props.index}`;
         
         return (
             <tr>
