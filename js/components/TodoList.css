@@ -4,6 +4,7 @@
 
 .todo-list table {
     width: 100%;
+    position: inherit;
 }
 
 .todo-list input {
@@ -11,6 +12,7 @@
 }
 
 .todo-list td:nth-child(1) {
+    padding-left: 36px;
     width: 24px;
 }
 
@@ -29,4 +31,8 @@
 
 .todo-list .mdl-textfield {
     width: 100%;
+}
+
+.todo-list tr.dragging {
+    visibility: hidden;
 }

@@ -13,6 +13,5 @@ let todos: Todo[] = [
 ];
 
 ReactDOM.render(
-    <TodoList initialTodos={todos} />,
-    document.getElementById('react')
+    <TodoList initialTodos={todos} />, document.getElementById('react')
 );

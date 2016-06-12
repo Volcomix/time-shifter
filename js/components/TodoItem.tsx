@@ -5,7 +5,12 @@ import { Todo } from '../documents/Todo';
 import Checkbox from './Checkbox';
 import TextField from './TextField';
 
-export default class TodoItem extends React.Component<Props, {}> {
+export default class TodoItem extends React.Component<Props, State> {
+    
+    constructor(props) {
+        super(props);
+        this.state = { dragging: false }
+    }
     
     render() {
         let doneId = `item-done-${this.props.index}`,
@@ -14,7 +19,14 @@ export default class TodoItem extends React.Component<Props, {}> {
             detailId = `item-detail-${this.props.index}`;
         
         return (
-            <tr>
+            <tr
+                draggable={true}
+                onDragStart={this.dragStart}
+                onDragEnd={this.dragEnd}
+                className={
+                    this.state.dragging && this.props.dragging ?
+                    'dragging' : null
+                }>
                 <td className='mdl-data-table__cell--non-numeric'>
                     <Checkbox
                         id={doneId} checked={this.props.todo.done}
@@ -37,6 +49,17 @@ export default class TodoItem extends React.Component<Props, {}> {
                 </td>
             </tr>
         );
+    }
+    
+    private dragStart = (event: React.DragEvent) => {
+        event.dataTransfer.setData('Text', `${this.props.index}`);
+        event.dataTransfer.effectAllowed = 'move';
+        this.setState({ dragging: true });
+    }
+    
+    private dragEnd = (event: React.DragEvent) => {
+        this.setState({ dragging: false });
+        this.props.dragEnd();
     }
     
     private doneChanged = (newChecked: boolean) => {
@@ -66,4 +89,10 @@ interface Props {
     index: number;
     todo: Todo;
     onChange: (todo: Todo, index: number) => void;
+    dragging: boolean;
+    dragEnd: () => void;
+}
+
+interface State {
+    dragging: boolean;
 }
