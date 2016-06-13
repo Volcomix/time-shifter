@@ -7,10 +7,10 @@ import TextField from './TextField';
 
 export default class TodoItem extends React.Component<Props, {}> {    
     render() {
-        let doneId = `item-done-${this.props.index}`,
-            hourId = `item-hour-${this.props.index}`,
-            taskId = `item-task-${this.props.index}`,
-            detailId = `item-detail-${this.props.index}`;
+        let doneId = `item-done-${this.props.todo.id}`,
+            hourId = `item-hour-${this.props.todo.id}`,
+            taskId = `item-task-${this.props.todo.id}`,
+            detailId = `item-detail-${this.props.todo.id}`;
         
         return (
             <tr
@@ -44,7 +44,7 @@ export default class TodoItem extends React.Component<Props, {}> {
     }
     
     private dragStart = (event: React.DragEvent) => {
-        event.dataTransfer.setData('Text', `${this.props.index}`);
+        event.dataTransfer.setData('Text', `${this.props.todo.id}`);
         event.dataTransfer.effectAllowed = 'move';
         this.setState({ dragging: true });
         this.props.dragStart(this.props.index);

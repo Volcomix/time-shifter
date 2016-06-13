@@ -26,7 +26,7 @@ export default class TodoList extends React.Component<Props, State> {
                     <tbody>
                         {this.state.todos.map((todo, index) =>
                             <TodoItem
-                                todo={todo} index={index} key={index}
+                                todo={todo} index={index} key={todo.id}
                                 onChange={this.todoChanged}
                                 dragging={this.state.draggingItem == index}
                                 dragStart={this.dragStart}
@@ -57,8 +57,8 @@ export default class TodoList extends React.Component<Props, State> {
         if (this.draggingItem === index) {
             return;
         }
-        let todo = this.state.todos[this.draggingItem];
-        let todos = this.state.todos.slice();
+        let todo = this.state.todos[this.draggingItem],
+            todos = this.state.todos.slice();
         todos.splice(this.draggingItem, 1);
         todos.splice(index, 0, todo);
         this.draggingItem = index;

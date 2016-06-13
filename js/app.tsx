@@ -7,9 +7,9 @@ import { Todo } from './documents/Todo';
 import TodoList from './components/TodoList';
 
 let todos: Todo[] = [
-    { done: true, task: 'Todo 1' },
-    { task: 'Todo 2', detail: 'Pipoup' },
-    { hour: moment().format('HH:mm') }
+    { id: 0, done: true, task: 'Todo 1' },
+    { id: 1, task: 'Todo 2', detail: 'Pipoup' },
+    { id: 2, hour: moment().format('HH:mm') }
 ];
 
 ReactDOM.render(
