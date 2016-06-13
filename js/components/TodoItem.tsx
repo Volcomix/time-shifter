@@ -5,13 +5,7 @@ import { Todo } from '../documents/Todo';
 import Checkbox from './Checkbox';
 import TextField from './TextField';
 
-export default class TodoItem extends React.Component<Props, State> {
-    
-    constructor(props) {
-        super(props);
-        this.state = { dragging: false }
-    }
-    
+export default class TodoItem extends React.Component<Props, {}> {    
     render() {
         let doneId = `item-done-${this.props.index}`,
             hourId = `item-hour-${this.props.index}`,
@@ -23,10 +17,8 @@ export default class TodoItem extends React.Component<Props, State> {
                 draggable={true}
                 onDragStart={this.dragStart}
                 onDragEnd={this.dragEnd}
-                className={
-                    this.state.dragging && this.props.dragging ?
-                    'dragging' : null
-                }>
+                onDragOver={this.dragOver}
+                className={this.props.dragging ? 'dragging' : null}>
                 <td className='mdl-data-table__cell--non-numeric'>
                     <Checkbox
                         id={doneId} checked={this.props.todo.done}
@@ -55,11 +47,16 @@ export default class TodoItem extends React.Component<Props, State> {
         event.dataTransfer.setData('Text', `${this.props.index}`);
         event.dataTransfer.effectAllowed = 'move';
         this.setState({ dragging: true });
+        this.props.dragStart(this.props.index);
     }
     
     private dragEnd = (event: React.DragEvent) => {
         this.setState({ dragging: false });
         this.props.dragEnd();
+    }
+
+    private dragOver = (event: React.DragEvent) => {
+        this.props.dragOverItem(event, this.props.index);
     }
     
     private doneChanged = (newChecked: boolean) => {
@@ -90,9 +87,7 @@ interface Props {
     todo: Todo;
     onChange: (todo: Todo, index: number) => void;
     dragging: boolean;
+    dragStart: (index: number) => void;
     dragEnd: () => void;
-}
-
-interface State {
-    dragging: boolean;
+    dragOverItem: (event: React.DragEvent, index: number) => void;
 }
