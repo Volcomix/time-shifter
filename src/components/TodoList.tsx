@@ -19,19 +19,21 @@ export default class TodoList extends React.Component<Props, State> {
         return (
             <div className='todo-list'>
                 <table
-                    className={
-                        'mdl-data-table mdl-js-data-table mdl-shadow--2dp'
-                    }
-                    onDragOver={this.dragOver}>
+                    className='mdl-data-table mdl-js-data-table mdl-shadow--2dp'
+                    onDragOver={this.dragOver}
+                >
                     <tbody>
                         {this.state.todos.map((todo, index) =>
                             <TodoItem
-                                todo={todo} index={index} key={todo.id}
+                                todo={todo}
+                                index={index}
+                                key={todo.id}
                                 onChange={this.todoChanged}
                                 dragging={this.state.draggingItem == index}
                                 dragStart={this.dragStart}
                                 dragEnd={this.dragEnd}
-                                dragOverItem={this.dragOverItem} />
+                                dragOverItem={this.dragOverItem}
+                            />
                         )}
                     </tbody>
                 </table>
@@ -57,7 +59,7 @@ export default class TodoList extends React.Component<Props, State> {
         if (this.draggingItem === index) {
             return
         }
-        let todo = this.state.todos[this.draggingItem],
+        const todo = this.state.todos[this.draggingItem],
             todos = this.state.todos.slice()
         todos.splice(this.draggingItem, 1)
         todos.splice(index, 0, todo)
@@ -66,7 +68,7 @@ export default class TodoList extends React.Component<Props, State> {
     }
     
     private todoChanged = (todo: Todo, index: number) => {
-        let todos = this.state.todos.slice()
+        const todos = this.state.todos.slice()
         todos[index] = todo
         this.setState({ todos } as State)
     }
