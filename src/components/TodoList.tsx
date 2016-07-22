@@ -1,18 +1,18 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { Todo } from '../documents/Todo';
+import { Todo } from '../documents/Todo'
 
-import TodoItem from './TodoItem';
+import TodoItem from './TodoItem'
 
-require('./TodoList.css');
+require('./TodoList.css')
 
 export default class TodoList extends React.Component<Props, State> {
     
-    private draggingItem: number;
+    private draggingItem: number
 
     constructor(props: Props) {
-        super(props);
-        this.state = { todos: props.initialTodos, draggingItem: null };
+        super(props)
+        this.state = { todos: props.initialTodos, draggingItem: null }
     }
     
     render() {
@@ -36,47 +36,47 @@ export default class TodoList extends React.Component<Props, State> {
                     </tbody>
                 </table>
             </div>
-        );
+        )
     }
 
     private dragOver = (event: React.DragEvent) => {
-        event.preventDefault();
-        this.setState({ draggingItem: this.draggingItem } as State);
+        event.preventDefault()
+        this.setState({ draggingItem: this.draggingItem } as State)
     }
 
     private dragStart = (index: number) => {
-        this.draggingItem = index;
+        this.draggingItem = index
     }
 
     private dragEnd = () => {
-        this.setState({ draggingItem: null } as State);
+        this.setState({ draggingItem: null } as State)
     }
 
     private dragOverItem = (event: React.DragEvent, index: number) => {
-        event.preventDefault();
+        event.preventDefault()
         if (this.draggingItem === index) {
-            return;
+            return
         }
         let todo = this.state.todos[this.draggingItem],
-            todos = this.state.todos.slice();
-        todos.splice(this.draggingItem, 1);
-        todos.splice(index, 0, todo);
-        this.draggingItem = index;
-        this.setState({ todos } as State);
+            todos = this.state.todos.slice()
+        todos.splice(this.draggingItem, 1)
+        todos.splice(index, 0, todo)
+        this.draggingItem = index
+        this.setState({ todos } as State)
     }
     
     private todoChanged = (todo: Todo, index: number) => {
-        let todos = this.state.todos.slice();
-        todos[index] = todo;
-        this.setState({ todos } as State);
+        let todos = this.state.todos.slice()
+        todos[index] = todo
+        this.setState({ todos } as State)
     }
 }
 
 interface Props {
-    initialTodos: Todo[];
+    initialTodos: Todo[]
 }
 
 interface State {
-    todos: Todo[];
-    draggingItem: number;
+    todos: Todo[]
+    draggingItem: number
 }

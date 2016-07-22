@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "test": "webpack-dev-server --progress --colors --inline --hot",
+    "serve": "webpack-dev-server --inline --hot",
     "start:dev": "electron . --dev",
     "start": "npm run build && electron ."
   },
@@ -24,6 +24,7 @@
     "css-loader": "latest",
     "electron-prebuilt": "latest",
     "react-hot-loader": "latest",
+    "source-map-loader": "latest",
     "style-loader": "latest",
     "ts-loader": "latest",
     "typescript": "latest",

@@ -5,35 +5,23 @@
 	"command": "npm",
 	"isShellCommand": true,
 	"showOutput": "always",
-	"suppressTaskName": true,
 	"tasks": [
 		{
-			"taskName": "install",
-			"args": ["install"]
-		},
-		{
-			"taskName": "update",
-			"args": ["update"]
-		},
-		{
 			"taskName": "build",
-			"args": ["run", "build"]
+			"args": ["run"],
+			"isBuildCommand": true
 		},
 		{
-			"taskName": "test",
-			"args": ["run", "test"]
-		},
-		{
-			"taskName": "livereload",
-			"args": ["run", "livereload"]
-		},
-		{
-			"taskName": "start",
-			"args": ["start"]
+			"taskName": "serve",
+			"args": ["run"],
+			"isTestCommand": true
 		},
 		{
 			"taskName": "start:dev",
-			"args": ["run", "start:dev"]
+			"args": ["run"]
+		},
+		{
+			"taskName": "start"
 		}
 	]
 }

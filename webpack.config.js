@@ -1,18 +1,29 @@
-var path = require('path');
 module.exports = {
-    entry: './js/app.tsx',
+    entry: "./src/index.tsx",
     output: {
-        path: path.resolve(__dirname, './js'),
-        publicPath: '/js/',
-        filename: 'bundle.js'
+        filename: "./dist/bundle.js",
     },
-    resolve: { 
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+
+    devtool: "source-map",
+
+    resolve: {
+        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
     },
+
     module: {
-        loaders: [ 
+        loaders: [
             { test: /\.tsx?$/, loaders: ['react-hot', 'ts'] },
             { test: /\.css$/, loaders: ['style', 'css'] }
+        ],
+
+        preLoaders: [
+            { test: /\.js$/, loader: "source-map-loader" }
         ]
-    }
+    },
+
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "moment": "moment"
+    },
 }

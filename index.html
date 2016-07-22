@@ -3,18 +3,25 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     
     <title>Time Shifter</title>
     
-    <link rel="stylesheet" href="/node_modules/material-design-lite/material.min.css">
-    <script src="/node_modules/material-design-lite/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="./node_modules/material-design-lite/material.min.css">
 </head>
 
 <body>
-    <section id="react"></section>
-    <script src="js/bundle.js"></script>
+    <div id="root">
+    </div>
+
+    <script src="./node_modules/react/dist/react.js"></script>
+    <script src="./node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="./node_modules/material-design-lite/material.min.js"></script>
+    <script src="./node_modules/moment/min/moment.min.js"></script>
+
+    <script src="./dist/bundle.js"></script>
 </body>
 
 </html>

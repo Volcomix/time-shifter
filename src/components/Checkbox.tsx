@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default class Checkbox extends React.Component<Props, {}> {
     
@@ -16,17 +16,17 @@ export default class Checkbox extends React.Component<Props, {}> {
                     checked={this.props.checked || false}
                     onChange={this.onChange} />
             </label>
-        );
+        )
     }
     
     private onChange = (event: React.FormEvent) => {
-        let input = event.target as HTMLInputElement;
-        this.props.onChange(input.checked);
+        let input = event.target as HTMLInputElement
+        this.props.onChange(input.checked)
     }
 }
 
 interface Props {
-    id: string;
-    checked: boolean;
-    onChange: (newChecked: boolean) => void;
+    id: string
+    checked: boolean
+    onChange: (newChecked: boolean) => void
 }

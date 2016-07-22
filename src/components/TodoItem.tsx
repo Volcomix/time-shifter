@@ -1,16 +1,16 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { Todo } from '../documents/Todo';
+import { Todo } from '../documents/Todo'
 
-import Checkbox from './Checkbox';
-import TextField from './TextField';
+import Checkbox from './Checkbox'
+import TextField from './TextField'
 
 export default class TodoItem extends React.Component<Props, {}> {    
     render() {
         let doneId = `item-done-${this.props.todo.id}`,
             hourId = `item-hour-${this.props.todo.id}`,
             taskId = `item-task-${this.props.todo.id}`,
-            detailId = `item-detail-${this.props.todo.id}`;
+            detailId = `item-detail-${this.props.todo.id}`
         
         return (
             <tr
@@ -40,23 +40,23 @@ export default class TodoItem extends React.Component<Props, {}> {
                         label='Détail...' onChange={this.detailChanged}/>
                 </td>
             </tr>
-        );
+        )
     }
     
     private dragStart = (event: React.DragEvent) => {
-        event.dataTransfer.setData('Text', `${this.props.todo.id}`);
-        event.dataTransfer.effectAllowed = 'move';
-        this.setState({ dragging: true });
-        this.props.dragStart(this.props.index);
+        event.dataTransfer.setData('Text', `${this.props.todo.id}`)
+        event.dataTransfer.effectAllowed = 'move'
+        this.setState({ dragging: true })
+        this.props.dragStart(this.props.index)
     }
     
     private dragEnd = (event: React.DragEvent) => {
-        this.setState({ dragging: false });
-        this.props.dragEnd();
+        this.setState({ dragging: false })
+        this.props.dragEnd()
     }
 
     private dragOver = (event: React.DragEvent) => {
-        this.props.dragOverItem(event, this.props.index);
+        this.props.dragOverItem(event, this.props.index)
     }
     
     private doneChanged = (newChecked: boolean) => {
@@ -64,30 +64,30 @@ export default class TodoItem extends React.Component<Props, {}> {
     }
     
     private hourChanged = (newHour: string) => {
-        this.updateTodo(todo => todo.hour = newHour);
+        this.updateTodo(todo => todo.hour = newHour)
     }
     
     private taskChanged = (newTask: string) => {
-        this.updateTodo(todo => todo.task = newTask);
+        this.updateTodo(todo => todo.task = newTask)
     }
     
     private detailChanged = (newDetail: string) => {
-        this.updateTodo(todo => todo.detail = newDetail);
+        this.updateTodo(todo => todo.detail = newDetail)
     }
     
     private updateTodo(updateFunction: (todo: Todo) => void) {
-        let { index, todo, onChange } = this.props;
-        updateFunction(todo);
-        onChange(todo, index);
+        let { index, todo, onChange } = this.props
+        updateFunction(todo)
+        onChange(todo, index)
     }
 }
 
 interface Props {
-    index: number;
-    todo: Todo;
-    onChange: (todo: Todo, index: number) => void;
-    dragging: boolean;
-    dragStart: (index: number) => void;
-    dragEnd: () => void;
-    dragOverItem: (event: React.DragEvent, index: number) => void;
+    index: number
+    todo: Todo
+    onChange: (todo: Todo, index: number) => void
+    dragging: boolean
+    dragStart: (index: number) => void
+    dragEnd: () => void
+    dragOverItem: (event: React.DragEvent, index: number) => void
 }

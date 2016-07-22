@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export default class TextField extends React.Component<Props, {}> {
     
@@ -15,24 +15,24 @@ export default class TextField extends React.Component<Props, {}> {
                     {this.props.label}
                 </label>
             </div>
-        );
+        )
     }
     
     private onChange = (event: React.FormEvent) => {
-        let input = event.target as HTMLInputElement;
-        this.props.onChange(input.value);
+        let input = event.target as HTMLInputElement
+        this.props.onChange(input.value)
     }
     
     static defaultProps: Props = {
         id: undefined, value: undefined, onChange: undefined,
         label: undefined, type: 'text'
-    };
+    }
 }
 
 interface Props {
-    id: string;
-    value: string;
-    onChange: (newValue: string) => void;
-    label?: string;
-    type?: string;
+    id: string
+    value: string
+    onChange: (newValue: string) => void
+    label?: string
+    type?: string
 }
