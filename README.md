@@ -1,8 +1,6 @@
 # Building tools
-- Browserify
-- Tsify (Typescript)
 - Npm
-- Budo
+- Webpack
 
 # Libraries
 - React JS
