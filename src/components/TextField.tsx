@@ -1,5 +1,13 @@
 import * as React from 'react'
 
+interface Props {
+    id: string
+    value: string
+    onChange: (newValue: string) => void
+    label?: string
+    type?: string
+}
+
 export default class TextField extends React.Component<Props, {}> {
     
     render() {
@@ -31,12 +39,4 @@ export default class TextField extends React.Component<Props, {}> {
         id: undefined, value: undefined, onChange: undefined,
         label: undefined, type: 'text'
     }
-}
-
-interface Props {
-    id: string
-    value: string
-    onChange: (newValue: string) => void
-    label?: string
-    type?: string
 }

@@ -5,6 +5,16 @@ import { Todo } from '../documents/Todo'
 import Checkbox from './Checkbox'
 import TextField from './TextField'
 
+interface Props {
+    index: number
+    todo: Todo
+    onChange: (todo: Todo, index: number) => void
+    dragging: boolean
+    dragStart: (index: number) => void
+    dragEnd: () => void
+    dragOverItem: (event: React.DragEvent, index: number) => void
+}
+
 export default class TodoItem extends React.Component<Props, {}> {    
     render() {
         const doneId = `item-done-${this.props.todo.id}`,
@@ -13,44 +23,37 @@ export default class TodoItem extends React.Component<Props, {}> {
             detailId = `item-detail-${this.props.todo.id}`
         
         return (
-            <tr
-                className={this.props.dragging ? 'dragging' : null}
+            <li
+                style={{ visibility: this.props.dragging ? 'hidden' : null }}
                 draggable={true}
                 onDragStart={this.dragStart}
                 onDragEnd={this.dragEnd}
-                onDragOver={this.dragOver}>
-                <td className='mdl-data-table__cell--non-numeric'>
-                    <Checkbox
-                        id={doneId}
-                        checked={this.props.todo.done}
-                        onChange={this.doneChanged}
-                    />
-                </td>
-                <td className='mdl-data-table__cell--non-numeric'>
-                    <TextField
-                        type='time'
-                        id={hourId}
-                        value={this.props.todo.hour}
-                        onChange={this.hourChanged}
-                    />
-                </td>
-                <td className='mdl-data-table__cell--non-numeric'>
-                    <TextField
-                        label='Tâche...'
-                        id={taskId}
-                        value={this.props.todo.task}
-                        onChange={this.taskChanged}
-                    />
-                </td>
-                <td className='mdl-data-table__cell--non-numeric'>
-                    <TextField
-                        label='Détail...'
-                        id={detailId}
-                        value={this.props.todo.detail}
-                        onChange={this.detailChanged}
-                    />
-                </td>
-            </tr>
+                onDragOver={this.dragOver}
+            >
+                <Checkbox
+                    id={doneId}
+                    checked={this.props.todo.done}
+                    onChange={this.doneChanged}
+                />
+                <TextField
+                    type='time'
+                    id={hourId}
+                    value={this.props.todo.hour}
+                    onChange={this.hourChanged}
+                />
+                <TextField
+                    label='Tâche...'
+                    id={taskId}
+                    value={this.props.todo.task}
+                    onChange={this.taskChanged}
+                />
+                <TextField
+                    label='Détail...'
+                    id={detailId}
+                    value={this.props.todo.detail}
+                    onChange={this.detailChanged}
+                />
+            </li>
         )
     }
     
@@ -91,14 +94,4 @@ export default class TodoItem extends React.Component<Props, {}> {
         updateFunction(todo)
         onChange(todo, index)
     }
-}
-
-interface Props {
-    index: number
-    todo: Todo
-    onChange: (todo: Todo, index: number) => void
-    dragging: boolean
-    dragStart: (index: number) => void
-    dragEnd: () => void
-    dragOverItem: (event: React.DragEvent, index: number) => void
 }

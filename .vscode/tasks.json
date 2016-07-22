@@ -13,15 +13,15 @@
         },
         {
             "taskName": "serve",
-            "args": ["run"],
-            "isTestCommand": true
+            "args": ["run"]
         },
         {
             "taskName": "start:dev",
             "args": ["run"]
         },
         {
-            "taskName": "start"
+            "taskName": "start",
+            "isTestCommand": true
         }
     ]
 }

@@ -6,6 +6,15 @@ import TodoItem from './TodoItem'
 
 require('./TodoList.css')
 
+interface Props {
+    initialTodos: Todo[]
+}
+
+interface State {
+    todos: Todo[]
+    draggingItem: number
+}
+
 export default class TodoList extends React.Component<Props, State> {
     
     private draggingItem: number
@@ -17,26 +26,21 @@ export default class TodoList extends React.Component<Props, State> {
     
     render() {
         return (
-            <div className='todo-list'>
-                <table
-                    className='mdl-data-table mdl-js-data-table mdl-shadow--2dp'
-                    onDragOver={this.dragOver}
-                >
-                    <tbody>
-                        {this.state.todos.map((todo, index) =>
-                            <TodoItem
-                                todo={todo}
-                                index={index}
-                                key={todo.id}
-                                onChange={this.todoChanged}
-                                dragging={this.state.draggingItem == index}
-                                dragStart={this.dragStart}
-                                dragEnd={this.dragEnd}
-                                dragOverItem={this.dragOverItem}
-                            />
-                        )}
-                    </tbody>
-                </table>
+            <div>
+                <ul onDragOver={this.dragOver}>
+                    {this.state.todos.map((todo, index) =>
+                        <TodoItem
+                            todo={todo}
+                            index={index}
+                            key={todo.id}
+                            onChange={this.todoChanged}
+                            dragging={this.state.draggingItem == index}
+                            dragStart={this.dragStart}
+                            dragEnd={this.dragEnd}
+                            dragOverItem={this.dragOverItem}
+                        />
+                    )}
+                </ul>
             </div>
         )
     }
@@ -72,13 +76,4 @@ export default class TodoList extends React.Component<Props, State> {
         todos[index] = todo
         this.setState({ todos } as State)
     }
-}
-
-interface Props {
-    initialTodos: Todo[]
-}
-
-interface State {
-    todos: Todo[]
-    draggingItem: number
 }

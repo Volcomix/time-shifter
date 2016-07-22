@@ -1,5 +1,11 @@
 import * as React from 'react'
 
+interface Props {
+    id: string
+    checked: boolean
+    onChange: (newChecked: boolean) => void
+}
+
 export default class Checkbox extends React.Component<Props, {}> {
     
     render() {
@@ -23,10 +29,4 @@ export default class Checkbox extends React.Component<Props, {}> {
         const input = event.target as HTMLInputElement
         this.props.onChange(input.checked)
     }
-}
-
-interface Props {
-    id: string
-    checked: boolean
-    onChange: (newChecked: boolean) => void
 }
