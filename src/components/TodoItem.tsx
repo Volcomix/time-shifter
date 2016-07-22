@@ -6,25 +6,29 @@ import Checkbox from './Checkbox'
 import TextField from './TextField'
 
 interface Props {
-    index: number
     todo: Todo
-    onChange: (todo: Todo, index: number) => void
+    onChange: (todo: Todo) => void
     dragging: boolean
-    dragStart: (index: number) => void
+    dragStart: (todo: Todo) => void
     dragEnd: () => void
-    dragOverItem: (event: React.DragEvent, index: number) => void
+    dragOverItem: (event: React.DragEvent, todo: Todo) => void
 }
 
 export default class TodoItem extends React.Component<Props, {}> {    
     render() {
-        const doneId = `item-done-${this.props.todo.id}`,
-            hourId = `item-hour-${this.props.todo.id}`,
-            taskId = `item-task-${this.props.todo.id}`,
-            detailId = `item-detail-${this.props.todo.id}`
+        const doneId = `item-done-${this.props.todo.id}`
+        const hourId = `item-hour-${this.props.todo.id}`
+        const taskId = `item-task-${this.props.todo.id}`
+        const detailId = `item-detail-${this.props.todo.id}`
         
         return (
             <li
-                style={{ visibility: this.props.dragging ? 'hidden' : null }}
+                style={{
+                    position: 'absolute',
+                    top: this.props.todo.position * 100,
+                    transition: 'top 100ms',
+                    visibility: this.props.dragging ? 'hidden' : null
+                }}
                 draggable={true}
                 onDragStart={this.dragStart}
                 onDragEnd={this.dragEnd}
@@ -61,7 +65,7 @@ export default class TodoItem extends React.Component<Props, {}> {
         event.dataTransfer.setData('Text', `${this.props.todo.id}`)
         event.dataTransfer.effectAllowed = 'move'
         this.setState({ dragging: true })
-        this.props.dragStart(this.props.index)
+        this.props.dragStart(this.props.todo)
     }
     
     private dragEnd = (event: React.DragEvent) => {
@@ -70,7 +74,7 @@ export default class TodoItem extends React.Component<Props, {}> {
     }
 
     private dragOver = (event: React.DragEvent) => {
-        this.props.dragOverItem(event, this.props.index)
+        this.props.dragOverItem(event, this.props.todo)
     }
     
     private doneChanged = (newChecked: boolean) => {
@@ -90,8 +94,8 @@ export default class TodoItem extends React.Component<Props, {}> {
     }
     
     private updateTodo(updateFunction: (todo: Todo) => void) {
-        const { index, todo, onChange } = this.props
+        const { todo, onChange } = this.props
         updateFunction(todo)
-        onChange(todo, index)
+        onChange(todo)
     }
 }

@@ -12,29 +12,28 @@ interface Props {
 
 interface State {
     todos: Todo[]
-    draggingItem: number
+    draggingTodo: Todo
 }
 
 export default class TodoList extends React.Component<Props, State> {
     
-    private draggingItem: number
+    private draggingTodo: Todo
 
     constructor(props: Props) {
         super(props)
-        this.state = { todos: props.initialTodos, draggingItem: null }
+        this.state = { todos: props.initialTodos, draggingTodo: null }
     }
     
     render() {
         return (
             <div>
                 <ul onDragOver={this.dragOver}>
-                    {this.state.todos.map((todo, index) =>
+                    {this.state.todos.map((todo) =>
                         <TodoItem
                             todo={todo}
-                            index={index}
                             key={todo.id}
                             onChange={this.todoChanged}
-                            dragging={this.state.draggingItem == index}
+                            dragging={this.state.draggingTodo === todo}
                             dragStart={this.dragStart}
                             dragEnd={this.dragEnd}
                             dragOverItem={this.dragOverItem}
@@ -47,33 +46,50 @@ export default class TodoList extends React.Component<Props, State> {
 
     private dragOver = (event: React.DragEvent) => {
         event.preventDefault()
-        this.setState({ draggingItem: this.draggingItem } as State)
+        this.setState({ draggingTodo: this.draggingTodo } as State)
     }
 
-    private dragStart = (index: number) => {
-        this.draggingItem = index
+    private dragStart = (todo: Todo) => {
+        this.draggingTodo = todo
     }
 
     private dragEnd = () => {
-        this.setState({ draggingItem: null } as State)
+        this.setState({ draggingTodo: null } as State)
     }
 
-    private dragOverItem = (event: React.DragEvent, index: number) => {
+    private dragOverItem = (event: React.DragEvent, todo: Todo) => {
         event.preventDefault()
-        if (this.draggingItem === index) {
+        if (this.draggingTodo === todo) {
             return
         }
-        const todo = this.state.todos[this.draggingItem],
-            todos = this.state.todos.slice()
-        todos.splice(this.draggingItem, 1)
-        todos.splice(index, 0, todo)
-        this.draggingItem = index
+        const draggingPos = this.draggingTodo.position
+        const overPos = todo.position
+
+        const todos = this.state.todos.map(todo => {
+            if (
+                draggingPos > overPos &&
+                todo.position >= overPos &&
+                todo.position < draggingPos
+            ) {
+                todo.position++
+            } else if (
+                draggingPos < overPos &&
+                todo.position > draggingPos &&
+                todo.position <= overPos
+            ) {
+                todo.position--
+            } else if (
+                todo.position == draggingPos
+            ) {
+                todo.position = overPos
+            }
+            return todo
+        })
+
         this.setState({ todos } as State)
     }
     
-    private todoChanged = (todo: Todo, index: number) => {
-        const todos = this.state.todos.slice()
-        todos[index] = todo
-        this.setState({ todos } as State)
+    private todoChanged = (todo: Todo) => {
+        this.setState({ todos: this.state.todos } as State)
     }
 }
