@@ -44,7 +44,6 @@ export default class TodoItem extends React.Component<Props, {}> {
                     borderBottom: border,
                     borderLeft: border,
                     borderRight: border
-
                 }}
                 draggable={true}
                 onDragStart={this.dragStart}

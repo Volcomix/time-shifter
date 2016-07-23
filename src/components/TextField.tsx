@@ -21,6 +21,7 @@ export default class TextField extends React.Component<Props, {}> {
                     className='mdl-textfield__input'
                     style={{
                         width: '100%',
+                        fontSize: 13,
                         height: 24,
                         borderBottom: 0
                     }}
