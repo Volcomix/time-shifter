@@ -15,7 +15,7 @@ interface State {
     draggingItem: Todo
 }
 
-const itemHeight = 73
+const itemHeight = 41
 
 export default class TodoList extends React.Component<Props, State> {
     

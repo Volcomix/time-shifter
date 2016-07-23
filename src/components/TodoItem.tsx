@@ -26,17 +26,19 @@ export default class TodoItem extends React.Component<Props, {}> {
         const pointerEvents = this.props.isDragInProgress ? 'none': null
         const border = '1px solid rgba(0, 0, 0, 0.12)'
         const margin = '0px 18px'
+        const padding = '4px 0px'
         
         return (
             <li
                 className={this.props.isDragging ? 'mdl-shadow--8dp' : null}
                 style={{
                     position: 'absolute',
-                    transition: 'top 200ms ease-out, box-shadow 250ms ease-out',
+                    transition: 'top 150ms ease-out, box-shadow 250ms ease-out',
                     top: this.props.todo.position * this.props.height,
                     left: 0,
                     right: 0,
                     borderTop: this.props.todo.position === 0 ? border : null,
+                    marginTop: this.props.todo.position === 0 ? -1 : null,
                     borderBottom: border,
                     borderLeft: border,
                     borderRight: border
@@ -53,6 +55,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                     style={{
                         width: 24,
                         margin,
+                        padding,
                         pointerEvents
                     }}
                     onChange={this.doneChanged}
@@ -64,6 +67,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                     style={{
                         width: 90,
                         margin,
+                        padding,
                         pointerEvents
                     }}
                     onChange={this.hourChanged}
@@ -75,6 +79,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                     style={{
                         minWidth: 250,
                         margin,
+                        padding,
                         pointerEvents
                     }}
                     onChange={this.taskChanged}
@@ -87,6 +92,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                         width: 300,
                         minWidth: 150,
                         margin,
+                        padding,
                         pointerEvents
                     }}
                     onChange={this.detailChanged}
