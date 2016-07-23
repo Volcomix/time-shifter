@@ -15,6 +15,8 @@ interface State {
     draggingItem: Todo
 }
 
+const itemHeight = 73
+
 export default class TodoList extends React.Component<Props, State> {
     
     private draggingItem: Todo
@@ -34,7 +36,7 @@ export default class TodoList extends React.Component<Props, State> {
                         margin: 0,
                         padding: 0,
                         listStyle: 'none',
-                        height: this.state.todos.length * 97,
+                        height: this.state.todos.length * itemHeight,
                         position: 'absolute',
                         top: 10,
                         left: 10,
@@ -45,6 +47,7 @@ export default class TodoList extends React.Component<Props, State> {
                     {this.state.todos.map(todo =>
                         <TodoItem
                             todo={todo}
+                            height={itemHeight}
                             key={todo.id}
                             onChange={this.todoChanged}
                             isDragging={this.state.draggingItem === todo}

@@ -7,6 +7,7 @@ import TextField from './TextField'
 
 interface Props {
     todo: Todo
+    height: number
     onChange: (todo: Todo) => void
     isDragging: boolean
     isDragInProgress: boolean
@@ -24,7 +25,7 @@ export default class TodoItem extends React.Component<Props, {}> {
 
         const pointerEvents = this.props.isDragInProgress ? 'none': null
         const border = '1px solid rgba(0, 0, 0, 0.12)'
-        const margin = '12px 18px'
+        const margin = '0px 18px'
         
         return (
             <li
@@ -32,7 +33,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                 style={{
                     position: 'absolute',
                     transition: 'top 200ms ease-out, box-shadow 250ms ease-out',
-                    top: this.props.todo.position * 97,
+                    top: this.props.todo.position * this.props.height,
                     left: 0,
                     right: 0,
                     borderTop: this.props.todo.position === 0 ? border : null,
@@ -61,7 +62,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                     id={hourId}
                     value={this.props.todo.hour}
                     style={{
-                        width: 120,
+                        width: 90,
                         margin,
                         pointerEvents
                     }}
