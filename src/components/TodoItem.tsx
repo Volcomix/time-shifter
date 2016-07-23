@@ -32,7 +32,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                 style={{
                     position: 'absolute',
                     transition: 'top 200ms ease-out, box-shadow 250ms ease-out',
-                    top: this.props.todo.position * 98,
+                    top: this.props.todo.position * 97,
                     left: 0,
                     right: 0,
                     borderTop: this.props.todo.position === 0 ? border : null,

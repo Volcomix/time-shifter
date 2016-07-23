@@ -34,7 +34,7 @@ export default class TodoList extends React.Component<Props, State> {
                         margin: 0,
                         padding: 0,
                         listStyle: 'none',
-                        height: this.state.todos.length * 98,
+                        height: this.state.todos.length * 97,
                         position: 'absolute',
                         top: 10,
                         left: 10,
