@@ -12,16 +12,16 @@ interface Props {
 
 interface State {
     todos: Todo[]
-    draggingTodo: Todo
+    draggingItem: Todo
 }
 
 export default class TodoList extends React.Component<Props, State> {
     
-    private draggingTodo: Todo
+    private draggingItem: Todo
 
     constructor(props: Props) {
         super(props)
-        this.state = { todos: props.initialTodos, draggingTodo: null }
+        this.state = { todos: props.initialTodos, draggingItem: null }
     }
     
     render() {
@@ -33,7 +33,7 @@ export default class TodoList extends React.Component<Props, State> {
                             todo={todo}
                             key={todo.id}
                             onChange={this.todoChanged}
-                            dragging={this.state.draggingTodo === todo}
+                            dragging={this.state.draggingItem === todo}
                             dragStart={this.dragStart}
                             dragEnd={this.dragEnd}
                             dragOverItem={this.dragOverItem}
@@ -46,23 +46,23 @@ export default class TodoList extends React.Component<Props, State> {
 
     private dragOver = (event: React.DragEvent) => {
         event.preventDefault()
-        this.setState({ draggingTodo: this.draggingTodo } as State)
+        this.setState({ draggingItem: this.draggingItem } as State)
     }
 
     private dragStart = (todo: Todo) => {
-        this.draggingTodo = todo
+        this.draggingItem = todo
     }
 
     private dragEnd = () => {
-        this.setState({ draggingTodo: null } as State)
+        this.setState({ draggingItem: null } as State)
     }
 
     private dragOverItem = (event: React.DragEvent, todo: Todo) => {
         event.preventDefault()
-        if (this.draggingTodo === todo) {
+        if (this.draggingItem === todo) {
             return
         }
-        const draggingPos = this.draggingTodo.position
+        const draggingPos = this.draggingItem.position
         const overPos = todo.position
 
         const todos = this.state.todos.map(todo => {
