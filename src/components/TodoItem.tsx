@@ -23,61 +23,73 @@ export default class TodoItem extends React.Component<Props, {}> {
         const detailId = `item-detail-${this.props.todo.id}`
 
         const pointerEvents = this.props.isDragInProgress ? 'none': null
+        const border = '1px solid rgba(0, 0, 0, 0.12)'
+        const margin = '12px 18px'
         
         return (
             <li
+                className={this.props.isDragging ? 'mdl-shadow--8dp' : null}
                 style={{
                     position: 'absolute',
-                    transition: 'top 100ms ease-out',
-                    top: this.props.todo.position * 73
+                    transition: 'top 200ms ease-out, box-shadow 250ms ease-out',
+                    top: this.props.todo.position * 98,
+                    left: 0,
+                    right: 0,
+                    borderTop: this.props.todo.position === 0 ? border : null,
+                    borderBottom: border,
+                    borderLeft: border,
+                    borderRight: border
+
                 }}
                 draggable={true}
                 onDragStart={this.dragStart}
                 onDragEnd={this.dragEnd}
                 onDragOver={this.dragOver}
             >
-                <div style={{ visibility: this.props.isDragging ? 'hidden' : null }}>
-                    <Checkbox
-                        id={doneId}
-                        checked={this.props.todo.done}
-                        style={{
-                            width: 24,
-                            pointerEvents
-                        }}
-                        onChange={this.doneChanged}
-                    />
-                    <TextField
-                        type='time'
-                        id={hourId}
-                        value={this.props.todo.hour}
-                        style={{
-                            width: 90,
-                            pointerEvents
-                        }}
-                        onChange={this.hourChanged}
-                    />
-                    <TextField
-                        label='Tâche...'
-                        id={taskId}
-                        value={this.props.todo.task}
-                        style={{
-                            minWidth: 250,
-                            pointerEvents
-                        }}
-                        onChange={this.taskChanged}
-                    />
-                    <TextField
-                        label='Détail...'
-                        id={detailId}
-                        value={this.props.todo.detail}
-                        style={{
-                            width: 300,
-                            minWidth: 150,
-                            pointerEvents
-                        }}
-                        onChange={this.detailChanged}
-                    />
-                </div>
+                <Checkbox
+                    id={doneId}
+                    checked={this.props.todo.done}
+                    style={{
+                        width: 24,
+                        margin,
+                        pointerEvents
+                    }}
+                    onChange={this.doneChanged}
+                />
+                <TextField
+                    type='time'
+                    id={hourId}
+                    value={this.props.todo.hour}
+                    style={{
+                        width: 120,
+                        margin,
+                        pointerEvents
+                    }}
+                    onChange={this.hourChanged}
+                />
+                <TextField
+                    label='Tâche...'
+                    id={taskId}
+                    value={this.props.todo.task}
+                    style={{
+                        minWidth: 250,
+                        margin,
+                        pointerEvents
+                    }}
+                    onChange={this.taskChanged}
+                />
+                <TextField
+                    label='Détail...'
+                    id={detailId}
+                    value={this.props.todo.detail}
+                    style={{
+                        width: 300,
+                        minWidth: 150,
+                        margin,
+                        pointerEvents
+                    }}
+                    onChange={this.detailChanged}
+                />
             </li>
         )
     }

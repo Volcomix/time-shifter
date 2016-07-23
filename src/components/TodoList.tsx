@@ -15,10 +15,6 @@ interface State {
     draggingItem: Todo
 }
 
-const style: React.CSSProperties = {
-    listStyle: 'none'
-}
-
 export default class TodoList extends React.Component<Props, State> {
     
     private draggingItem: Todo
@@ -32,7 +28,20 @@ export default class TodoList extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <ul onDragOver={this.dragOver} style={style}>
+                <ul
+                    className='mdl-shadow--2dp'
+                    style={{
+                        margin: 0,
+                        padding: 0,
+                        listStyle: 'none',
+                        height: this.state.todos.length * 98,
+                        position: 'absolute',
+                        top: 10,
+                        left: 10,
+                        right: 10
+                    }}
+                    onDragOver={this.dragOver}
+                >
                     {this.state.todos.map(todo =>
                         <TodoItem
                             todo={todo}
