@@ -8,7 +8,7 @@ import TextField from './TextField'
 interface Props {
     todo: Todo
     onChange: (todo: Todo) => void
-    dragging: boolean
+    isDragging: boolean
     dragStart: (todo: Todo) => void
     dragEnd: () => void
     dragOverItem: (event: React.DragEvent, todo: Todo) => void
@@ -27,7 +27,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                     position: 'absolute',
                     top: this.props.todo.position * 100,
                     transition: 'top 100ms',
-                    visibility: this.props.dragging ? 'hidden' : null
+                    visibility: this.props.isDragging ? 'hidden' : null
                 }}
                 draggable={true}
                 onDragStart={this.dragStart}

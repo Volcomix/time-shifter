@@ -33,7 +33,7 @@ export default class TodoList extends React.Component<Props, State> {
                             todo={todo}
                             key={todo.id}
                             onChange={this.todoChanged}
-                            dragging={this.state.draggingItem === todo}
+                            isDragging={this.state.draggingItem === todo}
                             dragStart={this.dragStart}
                             dragEnd={this.dragEnd}
                             dragOverItem={this.dragOverItem}
