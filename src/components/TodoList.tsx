@@ -18,6 +18,7 @@ interface State {
 export default class TodoList extends React.Component<Props, State> {
     
     private draggingItem: Todo
+    private overItem: Todo
 
     constructor(props: Props) {
         super(props)
@@ -34,6 +35,7 @@ export default class TodoList extends React.Component<Props, State> {
                             key={todo.id}
                             onChange={this.todoChanged}
                             isDragging={this.state.draggingItem === todo}
+                            isDragInProgress={!!this.state.draggingItem}
                             dragStart={this.dragStart}
                             dragEnd={this.dragEnd}
                             dragOverItem={this.dragOverItem}
@@ -46,6 +48,9 @@ export default class TodoList extends React.Component<Props, State> {
 
     private dragOver = (event: React.DragEvent) => {
         event.preventDefault()
+        if (this.state.draggingItem === this.draggingItem) {
+            return
+        }
         this.setState({ draggingItem: this.draggingItem } as State)
     }
 
@@ -59,6 +64,10 @@ export default class TodoList extends React.Component<Props, State> {
 
     private dragOverItem = (event: React.DragEvent, todo: Todo) => {
         event.preventDefault()
+        if (this.overItem === todo) {
+            return
+        }
+        this.overItem = todo
         if (this.draggingItem === todo) {
             return
         }

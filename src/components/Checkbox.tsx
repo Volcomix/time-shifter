@@ -3,6 +3,7 @@ import * as React from 'react'
 interface Props {
     id: string
     checked: boolean
+    style?: {}
     onChange: (newChecked: boolean) => void
 }
 
@@ -12,6 +13,7 @@ export default class Checkbox extends React.Component<Props, {}> {
         return (
             <label
                 className='mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect'
+                style={this.props.style}
                 htmlFor={this.props.id}
             >
                 <input

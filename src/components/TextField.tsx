@@ -3,9 +3,10 @@ import * as React from 'react'
 interface Props {
     id: string
     value: string
-    onChange: (newValue: string) => void
     label?: string
     type?: string
+    style?: {}
+    onChange: (newValue: string) => void
 }
 
 export default class TextField extends React.Component<Props, {}> {
@@ -18,6 +19,7 @@ export default class TextField extends React.Component<Props, {}> {
                     id={this.props.id}
                     value={this.props.value || ''}
                     type={this.props.type}
+                    style={this.props.style}
                     onChange={this.onChange}
                 />
                 <label
@@ -36,7 +38,11 @@ export default class TextField extends React.Component<Props, {}> {
     }
     
     static defaultProps: Props = {
-        id: undefined, value: undefined, onChange: undefined,
-        label: undefined, type: 'text'
+        id: undefined,
+        value: undefined,
+        label: undefined,
+        type: 'text',
+        style: undefined,
+        onChange: undefined
     }
 }
