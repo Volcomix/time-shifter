@@ -28,7 +28,7 @@ export default class TodoList extends React.Component<Props, State> {
         return (
             <div>
                 <ul onDragOver={this.dragOver}>
-                    {this.state.todos.map((todo) =>
+                    {this.state.todos.map(todo =>
                         <TodoItem
                             todo={todo}
                             key={todo.id}
