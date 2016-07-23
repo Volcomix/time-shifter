@@ -34,6 +34,8 @@ export default class TodoItem extends React.Component<Props, {}> {
                 style={{
                     position: 'absolute',
                     transition: 'top 150ms ease-out, box-shadow 250ms ease-out',
+                    display: 'flex',
+                    alignItems: 'center',
                     top: this.props.todo.position * this.props.height,
                     left: 0,
                     right: 0,
@@ -77,6 +79,7 @@ export default class TodoItem extends React.Component<Props, {}> {
                     id={taskId}
                     value={this.props.todo.task}
                     style={{
+                        flexGrow: 1,
                         minWidth: 250,
                         margin,
                         padding,
