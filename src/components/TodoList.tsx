@@ -79,7 +79,7 @@ export default class TodoList extends React.Component<Props, State> {
             ) {
                 todo.position--
             } else if (
-                todo.position == draggingPos
+                todo.position === draggingPos
             ) {
                 todo.position = overPos
             }
