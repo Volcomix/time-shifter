@@ -22,16 +22,14 @@ export default class TodoItem extends React.Component<Props, {}> {
         const taskId = `item-task-${this.props.todo.id}`
         const detailId = `item-detail-${this.props.todo.id}`
 
-        const style: React.CSSProperties = {
-            pointerEvents: this.props.isDragInProgress ? 'none': null
-        }
+        const pointerEvents = this.props.isDragInProgress ? 'none': null
         
         return (
             <li
                 style={{
                     position: 'absolute',
-                    top: this.props.todo.position * 100,
-                    transition: 'top 100ms ease-out'
+                    transition: 'top 100ms ease-out',
+                    top: this.props.todo.position * 73
                 }}
                 draggable={true}
                 onDragStart={this.dragStart}
@@ -42,28 +40,41 @@ export default class TodoItem extends React.Component<Props, {}> {
                     <Checkbox
                         id={doneId}
                         checked={this.props.todo.done}
-                        style={style}
+                        style={{
+                            width: 24,
+                            pointerEvents
+                        }}
                         onChange={this.doneChanged}
                     />
                     <TextField
                         type='time'
                         id={hourId}
                         value={this.props.todo.hour}
-                        style={style}
+                        style={{
+                            width: 90,
+                            pointerEvents
+                        }}
                         onChange={this.hourChanged}
                     />
                     <TextField
                         label='Tâche...'
                         id={taskId}
                         value={this.props.todo.task}
-                        style={style}
+                        style={{
+                            minWidth: 250,
+                            pointerEvents
+                        }}
                         onChange={this.taskChanged}
                     />
                     <TextField
                         label='Détail...'
                         id={detailId}
                         value={this.props.todo.detail}
-                        style={style}
+                        style={{
+                            width: 300,
+                            minWidth: 150,
+                            pointerEvents
+                        }}
                         onChange={this.detailChanged}
                     />
                 </div>

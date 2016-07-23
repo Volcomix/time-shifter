@@ -18,6 +18,9 @@ export default class Checkbox extends React.Component<Props, {}> {
             >
                 <input
                     className='mdl-checkbox__input'
+                    style={{
+                        height: 24
+                    }}
                     type='checkbox'
                     id={this.props.id}
                     checked={this.props.checked || false}

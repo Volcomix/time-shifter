@@ -15,6 +15,10 @@ interface State {
     draggingItem: Todo
 }
 
+const style: React.CSSProperties = {
+    listStyle: 'none'
+}
+
 export default class TodoList extends React.Component<Props, State> {
     
     private draggingItem: Todo
@@ -28,7 +32,7 @@ export default class TodoList extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <ul onDragOver={this.dragOver}>
+                <ul onDragOver={this.dragOver} style={style}>
                     {this.state.todos.map(todo =>
                         <TodoItem
                             todo={todo}

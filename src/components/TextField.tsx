@@ -13,13 +13,19 @@ export default class TextField extends React.Component<Props, {}> {
     
     render() {
         return (
-            <div className='mdl-textfield mdl-js-textfield'>
+            <div
+                className='mdl-textfield mdl-js-textfield'
+                style={this.props.style}
+            >
                 <input
                     className='mdl-textfield__input'
+                    style={{
+                        width: '100%',
+                        height: 24
+                    }}
                     id={this.props.id}
                     value={this.props.value || ''}
                     type={this.props.type}
-                    style={this.props.style}
                     onChange={this.onChange}
                 />
                 <label
