@@ -3,66 +3,83 @@ import { Action } from 'redux'
 import Todo from '../model/Todo'
 import { TodoAction, TodoActionType } from '../actions'
 
-const todos = (state: Todo[] = [], action: TodoAction): Todo[] => {
+const todo = (state: Todo, action: TodoAction): Todo => {
     switch (action.type) {
         case TodoActionType.Add:
-            return [
-                ...state,
-                {
-                    id: action.id,
-                    position: action.position
-                }
-            ]
-        case TodoActionType.Delete:
-            return state.filter(todo => todo.id === action.id)
-        case TodoActionType.Move:
-            return state // TODO
+            return {
+                id: action.id,
+                position: action.position,
+                isDone: false
+            }
         case TodoActionType.Toggle:
-            return state.map(todo => {
-                if (todo.id === action.id) {
-                    return Object.assign({}, todo, {
-                        isDone: !todo.isDone
-                    })
-                }
-                return todo
+            if (state.id !== action.id) {
+                return state
+            }
+
+            return Object.assign({}, state, {
+                isDone: !state.isDone
             })
         case TodoActionType.SetStartHour:
-            return state.map(todo => {
-                if (todo.id === action.id) {
-                    return Object.assign({}, todo, {
-                        startHour: todo.startHour
-                    })
-                }
-                return todo
+            if (state.id !== action.id) {
+                return state
+            }
+
+            return Object.assign({}, state, {
+                startHour: action.startHour
             })
         case TodoActionType.SetDuration:
-            return state.map(todo => {
-                if (todo.id === action.id) {
-                    return Object.assign({}, todo, {
-                        duration: todo.duration
-                    })
-                }
-                return todo
+            if (state.id !== action.id) {
+                return state
+            }
+
+            return Object.assign({}, state, {
+                duration: action.duration
             })
         case TodoActionType.SetTask:
-            return state.map(todo => {
-                if (todo.id === action.id) {
-                    return Object.assign({}, todo, {
-                        task: todo.task
-                    })
-                }
-                return todo
+            if (state.id !== action.id) {
+                return state
+            }
+
+            return Object.assign({}, state, {
+                task: action.task
             })
         case TodoActionType.SetDetail:
-            return state.map(todo => {
-                if (todo.id === action.id) {
-                    return Object.assign({}, todo, {
-                        detail: todo.detail
-                    })
-                }
-                return todo
+            if (state.id !== action.id) {
+                return state
+            }
+
+            return Object.assign({}, state, {
+                detail: action.detail
             })
         default:
             return state
     }
 }
+
+const todos = (state: Todo[] = [], action: TodoAction): Todo[] => {
+    switch (action.type) {
+        case TodoActionType.Add:
+            return [
+                ...state,
+                todo(undefined, action)
+            ]
+        case TodoActionType.Delete:
+            return state.filter(todo =>
+                todo.id === action.id
+            )
+        case TodoActionType.Move:
+            return state // TODO
+        case TodoActionType.Toggle:
+        case TodoActionType.SetStartHour:
+        case TodoActionType.SetDuration:
+        case TodoActionType.SetTask:
+        case TodoActionType.SetDetail:
+            return state.map(t =>
+                todo(t, action)
+            )
+        default:
+            return state
+    }
+}
+
+export default todos
