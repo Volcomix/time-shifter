@@ -17,6 +17,12 @@ export interface TodoAction extends Action, Todo {
     type: TodoActionType
 }
 
+export interface MoveAction extends Action {
+    type: TodoActionType
+    fromPos: number
+    toPos: number
+}
+
 let nextTodoId = 0
 
 export const addTodo = (position?: number): TodoAction => {
@@ -34,11 +40,11 @@ export const deleteTodo = (id: number): TodoAction => {
     }
 }
 
-export const moveTodo = (id: number, position: number): TodoAction => {
+export const moveTodo = (fromPos: number, toPos: number): MoveAction => {
     return {
         type: TodoActionType.Move,
-        id,
-        position
+        fromPos,
+        toPos
     }
 }
 

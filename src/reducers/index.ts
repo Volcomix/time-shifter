@@ -1,7 +1,7 @@
 import { Action } from 'redux'
 
 import Todo from '../model/Todo'
-import { TodoAction, TodoActionType } from '../actions'
+import { TodoAction, MoveAction, TodoActionType } from '../actions'
 
 const todo = (state: Todo, action: TodoAction): Todo => {
     switch (action.type) {
@@ -56,27 +56,58 @@ const todo = (state: Todo, action: TodoAction): Todo => {
     }
 }
 
-const todos = (state: Todo[] = [], action: TodoAction): Todo[] => {
+const moveTodo = (state: Todo, action: MoveAction): Todo => {
+    if (
+        action.fromPos < action.toPos &&
+        state.position > action.fromPos &&
+        state.position <= action.toPos
+    ) {
+        return Object.assign({}, state, {
+            position: state.position - 1
+        })
+    } else if (
+        action.fromPos > action.toPos &&
+        state.position < action.fromPos &&
+        state.position >= action.toPos
+    ) {
+        return Object.assign({}, state, {
+            position: state.position + 1
+        })
+    } else if (
+        state.position === action.fromPos
+    ) {
+        return Object.assign({}, state, {
+            position: action.toPos
+        })
+    }
+    return state
+}
+
+const todos = (state: Todo[] = [], action: Action): Todo[] => {
     switch (action.type) {
         case TodoActionType.Add:
             return [
                 ...state,
-                todo(undefined, action)
+                todo(undefined, action as TodoAction)
             ]
         case TodoActionType.Delete:
             return state.filter(todo =>
-                todo.id === action.id
+                todo.id !== (action as TodoAction).id
             )
         case TodoActionType.Move:
-            return state // TODO
+            return state.map(t =>
+                moveTodo(t, action as MoveAction)
+            )
+
         case TodoActionType.Toggle:
         case TodoActionType.SetStartHour:
         case TodoActionType.SetDuration:
         case TodoActionType.SetTask:
         case TodoActionType.SetDetail:
             return state.map(t =>
-                todo(t, action)
+                todo(t, action as TodoAction)
             )
+
         default:
             return state
     }

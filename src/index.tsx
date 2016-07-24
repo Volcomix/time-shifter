@@ -1,7 +1,18 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 import * as moment from 'moment'
 
+import todoApp from './reducers'
+import * as actions from './actions'
+
+let store = createStore(
+    todoApp,
+    (window as any).devToolsExtension && (window as any).devToolsExtension()
+)
+
+/*
 import { Todo } from './documents/Todo'
 
 import TodoList from './components/TodoList'
@@ -15,3 +26,4 @@ const todos: Todo[] = [
 ReactDOM.render(
     <TodoList initialTodos={todos} />, document.getElementById('root')
 )
+*/
