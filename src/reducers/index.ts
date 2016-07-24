@@ -5,7 +5,9 @@ import { TodoAction, MoveAction, TodoActionType } from '../actions'
 
 const initialState: Todo[] = [{
     id: 0,
-    position: 0
+    position: 0,
+    isDone: false,
+    duration: 60
 }]
 
 const todo = (state: Todo, action: TodoAction): Todo => {
@@ -14,7 +16,8 @@ const todo = (state: Todo, action: TodoAction): Todo => {
             return {
                 id: action.id,
                 position: action.position,
-                isDone: false
+                isDone: false,
+                duration: 60
             }
         case TodoActionType.Toggle:
             if (state.id !== action.id) {
