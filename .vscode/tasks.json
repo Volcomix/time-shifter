@@ -5,22 +5,28 @@
     "command": "npm",
     "isShellCommand": true,
     "showOutput": "always",
+    "suppressTaskName": true,
     "tasks": [
         {
             "taskName": "build",
-            "args": ["run"],
+            "args": ["run", "build"],
             "isBuildCommand": true
         },
         {
             "taskName": "serve",
-            "args": ["run"]
+            "args": ["run", "serve"]
+        },
+        {
+            "taskName": "devtools",
+            "args": ["run", "devtools"]
         },
         {
             "taskName": "start:dev",
-            "args": ["run"]
+            "args": ["run", "start:dev"]
         },
         {
             "taskName": "start",
+            "args": ["start"],
             "isTestCommand": true
         }
     ]

@@ -9,6 +9,7 @@
   "scripts": {
     "build": "webpack",
     "serve": "webpack-dev-server --inline --hot",
+    "devtools": "electron devtools.js",
     "start:dev": "electron . --dev",
     "start": "npm run build && electron ."
   },
@@ -18,10 +19,13 @@
     "material-design-lite": "latest",
     "moment": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-redux": "latest",
+    "redux": "latest"
   },
   "devDependencies": {
     "css-loader": "latest",
+    "electron-devtools-installer": "latest",
     "electron-prebuilt": "latest",
     "react-hot-loader": "latest",
     "source-map-loader": "latest",
