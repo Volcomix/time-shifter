@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as moment from 'moment'
 
 import { Todo } from '../documents/Todo'
 
@@ -98,12 +99,20 @@ export default class TodoList extends React.Component<Props, State> {
                 todo.position < draggingPos
             ) {
                 todo.position++
+                if (todo.hour) {
+                    const hour = moment(todo.hour, 'HH:mm').add(1, 'hour')
+                    todo.hour = hour.format('HH:mm')
+                }
             } else if (
                 draggingPos < overPos &&
                 todo.position > draggingPos &&
                 todo.position <= overPos
             ) {
                 todo.position--
+                if (todo.hour) {
+                    const hour = moment(todo.hour, 'HH:mm').add(-1, 'hour')
+                    todo.hour = hour.format('HH:mm')
+                }
             } else if (
                 todo.position === draggingPos
             ) {
