@@ -3,6 +3,7 @@ import * as moment from 'moment'
 import { ListItem } from 'material-ui/List'
 import Checkbox from 'material-ui/Checkbox'
 import TimePicker from 'material-ui/TimePicker'
+import TextField from 'material-ui/TextField'
 
 import Todo from '../model/Todo'
 
@@ -15,8 +16,6 @@ const TodoItem: React.StatelessComponent<Props> = ({ todo }) => (
         leftCheckbox={
             <Checkbox checked={todo.isDone} />
         }
-        primaryText={todo.task}
-        secondaryText={todo.detail}
     >
         <TimePicker
             hintText='Heure de début'
@@ -27,6 +26,14 @@ const TodoItem: React.StatelessComponent<Props> = ({ todo }) => (
             hintText='Durée'
             format='24hr'
             value={moment({ 'minutes': todo.duration }).toDate()}
+        />
+        <TextField
+            hintText='Tâche'
+            value={todo.task}
+        />
+        <TextField
+            hintText='Détail'
+            value={todo.detail}
         />
     </ListItem>
 )
