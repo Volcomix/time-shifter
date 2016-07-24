@@ -19,7 +19,13 @@ const TodoItem: React.StatelessComponent<Props> = ({ todo }) => (
                 style={{ top: 24 }}
             />
         }
-        style={{ display: 'flex' }}
+        style={{
+            display: 'flex',
+            position: 'absolute',
+            top: todo.position * 80,
+            left: 0,
+            right: 0
+        }}
     >
         <TimePicker
             hintText='Heure de début'

@@ -10,7 +10,15 @@ interface Props {
 }
 
 const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
-    <Paper style={{ margin: 10 }}>
+    <Paper
+        style={{
+            position: 'absolute',
+            top: 10,
+            left: 10,
+            right: 10,
+            height: todos.length * 80
+        }}
+    >
         <List>
             {todos.map(todo => (
                 <TodoItem key={todo.id} todo={todo} />
