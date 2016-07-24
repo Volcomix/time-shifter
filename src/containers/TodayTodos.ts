@@ -9,8 +9,8 @@ const mapStateToProps = (state: Todo[]) => {
     }
 }
 
-const App = connect(
+const TodayTodos = connect(
     mapStateToProps
 )(TodoList)
 
-export default App
+export default TodayTodos
