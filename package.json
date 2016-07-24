@@ -24,12 +24,10 @@
     "redux": "latest"
   },
   "devDependencies": {
-    "css-loader": "latest",
     "electron-devtools-installer": "latest",
     "electron-prebuilt": "latest",
     "react-hot-loader": "latest",
     "source-map-loader": "latest",
-    "style-loader": "latest",
     "ts-loader": "latest",
     "typescript": "latest",
     "webpack": "latest",

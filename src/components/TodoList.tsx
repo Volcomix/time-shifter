@@ -5,8 +5,6 @@ import { Todo } from '../documents/Todo'
 
 import TodoItem from './TodoItem'
 
-require('./TodoList.css')
-
 interface Props {
     initialTodos: Todo[]
 }
