@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ListItem } from 'material-ui/List'
 
 import Todo from '../model/Todo'
 
@@ -7,7 +8,10 @@ interface Props {
 }
 
 const TodoItem: React.StatelessComponent<Props> = ({ todo }) => (
-    <div>{todo.id}</div>
+    <ListItem
+        primaryText={todo.id}
+        secondaryText={todo.task}
+    />
 )
 
 export default TodoItem

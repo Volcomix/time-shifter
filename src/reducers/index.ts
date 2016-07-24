@@ -3,6 +3,11 @@ import { Action } from 'redux'
 import Todo from '../model/Todo'
 import { TodoAction, MoveAction, TodoActionType } from '../actions'
 
+const initialState: Todo[] = [{
+    id: 0,
+    position: 0
+}]
+
 const todo = (state: Todo, action: TodoAction): Todo => {
     switch (action.type) {
         case TodoActionType.Add:
@@ -83,7 +88,7 @@ const moveTodo = (state: Todo, action: MoveAction): Todo => {
     return state
 }
 
-const todos = (state: Todo[] = [], action: Action): Todo[] => {
+const todos = (state = initialState, action: Action): Todo[] => {
     switch (action.type) {
         case TodoActionType.Add:
             return [

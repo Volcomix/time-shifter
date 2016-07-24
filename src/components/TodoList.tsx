@@ -1,4 +1,6 @@
 import * as React from 'react'
+import Paper from 'material-ui/Paper'
+import { List } from 'material-ui/List'
 
 import Todo from '../model/Todo'
 import TodoItem from './TodoItem'
@@ -8,19 +10,13 @@ interface Props {
 }
 
 const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
-    <ul>
-        {todos.map(todo => (
-            <li
-                style={{
-                    position: 'absolute',
-                    top: todo.position * 50,
-                    transition: 'top 150ms ease-out'
-                }}
-            >
+    <Paper style={{ margin: 10 }}>
+        <List>
+            {todos.map(todo => (
                 <TodoItem key={todo.id} todo={todo} />
-            </li>
-        ))}
-    </ul>
+            ))}
+        </List>
+    </Paper>
 )
 
 export default TodoList
