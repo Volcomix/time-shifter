@@ -1,15 +1,21 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import * as moment from 'moment'
 
 import todoApp from './reducers'
-import * as actions from './actions'
+import App from './containers/App'
 
 let store = createStore(
     todoApp,
     (window as any).devToolsExtension && (window as any).devToolsExtension()
+)
+
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
 )
 
 /*

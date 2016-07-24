@@ -3,7 +3,7 @@ import { Action } from 'redux'
 import Todo from '../model/Todo'
 
 export enum TodoActionType {
-    Add,
+    Add = 1,
     Delete,
     Move,
     Toggle,
