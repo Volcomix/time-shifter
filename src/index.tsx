@@ -2,9 +2,15 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import * as injectTapEventPlugin from 'react-tap-event-plugin'
 
 import todoApp from './reducers'
 import App from './containers/App'
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 let store = createStore(
     todoApp,
@@ -13,7 +19,9 @@ let store = createStore(
 
 render(
     <Provider store={store}>
-        <App />
+        <MuiThemeProvider>
+            <App />
+        </MuiThemeProvider>
     </Provider>,
     document.getElementById('root')
 )
