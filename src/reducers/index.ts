@@ -95,7 +95,7 @@ const todos = (state = initialState, action: Action): Todo[] => {
     switch (action.type) {
         case TodoActionType.Add:
             const addAction: TodoAction = action
-            addAction.id = state.length
+            addAction.id = Math.max(...state.map(todo => todo.id)) + 1
             addAction.position = state.length
             return [
                 ...state,
@@ -114,8 +114,8 @@ const todos = (state = initialState, action: Action): Todo[] => {
                 return todo
             })
         case TodoActionType.Move:
-            return state.map(t =>
-                moveTodo(t, action as MoveAction)
+            return state.map(todo =>
+                moveTodo(todo, action as MoveAction)
             )
 
         case TodoActionType.Toggle:
