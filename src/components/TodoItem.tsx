@@ -6,6 +6,8 @@ import TimePicker from 'material-ui/TimePicker'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import ActionDelete from 'material-ui/svg-icons/action/delete'
+import ArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
+import ArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 
 import Todo from '../model/Todo'
 
@@ -15,6 +17,7 @@ interface Props {
     onDurationChange: (id: number, duration: number) => void
     onTaskChange: (id: number, task: string) => void
     onDetailChange: (id: number, detail: string) => void
+    onMove: (fromPos: number, toPos: number) => void
     onDelete: (id: number, position: number) => void
 }
 
@@ -24,6 +27,7 @@ const TodoItem = ({
     onDurationChange,
     onTaskChange,
     onDetailChange,
+    onMove,
     onDelete
 }: Props) => (
     
@@ -77,6 +81,18 @@ const TodoItem = ({
                 onDetailChange(todo.id, (e.target as HTMLInputElement).value)
             }
         />
+        <IconButton
+            tooltip='Déplacer la tâche vers le haut'
+            onClick={() => onMove(todo.position, todo.position - 1)}
+        >
+            <ArrowUp />
+        </IconButton>
+        <IconButton
+            tooltip='Déplacer la tâche vers le bas'
+            onClick={() => onMove(todo.position, todo.position + 1)}
+        >
+            <ArrowDown />
+        </IconButton>
         <IconButton
             tooltip='Supprimer la tâche'
             tooltipPosition='bottom-left'

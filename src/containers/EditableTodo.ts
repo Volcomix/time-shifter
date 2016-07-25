@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>) => {
         onDetailChange: (id: number, detail: string) => {
             dispatch(Actions.setTodoDetail(id, detail))
         },
+        onMove: (fromPos: number, toPos: number) => {
+            dispatch(Actions.moveTodo(fromPos, toPos))
+        },
         onDelete: (id: number, position: number) => {
             dispatch(Actions.deleteTodo(id, position))
         }
