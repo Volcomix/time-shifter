@@ -12,6 +12,7 @@ import Todo from '../model/Todo'
 interface Props {
     todo: Todo
     onToggle: (id: number) => void
+    onDurationChange: (id: number, duration: number) => void
     onTaskChange: (id: number, task: string) => void
     onDetailChange: (id: number, detail: string) => void
     onDelete: (id: number, position: number) => void
@@ -20,6 +21,7 @@ interface Props {
 const TodoItem = ({
     todo,
     onToggle,
+    onDurationChange,
     onTaskChange,
     onDetailChange,
     onDelete
@@ -30,7 +32,7 @@ const TodoItem = ({
             <Checkbox
                 checked={todo.isDone}
                 style={{ top: 24 }}
-                onClick={() => onToggle(todo.id)}
+                onCheck={() => onToggle(todo.id)}
             />
         }
         style={{
@@ -54,6 +56,11 @@ const TodoItem = ({
             value={moment({ 'minutes': todo.duration }).toDate()}
             style={{ display: 'inline' }}
             textFieldStyle={{ width: 120 }}
+            onChange={(e: {}, time: Date) => {
+                const today = moment({hour: 0})
+                const duration = moment(time).diff(today, 'minutes')
+                return onDurationChange(todo.id, duration)
+            }}
         />
         <TextField
             hintText='Tâche'
