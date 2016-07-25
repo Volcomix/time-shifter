@@ -14,7 +14,7 @@ let AddTodo: React.StatelessComponent<Props> = ({ dispatch }) => (
     <FloatingActionButton
         secondary={true}
         style={{
-            position: 'absolute',
+            position: 'fixed',
             bottom: 15,
             right: 15
         }}
