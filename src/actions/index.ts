@@ -29,10 +29,11 @@ export const addTodo = (position?: number): TodoAction => {
     }
 }
 
-export const deleteTodo = (id: number): TodoAction => {
+export const deleteTodo = (id: number, position: number): TodoAction => {
     return {
         type: TodoActionType.Delete,
-        id
+        id,
+        position
     }
 }
 

@@ -11,7 +11,7 @@ import Todo from '../model/Todo'
 
 interface Props {
     todo: Todo
-    onDelete: (id: number) => void
+    onDelete: (id: number, position: number) => void
 }
 
 const TodoItem: React.StatelessComponent<Props> = ({ todo, onDelete }) => (
@@ -55,7 +55,7 @@ const TodoItem: React.StatelessComponent<Props> = ({ todo, onDelete }) => (
         />
         <IconButton
             tooltip='Supprimer'
-            onClick={() => onDelete(todo.id)}
+            onClick={() => onDelete(todo.id, todo.position)}
         >
             <ActionDelete />
         </IconButton>

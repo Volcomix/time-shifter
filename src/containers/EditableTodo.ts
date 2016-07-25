@@ -6,13 +6,13 @@ import TodoItem from '../components/TodoItem'
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        onDelete: (id: any) => {
-            dispatch(deleteTodo(id))
+        onDelete: (id: number, position: number) => {
+            dispatch(deleteTodo(id, position))
         }
     }
 }
 
-const EditableTodo = connect<{}, {onDelete: (id: number) => void}, { todo: Todo }>(
+const EditableTodo = connect<{}, {onDelete: (id: number, position: number) => void}, { todo: Todo }>(
     null,
     mapDispatchToProps
 )(TodoItem)
