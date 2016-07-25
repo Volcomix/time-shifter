@@ -4,14 +4,17 @@ import { ListItem } from 'material-ui/List'
 import Checkbox from 'material-ui/Checkbox'
 import TimePicker from 'material-ui/TimePicker'
 import TextField from 'material-ui/TextField'
+import IconButton from 'material-ui/IconButton'
+import ActionDelete from 'material-ui/svg-icons/action/delete'
 
 import Todo from '../model/Todo'
 
 interface Props {
     todo: Todo
+    onDelete: (id: number) => void
 }
 
-const TodoItem: React.StatelessComponent<Props> = ({ todo }) => (
+const TodoItem: React.StatelessComponent<Props> = ({ todo, onDelete }) => (
     <ListItem
         leftCheckbox={
             <Checkbox
@@ -50,6 +53,12 @@ const TodoItem: React.StatelessComponent<Props> = ({ todo }) => (
             hintText='Détail'
             value={todo.detail}
         />
+        <IconButton
+            tooltip='Supprimer'
+            onClick={() => onDelete(todo.id)}
+        >
+            <ActionDelete />
+        </IconButton>
     </ListItem>
 )
 

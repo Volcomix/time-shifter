@@ -3,7 +3,7 @@ import Paper from 'material-ui/Paper'
 import { List } from 'material-ui/List'
 
 import Todo from '../model/Todo'
-import TodoItem from './TodoItem'
+import EditableTodo from '../containers/EditableTodo'
 
 interface Props {
     todos: Todo[]
@@ -22,7 +22,7 @@ const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
     >
         <List>
             {todos.map(todo => (
-                <TodoItem key={todo.id} todo={todo} />
+                <EditableTodo key={todo.id} todo={todo} />
             ))}
         </List>
     </Paper>
