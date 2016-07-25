@@ -1,11 +1,16 @@
 import * as React from 'react'
+import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import { addTodo } from '../actions'
+import { addTodo, TodoAction } from '../actions'
 
-let AddTodo = ({ dispatch }) => (
+interface Props {
+    dispatch?: Dispatch<TodoAction>
+}
+
+let AddTodo: React.StatelessComponent<Props> = ({ dispatch }) => (
     <FloatingActionButton
         secondary={true}
         style={{
@@ -13,7 +18,7 @@ let AddTodo = ({ dispatch }) => (
             bottom: 15,
             right: 15
         }}
-        onClick={dispatch(addTodo())}
+        onClick={() => dispatch(addTodo())}
     >
         <ContentAdd />
     </FloatingActionButton>

@@ -94,9 +94,12 @@ const moveTodo = (state: Todo, action: MoveAction): Todo => {
 const todos = (state = initialState, action: Action): Todo[] => {
     switch (action.type) {
         case TodoActionType.Add:
+            const todoAction: TodoAction = action
+            todoAction.id = state.length
+            todoAction.position = state.length
             return [
                 ...state,
-                todo(undefined, action as TodoAction)
+                todo(undefined, todoAction)
             ]
         case TodoActionType.Delete:
             return state.filter(todo =>

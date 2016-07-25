@@ -23,13 +23,9 @@ export interface MoveAction extends Action {
     toPos: number
 }
 
-let nextTodoId = 1
-
 export const addTodo = (position?: number): TodoAction => {
     return {
-        type: TodoActionType.Add,
-        id: nextTodoId++,
-        position
+        type: TodoActionType.Add
     }
 }
 
