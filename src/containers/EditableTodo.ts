@@ -7,14 +7,17 @@ import TodoItem from '../components/TodoItem'
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>) => {
     return {
-        onDelete: (id: number, position: number) => {
-            dispatch(Actions.deleteTodo(id, position))
-        },
         onToggle: (id: number) => {
             dispatch(Actions.toggleTodo(id))
         },
         onTaskChange: (id: number, task: string) => {
             dispatch(Actions.setTodoTask(id, task))
+        },
+        onDetailChange: (id: number, detail: string) => {
+            dispatch(Actions.setTodoDetail(id, detail))
+        },
+        onDelete: (id: number, position: number) => {
+            dispatch(Actions.deleteTodo(id, position))
         }
     }
 }

@@ -13,10 +13,18 @@ interface Props {
     todo: Todo
     onToggle: (id: number) => void
     onTaskChange: (id: number, task: string) => void
+    onDetailChange: (id: number, detail: string) => void
     onDelete: (id: number, position: number) => void
 }
 
-const TodoItem = ({ todo, onToggle, onTaskChange, onDelete }: Props) => (
+const TodoItem = ({
+    todo,
+    onToggle,
+    onTaskChange,
+    onDetailChange,
+    onDelete
+}: Props) => (
+    
     <ListItem
         leftCheckbox={
             <Checkbox
@@ -58,6 +66,9 @@ const TodoItem = ({ todo, onToggle, onTaskChange, onDelete }: Props) => (
         <TextField
             hintText='Détail'
             value={todo.detail}
+            onChange={e =>
+                onDetailChange(todo.id, (e.target as HTMLInputElement).value)
+            }
         />
         <IconButton
             tooltip='Supprimer la tâche'
