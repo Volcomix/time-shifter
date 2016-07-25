@@ -11,15 +11,17 @@ import Todo from '../model/Todo'
 
 interface Props {
     todo: Todo
+    onToggle: (id: number) => void
     onDelete: (id: number, position: number) => void
 }
 
-const TodoItem: React.StatelessComponent<Props> = ({ todo, onDelete }) => (
+const TodoItem = ({ todo, onToggle, onDelete }: Props) => (
     <ListItem
         leftCheckbox={
             <Checkbox
                 checked={todo.isDone}
                 style={{ top: 24 }}
+                onClick={() => onToggle(todo.id)}
             />
         }
         style={{
