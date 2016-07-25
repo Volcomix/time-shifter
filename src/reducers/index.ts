@@ -1,4 +1,5 @@
 import { Action } from 'redux'
+import * as moment from 'moment'
 
 import Todo from '../model/Todo'
 import { TodoAction, MoveAction, TodoActionType } from '../actions'
@@ -7,6 +8,7 @@ const initialState: Todo[] = [{
     id: 0,
     position: 0,
     isDone: false,
+    startHour: moment({ hour: 9 }).toDate(),
     duration: 60,
     task: '',
     detail: ''
