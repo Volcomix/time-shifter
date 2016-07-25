@@ -113,8 +113,12 @@ const todos = (state = initialState, action: Action): Todo[] => {
                 return todo
             })
         case TodoActionType.Move:
+            const moveAction = action as MoveAction
+            if (moveAction.toPos < 0 || moveAction.toPos >= state.length) {
+                return state
+            }
             return state.map(todo =>
-                moveTodo(todo, action as MoveAction)
+                moveTodo(todo, moveAction)
             )
 
         case TodoActionType.Toggle:
