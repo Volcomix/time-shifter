@@ -12,10 +12,11 @@ import Todo from '../model/Todo'
 interface Props {
     todo: Todo
     onToggle: (id: number) => void
+    onTaskChange: (id: number, task: string) => void
     onDelete: (id: number, position: number) => void
 }
 
-const TodoItem = ({ todo, onToggle, onDelete }: Props) => (
+const TodoItem = ({ todo, onToggle, onTaskChange, onDelete }: Props) => (
     <ListItem
         leftCheckbox={
             <Checkbox
@@ -50,13 +51,17 @@ const TodoItem = ({ todo, onToggle, onDelete }: Props) => (
             hintText='Tâche'
             value={todo.task}
             style={{ flexGrow: 1 }}
+            onChange={e =>
+                onTaskChange(todo.id, (e.target as HTMLInputElement).value)
+            }
         />
         <TextField
             hintText='Détail'
             value={todo.detail}
         />
         <IconButton
-            tooltip='Supprimer'
+            tooltip='Supprimer la tâche'
+            tooltipPosition='bottom-left'
             onClick={() => onDelete(todo.id, todo.position)}
         >
             <ActionDelete />

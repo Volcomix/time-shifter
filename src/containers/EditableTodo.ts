@@ -2,16 +2,19 @@ import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
 
 import Todo from '../model/Todo'
-import { TodoAction, deleteTodo, toggleTodo } from '../actions'
+import * as Actions from '../actions'
 import TodoItem from '../components/TodoItem'
 
-const mapDispatchToProps = (dispatch: Dispatch<TodoAction>) => {
+const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>) => {
     return {
         onDelete: (id: number, position: number) => {
-            dispatch(deleteTodo(id, position))
+            dispatch(Actions.deleteTodo(id, position))
         },
         onToggle: (id: number) => {
-            dispatch(toggleTodo(id))
+            dispatch(Actions.toggleTodo(id))
+        },
+        onTaskChange: (id: number, task: string) => {
+            dispatch(Actions.setTodoTask(id, task))
         }
     }
 }

@@ -7,7 +7,9 @@ const initialState: Todo[] = [{
     id: 0,
     position: 0,
     isDone: false,
-    duration: 60
+    duration: 60,
+    task: '',
+    detail: ''
 }]
 
 const todo = (state: Todo, action: TodoAction): Todo => {
@@ -17,13 +19,14 @@ const todo = (state: Todo, action: TodoAction): Todo => {
                 id: action.id,
                 position: action.position,
                 isDone: false,
-                duration: 60
+                duration: 60,
+                task: '',
+                detail: ''
             }
         case TodoActionType.Toggle:
             if (state.id !== action.id) {
                 return state
             }
-
             return Object.assign({}, state, {
                 isDone: !state.isDone
             })
@@ -31,7 +34,6 @@ const todo = (state: Todo, action: TodoAction): Todo => {
             if (state.id !== action.id) {
                 return state
             }
-
             return Object.assign({}, state, {
                 startHour: action.startHour
             })
@@ -39,7 +41,6 @@ const todo = (state: Todo, action: TodoAction): Todo => {
             if (state.id !== action.id) {
                 return state
             }
-
             return Object.assign({}, state, {
                 duration: action.duration
             })
@@ -47,7 +48,6 @@ const todo = (state: Todo, action: TodoAction): Todo => {
             if (state.id !== action.id) {
                 return state
             }
-
             return Object.assign({}, state, {
                 task: action.task
             })
@@ -55,7 +55,6 @@ const todo = (state: Todo, action: TodoAction): Todo => {
             if (state.id !== action.id) {
                 return state
             }
-
             return Object.assign({}, state, {
                 detail: action.detail
             })
@@ -95,7 +94,7 @@ const todos = (state = initialState, action: Action): Todo[] => {
     switch (action.type) {
         case TodoActionType.Add:
             const addAction: TodoAction = action
-            addAction.id = Math.max(...state.map(todo => todo.id)) + 1
+            addAction.id = Math.max(-1, ...state.map(todo => todo.id)) + 1
             addAction.position = state.length
             return [
                 ...state,
