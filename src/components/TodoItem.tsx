@@ -14,6 +14,7 @@ import Todo from '../model/Todo'
 interface Props {
     todo: Todo
     onToggle: (id: number) => void
+    onStartHourChange: (id: number, startHour: Date) => void
     onDurationChange: (id: number, duration: number, startHour: Date, difference: number) => void
     onTaskChange: (id: number, task: string) => void
     onDetailChange: (id: number, detail: string) => void
@@ -24,6 +25,7 @@ interface Props {
 const TodoItem = ({
     todo,
     onToggle,
+    onStartHourChange,
     onDurationChange,
     onTaskChange,
     onDetailChange,
@@ -48,27 +50,25 @@ const TodoItem = ({
         }}
     >
         <TimePicker
-            hintText='Heure de début'
+            hintText='Début'
             format='24hr'
             value={todo.startHour}
             style={{ display: 'inline' }}
-            textFieldStyle={{ width: 120 }}
+            textFieldStyle={{ width: 100 }}
+            onChange={(e: {}, time: Date) =>
+                onStartHourChange(todo.id, time)
+            }
         />
         <TimePicker
             hintText='Durée'
             format='24hr'
             value={moment({ 'minutes': todo.duration }).toDate()}
             style={{ display: 'inline' }}
-            textFieldStyle={{ width: 120 }}
+            textFieldStyle={{ width: 100 }}
             onChange={(e: {}, time: Date) => {
                 const today = moment({hour: 0})
                 const duration = moment(time).diff(today, 'minutes')
-                return onDurationChange(
-                    todo.id,
-                    duration,
-                    todo.startHour,
-                    duration - todo.duration
-                )
+                onDurationChange(todo.id, duration, todo.startHour, duration - todo.duration)
             }}
         />
         <TextField
