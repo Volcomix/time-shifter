@@ -17,6 +17,14 @@ export interface TodoAction extends Action, Todo {
     type: TodoActionType
 }
 
+export interface DurationAction extends Action {
+    type: TodoActionType
+    id: number
+    duration: number
+    startHour: Date
+    difference: number
+}
+
 export interface MoveAction extends Action {
     type: TodoActionType
     fromPos: number
@@ -60,11 +68,18 @@ export const setTodoStartHour = (id: number, startHour: Date): TodoAction => {
     }
 }
 
-export const setTodoDuration = (id: number, duration: number): TodoAction => {
+export const setTodoDuration = (
+    id: number,
+    duration: number,
+    startHour: Date,
+    difference: number
+): DurationAction => {
     return {
         type: TodoActionType.SetDuration,
         id,
-        duration
+        duration,
+        startHour,
+        difference
     }
 }
 

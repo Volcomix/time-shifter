@@ -14,7 +14,7 @@ import Todo from '../model/Todo'
 interface Props {
     todo: Todo
     onToggle: (id: number) => void
-    onDurationChange: (id: number, duration: number) => void
+    onDurationChange: (id: number, duration: number, startHour: Date, difference: number) => void
     onTaskChange: (id: number, task: string) => void
     onDetailChange: (id: number, detail: string) => void
     onMove: (fromPos: number, toPos: number) => void
@@ -63,7 +63,12 @@ const TodoItem = ({
             onChange={(e: {}, time: Date) => {
                 const today = moment({hour: 0})
                 const duration = moment(time).diff(today, 'minutes')
-                return onDurationChange(todo.id, duration)
+                return onDurationChange(
+                    todo.id,
+                    duration,
+                    todo.startHour,
+                    duration - todo.duration
+                )
             }}
         />
         <TextField

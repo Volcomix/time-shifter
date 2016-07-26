@@ -10,8 +10,8 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>) => {
         onToggle: (id: number) => {
             dispatch(Actions.toggleTodo(id))
         },
-        onDurationChange: (id: number, duration: number) => {
-            dispatch(Actions.setTodoDuration(id, duration))
+        onDurationChange: (id: number, duration: number, startHour: Date, difference: number) => {
+            dispatch(Actions.setTodoDuration(id, duration, startHour, difference))
         },
         onTaskChange: (id: number, task: string) => {
             dispatch(Actions.setTodoTask(id, task))

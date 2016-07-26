@@ -2,7 +2,7 @@ import { Action } from 'redux'
 import * as moment from 'moment'
 
 import Todo from '../model/Todo'
-import { TodoAction, MoveAction, TodoActionType } from '../actions'
+import { TodoAction, DurationAction, MoveAction, TodoActionType } from '../actions'
 
 const initialState: Todo[] = [{
     id: 0,
@@ -40,13 +40,6 @@ const todo = (state: Todo, action: TodoAction): Todo => {
             return Object.assign({}, state, {
                 startHour: action.startHour
             })
-        case TodoActionType.SetDuration:
-            if (state.id !== action.id) {
-                return state
-            }
-            return Object.assign({}, state, {
-                duration: action.duration
-            })
         case TodoActionType.SetTask:
             if (state.id !== action.id) {
                 return state
@@ -64,6 +57,20 @@ const todo = (state: Todo, action: TodoAction): Todo => {
         default:
             return state
     }
+}
+
+const duration = (state: Todo, action: DurationAction): Todo => {
+    if (state.id === action.id) {
+        return Object.assign({}, state, {
+            duration: action.duration
+        })
+    }
+    if (state.startHour > action.startHour) {
+        return Object.assign({}, state, {
+            startHour: moment(state.startHour).add(action.difference, 'minutes').toDate()
+        })
+    }
+    return state
 }
 
 const moveTodo = (state: Todo, action: MoveAction): Todo => {
@@ -136,10 +143,14 @@ const todos = (state = initialState, action: Action): Todo[] => {
             return state.map(todo =>
                 moveTodo(todo, moveAction)
             )
+        
+        case TodoActionType.SetDuration:
+            return state.map(t =>
+                duration(t, action as DurationAction)
+            )
 
         case TodoActionType.Toggle:
         case TodoActionType.SetStartHour:
-        case TodoActionType.SetDuration:
         case TodoActionType.SetTask:
         case TodoActionType.SetDetail:
             return state.map(t =>
