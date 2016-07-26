@@ -21,6 +21,7 @@ const todo = (state: Todo, action: TodoAction): Todo => {
                 id: action.id,
                 position: action.position,
                 isDone: false,
+                startHour: action.startHour,
                 duration: 60,
                 task: '',
                 detail: ''
@@ -98,6 +99,19 @@ const todos = (state = initialState, action: Action): Todo[] => {
             const addAction: TodoAction = action
             addAction.id = Math.max(-1, ...state.map(todo => todo.id)) + 1
             addAction.position = state.length
+            const lastTodo = state.reduce((lastTodo, todo) => {
+                if (!lastTodo && !todo.startHour) {
+                    return null
+                }
+                if (!lastTodo || todo.startHour > lastTodo.startHour) {
+                    return todo
+                }
+                return lastTodo
+            }, null)
+            if (lastTodo) {
+                const nextHour =  moment(lastTodo.startHour).add(lastTodo.duration, 'minutes')
+                addAction.startHour = nextHour.toDate()
+            }
             return [
                 ...state,
                 todo(undefined, addAction)
