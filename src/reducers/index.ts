@@ -30,30 +30,22 @@ const todo = (state: Todo, action: TodoAction): Todo => {
             if (state.id !== action.id) {
                 return state
             }
-            return Object.assign({}, state, {
-                isDone: !state.isDone
-            })
+            return Object.assign({}, state, { isDone: !state.isDone })
         case TodoActionType.SetStartHour:
             if (state.id !== action.id) {
                 return state
             }
-            return Object.assign({}, state, {
-                startHour: action.startHour
-            })
+            return Object.assign({}, state, { startHour: action.startHour })
         case TodoActionType.SetTask:
             if (state.id !== action.id) {
                 return state
             }
-            return Object.assign({}, state, {
-                task: action.task
-            })
+            return Object.assign({}, state, { task: action.task })
         case TodoActionType.SetDetail:
             if (state.id !== action.id) {
                 return state
             }
-            return Object.assign({}, state, {
-                detail: action.detail
-            })
+            return Object.assign({}, state, { detail: action.detail })
         default:
             return state
     }
@@ -61,9 +53,7 @@ const todo = (state: Todo, action: TodoAction): Todo => {
 
 const duration = (state: Todo, action: DurationAction): Todo => {
     if (state.id === action.id) {
-        return Object.assign({}, state, {
-            duration: action.duration
-        })
+        return Object.assign({}, state, { duration: action.duration })
     }
     if (state.startHour > action.startHour) {
         return Object.assign({}, state, {
@@ -73,29 +63,13 @@ const duration = (state: Todo, action: DurationAction): Todo => {
     return state
 }
 
-const moveTodo = (state: Todo, action: MoveAction): Todo => {
-    if (
-        action.fromPos < action.toPos &&
-        state.position > action.fromPos &&
-        state.position <= action.toPos
-    ) {
-        return Object.assign({}, state, {
-            position: state.position - 1
-        })
-    } else if (
-        action.fromPos > action.toPos &&
-        state.position < action.fromPos &&
-        state.position >= action.toPos
-    ) {
-        return Object.assign({}, state, {
-            position: state.position + 1
-        })
-    } else if (
-        state.position === action.fromPos
-    ) {
-        return Object.assign({}, state, {
-            position: action.toPos
-        })
+const moveTodo = (state: Todo, { fromPos, toPos }: MoveAction): Todo => {
+    if (fromPos < toPos && state.position > fromPos && state.position <= toPos) {
+        return Object.assign({}, state, { position: state.position - 1 })
+    } else if (fromPos > toPos && state.position < fromPos && state.position >= toPos) {
+        return Object.assign({}, state, { position: state.position + 1 })
+    } else if (state.position === fromPos) {
+        return Object.assign({}, state, { position: toPos })
     }
     return state
 }
@@ -119,19 +93,14 @@ const todos = (state = initialState, action: Action): Todo[] => {
                 const nextHour =  moment(lastTodo.startHour).add(lastTodo.duration, 'minutes')
                 addAction.startHour = nextHour.toDate()
             }
-            return [
-                ...state,
-                todo(undefined, addAction)
-            ]
+            return [...state, todo(undefined, addAction)]
         case TodoActionType.Delete:
             const deleteAction: TodoAction = action
             return state.filter(todo =>
                 todo.id !== deleteAction.id
             ).map(todo => {
                 if (todo.position > deleteAction.position) {
-                    return Object.assign({}, todo, {
-                        position: todo.position - 1
-                    })
+                    return Object.assign({}, todo, { position: todo.position - 1 })
                 }
                 return todo
             })
@@ -144,13 +113,17 @@ const todos = (state = initialState, action: Action): Todo[] => {
                 moveTodo(todo, moveAction)
             )
         
+        case TodoActionType.SetStartHour:
+            return state.map(t =>
+                todo(t, action as TodoAction)
+            )
+
         case TodoActionType.SetDuration:
             return state.map(t =>
                 duration(t, action as DurationAction)
             )
 
         case TodoActionType.Toggle:
-        case TodoActionType.SetStartHour:
         case TodoActionType.SetTask:
         case TodoActionType.SetDetail:
             return state.map(t =>

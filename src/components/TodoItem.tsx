@@ -14,7 +14,7 @@ import Todo from '../model/Todo'
 interface Props {
     todo: Todo
     onToggle: (id: number) => void
-    onStartHourChange: (id: number, startHour: Date) => void
+    onStartHourChange: (id: number, startHour: Date, difference: number) => void
     onDurationChange: (id: number, duration: number, startHour: Date, difference: number) => void
     onTaskChange: (id: number, task: string) => void
     onDetailChange: (id: number, detail: string) => void
@@ -32,15 +32,7 @@ const TodoItem = ({
     onMove,
     onDelete
 }: Props) => (
-    
     <ListItem
-        leftCheckbox={
-            <Checkbox
-                checked={todo.isDone}
-                style={{ top: 24 }}
-                onCheck={() => onToggle(todo.id)}
-            />
-        }
         style={{
             display: 'flex',
             position: 'absolute',
@@ -48,6 +40,13 @@ const TodoItem = ({
             left: 0,
             right: 0
         }}
+        leftCheckbox={
+            <Checkbox
+                checked={todo.isDone}
+                style={{ top: 24 }}
+                onCheck={() => onToggle(todo.id)}
+            />
+        }
     >
         <TimePicker
             hintText='Début'
@@ -55,9 +54,10 @@ const TodoItem = ({
             value={todo.startHour}
             style={{ display: 'inline' }}
             textFieldStyle={{ width: 100 }}
-            onChange={(e: {}, time: Date) =>
-                onStartHourChange(todo.id, time)
-            }
+            onChange={(e: {}, time: Date) => {
+                const difference = moment(time).diff(moment(todo.startHour), 'minutes')
+                onStartHourChange(todo.id, time, difference)
+            }}
         />
         <TimePicker
             hintText='Durée'
@@ -75,16 +75,12 @@ const TodoItem = ({
             hintText='Tâche'
             value={todo.task}
             style={{ flexGrow: 1 }}
-            onChange={e =>
-                onTaskChange(todo.id, (e.target as HTMLInputElement).value)
-            }
+            onChange={e => onTaskChange(todo.id, (e.target as HTMLInputElement).value)}
         />
         <TextField
             hintText='Détail'
             value={todo.detail}
-            onChange={e =>
-                onDetailChange(todo.id, (e.target as HTMLInputElement).value)
-            }
+            onChange={e => onDetailChange(todo.id, (e.target as HTMLInputElement).value)}
         />
         <IconButton
             tooltip='Déplacer la tâche vers le haut'
