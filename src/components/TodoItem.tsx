@@ -54,12 +54,13 @@ const TodoItem = ({
             value={todo.startHour}
             style={{ display: 'inline' }}
             textFieldStyle={{ width: 100 }}
-            onChange={(e: {}, time: Date) => {
+            onChange={(e: {}, t: Date) => {
+                const time = moment(t).startOf('minute')
                 if (todo.startHour) {
-                    const difference = moment(time).diff(moment(todo.startHour), 'minutes')
+                    const difference = time.diff(moment(todo.startHour), 'minutes')
                     onStartHourChange(todo.id, todo.startHour, difference)
                 } else {
-                    onStartHourChange(todo.id, time)
+                    onStartHourChange(todo.id, time.toDate())
                 }
             }}
         />
@@ -69,9 +70,10 @@ const TodoItem = ({
             value={moment({ 'minutes': todo.duration }).toDate()}
             style={{ display: 'inline' }}
             textFieldStyle={{ width: 100 }}
-            onChange={(e: {}, time: Date) => {
+            onChange={(e: {}, t: Date) => {
+                const time = moment(t).startOf('minute')
                 const today = moment({hour: 0})
-                const duration = moment(time).diff(today, 'minutes')
+                const duration = time.diff(today, 'minutes')
                 onDurationChange(todo.id, duration, todo.startHour, duration - todo.duration)
             }}
         />
