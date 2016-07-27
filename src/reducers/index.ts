@@ -2,7 +2,13 @@ import { Action } from 'redux'
 import * as moment from 'moment'
 
 import Todo from '../model/Todo'
-import { TodoAction, DurationAction, MoveAction, TodoActionType } from '../actions'
+import {
+    TodoAction,
+    StartHourAction,
+    DurationAction,
+    MoveAction,
+    TodoActionType
+} from '../actions'
 
 const initialState: Todo[] = [{
     id: 0,
@@ -31,11 +37,6 @@ const todo = (state: Todo, action: TodoAction): Todo => {
                 return state
             }
             return Object.assign({}, state, { isDone: !state.isDone })
-        case TodoActionType.SetStartHour:
-            if (state.id !== action.id) {
-                return state
-            }
-            return Object.assign({}, state, { startHour: action.startHour })
         case TodoActionType.SetTask:
             if (state.id !== action.id) {
                 return state
@@ -49,6 +50,20 @@ const todo = (state: Todo, action: TodoAction): Todo => {
         default:
             return state
     }
+}
+
+const startHour = (state: Todo, action: StartHourAction): Todo => {
+    if (action.difference === undefined && state.id === action.id) {
+        return Object.assign({}, state, { startHour: action.startHour })
+    }
+    if (state.startHour >= action.startHour) {
+        const startHour = moment(state.startHour).add(action.difference, 'minutes').toDate()
+        return Object.assign({}, state, { startHour })
+    }
+    if (moment(state.startHour).add(state.duration, 'minutes').isSame(moment(action.startHour))) {
+        return Object.assign({}, state, { duration: state.duration + action.difference })
+    }
+    return state
 }
 
 const duration = (state: Todo, action: DurationAction): Todo => {
@@ -115,7 +130,7 @@ const todos = (state = initialState, action: Action): Todo[] => {
         
         case TodoActionType.SetStartHour:
             return state.map(t =>
-                todo(t, action as TodoAction)
+                startHour(t, action as StartHourAction)
             )
 
         case TodoActionType.SetDuration:

@@ -21,7 +21,7 @@ export interface StartHourAction extends Action {
     type: TodoActionType
     id: number
     startHour: Date
-    difference: number
+    difference?: number
 }
 
 export interface DurationAction extends Action {
@@ -70,7 +70,7 @@ export const toggleTodo = (id: number): TodoAction => {
 export const setTodoStartHour = (
     id: number,
     startHour: Date,
-    difference: number
+    difference?: number
 ): StartHourAction => {
     return {
         type: TodoActionType.SetStartHour,
