@@ -60,8 +60,15 @@ const startHour = (state: Todo, action: StartHourAction): Todo => {
         const startHour = moment(state.startHour).add(action.difference, 'minutes').toDate()
         return Object.assign({}, state, { startHour })
     }
-    if (moment(state.startHour).add(state.duration, 'minutes').isSame(moment(action.startHour))) {
-        return Object.assign({}, state, { duration: state.duration + action.difference })
+    const newStartHour = moment(action.startHour).add(action.difference, 'minutes')
+    if (moment(state.startHour).isBefore(newStartHour) &&
+        (moment(state.startHour).add(state.duration, 'minutes')
+            .isSameOrAfter(newStartHour) ||
+        moment(state.startHour).add(state.duration, 'minutes')
+            .isSame(moment(action.startHour)))) {
+        return Object.assign({}, state, {
+            duration: moment(newStartHour).diff(moment(state.startHour), 'minutes')
+        })
     }
     return state
 }
