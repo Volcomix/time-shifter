@@ -57,7 +57,10 @@ const startHour = (state: Todo, action: StartHourAction): Todo => {
         return Object.assign({}, state, { startHour: action.startHour })
     }
     if (state.startHour >= action.startHour) {
-        const startHour = moment(state.startHour).add(action.difference, 'minutes').toDate()
+        const startHour = moment(state.startHour).add(
+            action.difference,
+            'minutes'
+        ).toDate()
         return Object.assign({}, state, { startHour })
     }
     const newStartHour = moment(action.startHour).add(action.difference, 'minutes')
@@ -79,19 +82,36 @@ const duration = (state: Todo, action: DurationAction): Todo => {
     }
     if (state.startHour > action.startHour) {
         return Object.assign({}, state, {
-            startHour: moment(state.startHour).add(action.difference, 'minutes').toDate()
+            startHour: moment(state.startHour).add(
+                action.difference,
+                'minutes'
+            ).toDate()
         })
     }
     return state
 }
 
-const moveTodo = (state: Todo, { fromPos, toPos }: MoveAction): Todo => {
+const moveTodo = (
+    state: Todo,
+    { fromPos, toPos }: MoveAction,
+    difference: number,
+    toStartHour: Date
+): Todo => {
     if (fromPos < toPos && state.position > fromPos && state.position <= toPos) {
-        return Object.assign({}, state, { position: state.position - 1 })
+        return Object.assign({}, state, {
+            position: state.position - 1,
+            startHour: moment(state.startHour).add(difference, 'minutes').toDate()
+        })
     } else if (fromPos > toPos && state.position < fromPos && state.position >= toPos) {
-        return Object.assign({}, state, { position: state.position + 1 })
+        return Object.assign({}, state, {
+            position: state.position + 1,
+            startHour: moment(state.startHour).add(difference, 'minutes').toDate()
+        })
     } else if (state.position === fromPos) {
-        return Object.assign({}, state, { position: toPos })
+        return Object.assign({}, state, {
+            position: toPos,
+            startHour: toStartHour
+        })
     }
     return state
 }
@@ -112,7 +132,10 @@ const todos = (state = initialState, action: Action): Todo[] => {
                 return lastTodo
             }, null)
             if (lastTodo) {
-                const nextHour =  moment(lastTodo.startHour).add(lastTodo.duration, 'minutes')
+                const nextHour =  moment(lastTodo.startHour).add(
+                    lastTodo.duration,
+                    'minutes'
+                )
                 addAction.startHour = nextHour.toDate()
             }
             return [...state, todo(undefined, addAction)]
@@ -131,8 +154,17 @@ const todos = (state = initialState, action: Action): Todo[] => {
             if (moveAction.toPos < 0 || moveAction.toPos >= state.length) {
                 return state
             }
+            let sorted = state.slice()
+            sorted.sort((a, b) => a.position - b.position)
+            let difference = 0
+            if (moveAction.fromPos < moveAction.toPos) {
+                difference = -sorted[moveAction.fromPos].duration
+            } else if (moveAction.fromPos > moveAction.toPos) {
+                difference = sorted[moveAction.fromPos].duration
+            }
+            let toStartHour = sorted[moveAction.toPos].startHour
             return state.map(todo =>
-                moveTodo(todo, moveAction)
+                moveTodo(todo, moveAction, difference, toStartHour)
             )
         
         case TodoActionType.SetStartHour:
