@@ -141,11 +141,21 @@ const todos = (state = initialState, action: Action): Todo[] => {
             return [...state, todo(undefined, addAction)]
         case TodoActionType.Delete:
             const deleteAction: TodoAction = action
-            return state.filter(todo =>
-                todo.id !== deleteAction.id
-            ).map(todo => {
+            let deletedTodo: Todo
+            return state.filter(todo => {
+                if (todo.id === deleteAction.id) {
+                    deletedTodo = todo
+                    return false
+                }
+                return true
+            }).map(todo => {
                 if (todo.position > deleteAction.position) {
-                    return Object.assign({}, todo, { position: todo.position - 1 })
+                    return Object.assign({}, todo, {
+                        startHour: moment(todo.startHour)
+                            .subtract(deletedTodo.duration, 'minutes')
+                            .toDate(),
+                        position: todo.position - 1
+                    })
                 }
                 return todo
             })
