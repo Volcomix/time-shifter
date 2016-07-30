@@ -13,11 +13,11 @@ import {
 
 export interface TodosState {
     todos: number[]
-    todosById: TodoMap
+    todosById: TodosMap
     orderedTodos: number[]
 }
 
-interface TodoMap {
+interface TodosMap {
     [propName: number]: Todo
 }
 
@@ -34,28 +34,6 @@ const initialState: TodosState = {
             task: '',
             detail: ''
         }
-    }
-}
-
-const todo = (state: Todo, action: TodoAction): Todo => {
-    switch (action.type) {
-        case TodoActionType.Toggle:
-            if (state.id !== action.id) {
-                return state
-            }
-            return assign({}, state, { isDone: !state.isDone })
-        case TodoActionType.SetTask:
-            if (state.id !== action.id) {
-                return state
-            }
-            return assign({}, state, { task: action.task })
-        case TodoActionType.SetDetail:
-            if (state.id !== action.id) {
-                return state
-            }
-            return assign({}, state, { detail: action.detail })
-        default:
-            return state
     }
 }
 
@@ -109,7 +87,7 @@ const todos = (state = initialState, action: Action): TodosState => {
             return {
                 todos: [...state.todos, id],
                 orderedTodos: [...state.orderedTodos, id],
-                todosById: assign<{}, TodoMap>({}, state.todosById, {
+                todosById: assign<{}, TodosMap>({}, state.todosById, {
                     [id]: {
                         id,
                         order: state.orderedTodos.length,
@@ -144,7 +122,7 @@ const todos = (state = initialState, action: Action): TodosState => {
                     }
                     obj[id] = todo
                     return obj
-                }, {} as TodoMap)
+                }, {} as TodosMap)
             }
         case TodoActionType.Move:
             let { fromPos, toPos } = action as MoveAction
@@ -179,7 +157,7 @@ const todos = (state = initialState, action: Action): TodosState => {
                     }
                     obj[id] = todo
                     return obj
-                }, {} as TodoMap)
+                }, {} as TodosMap)
             })
         
         /*case TodoActionType.SetStartHour:
@@ -226,19 +204,32 @@ const todos = (state = initialState, action: Action): TodosState => {
 
         case TodoActionType.Toggle:
             const toggleAction = action as TodoAction
+            const toggleTodo = state.todosById[toggleAction.id]
             return assign<{}, TodosState>({}, state, {
-                todosById: assign<{}, TodoMap>({}, state.todosById, {
-                    [toggleAction.id]: assign({}, state.todosById[toggleAction.id], {
-                        isDone: !state.todosById[toggleAction.id].isDone
+                todosById: assign<{}, TodosMap>({}, state.todosById, {
+                    [toggleAction.id]: assign({}, toggleTodo, {
+                        isDone: !toggleTodo.isDone
                     })
                 })
             })
-        /*case TodoActionType.SetTask:
+        case TodoActionType.SetTask:
+            const taskAction = action as TodoAction
+            return assign<{}, TodosState>({}, state, {
+                todosById: assign<{}, TodosMap>({}, state.todosById, {
+                    [taskAction.id]: assign({}, state.todosById[taskAction.id], {
+                        task: taskAction.task
+                    })
+                })
+            })
         case TodoActionType.SetDetail:
-            return state.map(t =>
-                todo(t, action as TodoAction)
-            )*/
-
+            const detailAction = action as TodoAction
+            return assign<{}, TodosState>({}, state, {
+                todosById: assign<{}, TodosMap>({}, state.todosById, {
+                    [detailAction.id]: assign({}, state.todosById[detailAction.id], {
+                        detail: detailAction.detail
+                    })
+                })
+            })
         default:
             return state
     }
