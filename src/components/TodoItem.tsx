@@ -19,7 +19,7 @@ interface Props {
     onTaskChange: (id: number, task: string) => void
     onDetailChange: (id: number, detail: string) => void
     onMove: (fromPos: number, toPos: number) => void
-    onDelete: (id: number, position: number) => void
+    onDelete: (id: number) => void
 }
 
 const TodoItem = ({
@@ -36,7 +36,7 @@ const TodoItem = ({
         style={{
             display: 'flex',
             position: 'absolute',
-            top: todo.position * 80,
+            top: todo.order * 80,
             left: 0,
             right: 0
         }}
@@ -90,20 +90,20 @@ const TodoItem = ({
         />
         <IconButton
             tooltip='Déplacer la tâche vers le haut'
-            onClick={() => onMove(todo.position, todo.position - 1)}
+            onClick={() => onMove(todo.order, todo.order - 1)}
         >
             <ArrowUp />
         </IconButton>
         <IconButton
             tooltip='Déplacer la tâche vers le bas'
-            onClick={() => onMove(todo.position, todo.position + 1)}
+            onClick={() => onMove(todo.order, todo.order + 1)}
         >
             <ArrowDown />
         </IconButton>
         <IconButton
             tooltip='Supprimer la tâche'
             tooltipPosition='bottom-left'
-            onClick={() => onDelete(todo.id, todo.position)}
+            onClick={() => onDelete(todo.id)}
         >
             <ActionDelete />
         </IconButton>

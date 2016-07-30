@@ -16,13 +16,14 @@
   "author": "Volcomix",
   "license": "ISC",
   "dependencies": {
+    "lodash": "latest",
     "material-design-lite": "latest",
-    "material-ui": "^0.15.2",
+    "material-ui": "latest",
     "moment": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-redux": "latest",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-tap-event-plugin": "latest",
     "redux": "latest"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 interface Todo {
     id?: number
-    position?: number
+    order?: number
     isDone?: boolean
     startHour?: Date
     duration?: number

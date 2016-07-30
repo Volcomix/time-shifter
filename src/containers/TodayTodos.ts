@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
 
-import Todo from '../model/Todo'
+import { TodosState, getTodos } from '../reducers'
 import TodoList from '../components/TodoList'
 
-const mapStateToProps = (state: Todo[]) => {
+const mapStateToProps = (state: TodosState) => {
     return {
-        todos: state
+        todos: getTodos(state)
     }
 }
 
