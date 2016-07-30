@@ -109,7 +109,7 @@ const todos = (state = initialState, action: Action): TodosState => {
             return {
                 todos: [...state.todos, id],
                 orderedTodos: [...state.orderedTodos, id],
-                todosById: merge({}, state.todosById, {
+                todosById: assign<{}, TodoMap>({}, state.todosById, {
                     [id]: {
                         id,
                         order: state.orderedTodos.length,
