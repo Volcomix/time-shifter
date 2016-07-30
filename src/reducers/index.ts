@@ -158,7 +158,7 @@ const todos = (state = initialState, action: Action): TodosState => {
             const rangeMax = Math.max(fromPos, toPos)
             const orderedTodos = [...state.orderedTodos]
             orderedTodos.splice(toPos, 0, ...orderedTodos.splice(fromPos, 1))
-            return merge({}, state, {
+            return assign<{}, TodosState>({}, state, {
                 orderedTodos,
                 todosById: orderedTodos.reduce((obj, id, order) => {
                     let todo = state.todosById[id]
