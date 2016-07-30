@@ -1,6 +1,6 @@
 import { Action } from 'redux'
 import * as moment from 'moment'
-import { last, assign, merge, without } from 'lodash'
+import { last, assign, without } from 'lodash'
 
 import Todo from '../model/Todo'
 import {
@@ -226,12 +226,12 @@ const todos = (state = initialState, action: Action): TodosState => {
 
         case TodoActionType.Toggle:
             const toggleAction = action as TodoAction
-            return merge({}, state, {
-                todosById: {
-                    [toggleAction.id]: {
+            return assign<{}, TodosState>({}, state, {
+                todosById: assign<{}, TodoMap>({}, state.todosById, {
+                    [toggleAction.id]: assign({}, state.todosById[toggleAction.id], {
                         isDone: !state.todosById[toggleAction.id].isDone
-                    }
-                }
+                    })
+                })
             })
         /*case TodoActionType.SetTask:
         case TodoActionType.SetDetail:
