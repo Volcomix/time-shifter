@@ -154,22 +154,55 @@ const todos = (state = initialState, action: Action): Todo[] => {
             if (moveAction.toPos < 0 || moveAction.toPos >= state.length) {
                 return state
             }
+            if (moveAction.fromPos < moveAction.toPos) {
+                [moveAction.fromPos, moveAction.toPos] = [
+                    moveAction.toPos,
+                    moveAction.fromPos
+                ]
+            }
             let sorted = state.slice()
             sorted.sort((a, b) => a.position - b.position)
-            let difference = 0
-            if (moveAction.fromPos < moveAction.toPos) {
-                difference = -sorted[moveAction.fromPos].duration
-            } else if (moveAction.fromPos > moveAction.toPos) {
-                difference = sorted[moveAction.fromPos].duration
-            }
+            const difference = sorted[moveAction.fromPos].duration
             let toStartHour = sorted[moveAction.toPos].startHour
             return state.map(todo =>
                 moveTodo(todo, moveAction, difference, toStartHour)
             )
         
         case TodoActionType.SetStartHour:
-            return state.map(t =>
-                startHour(t, action as StartHourAction)
+            const startHourAction = action as StartHourAction
+            let nextState = state
+            if (startHourAction.difference < 0) {
+                const nextStartHour = moment(startHourAction.startHour)
+                    .add(startHourAction.difference, 'minutes')
+                    .toDate()
+                let fromPos: number
+                const maxTodo = state.reduce((maxTodo, todo) => {
+                    if (todo.id === startHourAction.id) {
+                        fromPos = todo.position
+                    }
+                    if (todo.startHour < nextStartHour && (
+                            !maxTodo || todo.position > maxTodo.position
+                        )) {
+                        return todo
+                    }
+                    return maxTodo
+                }, null)
+                if (maxTodo) {
+                    const localMoveAction: MoveAction = {
+                        type: TodoActionType.Move,
+                        fromPos,
+                        toPos: maxTodo ? maxTodo.position + 1 : -1
+                    }
+                    nextState = todos(state, localMoveAction)
+                    const newStartHour = moment(maxTodo.startHour)
+                        .add(maxTodo.duration, 'minutes')
+                    startHourAction.startHour = newStartHour.toDate()
+                    startHourAction.difference = moment(nextStartHour)
+                        .diff(newStartHour, 'minutes')
+                }
+            }
+            return nextState.map(t =>
+                startHour(t, startHourAction)
             )
 
         case TodoActionType.SetDuration:
