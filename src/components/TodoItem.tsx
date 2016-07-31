@@ -15,7 +15,7 @@ interface Props {
     todo: Todo
     onToggle: (id: number) => void
     onStartHourChange: (id: number, startHour: Date, difference?: number) => void
-    onDurationChange: (id: number, duration: number, startHour: Date, difference: number) => void
+    onDurationChange: (id: number, duration: number) => void
     onTaskChange: (id: number, task: string) => void
     onDetailChange: (id: number, detail: string) => void
     onMove: (fromPos: number, toPos: number) => void
@@ -74,7 +74,7 @@ const TodoItem = ({
                 const time = moment(t).startOf('minute')
                 const today = moment({hour: 0})
                 const duration = time.diff(today, 'minutes')
-                onDurationChange(todo.id, duration, todo.startHour, duration - todo.duration)
+                onDurationChange(todo.id, duration)
             }}
         />
         <TextField

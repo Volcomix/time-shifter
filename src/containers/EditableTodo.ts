@@ -13,8 +13,8 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>) => {
         onStartHourChange: (id: number, startHour: Date, difference?: number) => {
             dispatch(Actions.setTodoStartHour(id, startHour, difference))
         },
-        onDurationChange: (id: number, duration: number, startHour: Date, difference: number) => {
-            dispatch(Actions.setTodoDuration(id, duration, startHour, difference))
+        onDurationChange: (id: number, duration: number) => {
+            dispatch(Actions.setTodoDuration(id, duration))
         },
         onTaskChange: (id: number, task: string) => {
             dispatch(Actions.setTodoTask(id, task))

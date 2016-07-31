@@ -61,21 +61,6 @@ const startHour = (state: Todo, action: StartHourAction): Todo => {
     return state
 }
 
-const duration = (state: Todo, action: DurationAction): Todo => {
-    if (state.id === action.id) {
-        return assign({}, state, { duration: action.duration })
-    }
-    if (state.startHour > action.startHour) {
-        return assign({}, state, {
-            startHour: moment(state.startHour).add(
-                action.difference,
-                'minutes'
-            ).toDate()
-        })
-    }
-    return state
-}
-
 const todos = (state = initialState, action: Action): TodosState => {
     switch (action.type) {
         case TodoActionType.Add:
@@ -131,7 +116,7 @@ const todos = (state = initialState, action: Action): TodosState => {
             }
             const fromTodo = state.todosById[state.orderedTodos[fromPos]]
             const toTodo = state.todosById[state.orderedTodos[toPos]]
-            const difference = fromPos > toPos ? fromTodo.duration : -fromTodo.duration
+            const moveDiff = fromPos > toPos ? fromTodo.duration : -fromTodo.duration
             const rangeMin = Math.min(fromPos, toPos)
             const rangeMax = Math.max(fromPos, toPos)
             const orderedTodos = [...state.orderedTodos]
@@ -150,7 +135,7 @@ const todos = (state = initialState, action: Action): TodosState => {
                             todo = assign({}, todo, {
                                 order,
                                 startHour: moment(todo.startHour)
-                                    .add(difference, 'minutes')
+                                    .add(moveDiff, 'minutes')
                                     .toDate()
                             })
                         }
@@ -196,12 +181,29 @@ const todos = (state = initialState, action: Action): TodosState => {
             return nextState.map(t =>
                 startHour(t, startHourAction)
             )
-
+        */
         case TodoActionType.SetDuration:
-            return state.map(t =>
-                duration(t, action as DurationAction)
-            )*/
-
+            const { id: durationId, duration } = action as DurationAction
+            const durationTodo = state.todosById[durationId]
+            const durationDiff = duration - durationTodo.duration
+            return assign<{}, TodosState>({}, state, {
+                todosById: state.todos.reduce((obj, id) => {
+                    let todo = state.todosById[id]
+                    if (id === durationId) {
+                        todo = assign<{}, Todo>({}, todo, {
+                            duration
+                        })
+                    } else if (todo.order > durationTodo.order) {
+                        todo = assign<{}, Todo>({}, todo, {
+                            startHour: moment(todo.startHour)
+                                .add(durationDiff, 'minutes')
+                                .toDate()
+                        })
+                    }
+                    obj[id] = todo
+                    return obj
+                }, {} as TodosMap)
+            })
         case TodoActionType.Toggle:
             const toggleAction = action as TodoAction
             const toggleTodo = state.todosById[toggleAction.id]
