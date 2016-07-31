@@ -205,30 +205,30 @@ const todos = (state = initialState, action: Action): TodosState => {
                 }, {} as TodosMap)
             })
         case TodoActionType.Toggle:
-            const toggleAction = action as TodoAction
-            const toggleTodo = state.todosById[toggleAction.id]
+            const { id: toggleId } = action as TodoAction
+            const toggleTodo = state.todosById[toggleId]
             return assign<{}, TodosState>({}, state, {
                 todosById: assign<{}, TodosMap>({}, state.todosById, {
-                    [toggleAction.id]: assign({}, toggleTodo, {
+                    [toggleId]: assign({}, toggleTodo, {
                         isDone: !toggleTodo.isDone
                     })
                 })
             })
         case TodoActionType.SetTask:
-            const taskAction = action as TodoAction
+            const { id: taskId, task} = action as TodoAction
             return assign<{}, TodosState>({}, state, {
                 todosById: assign<{}, TodosMap>({}, state.todosById, {
-                    [taskAction.id]: assign({}, state.todosById[taskAction.id], {
-                        task: taskAction.task
+                    [taskId]: assign({}, state.todosById[taskId], {
+                        task
                     })
                 })
             })
         case TodoActionType.SetDetail:
-            const detailAction = action as TodoAction
+            const { id: detailId, detail} = action as TodoAction
             return assign<{}, TodosState>({}, state, {
                 todosById: assign<{}, TodosMap>({}, state.todosById, {
-                    [detailAction.id]: assign({}, state.todosById[detailAction.id], {
-                        detail: detailAction.detail
+                    [detailId]: assign({}, state.todosById[detailId], {
+                        detail
                     })
                 })
             })
