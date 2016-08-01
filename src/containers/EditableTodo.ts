@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 import Todo from '../model/Todo'
 import * as Actions from '../actions'
-import TodoItem from '../components/TodoItem'
+import TodoItem, { Props, Callbacks } from '../components/TodoItem'
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>) => {
+const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>): Callbacks => {
     return {
         onToggle: (id: number) => {
             dispatch(Actions.toggleTodo(id))
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>) => {
     }
 }
 
-const EditableTodo = connect<{}, {}, { todo: Todo }>(
+const EditableTodo = connect<{}, Callbacks, Props>(
     null,
     mapDispatchToProps
 )(TodoItem)

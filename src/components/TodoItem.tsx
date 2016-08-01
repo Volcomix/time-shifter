@@ -11,8 +11,11 @@ import ArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 
 import Todo from '../model/Todo'
 
-interface Props {
+export interface Props {
     todo: Todo
+}
+
+export interface Callbacks {
     onToggle: (id: number) => void
     onStartHourChange: (id: number, startHour: Date) => void
     onDurationChange: (id: number, duration: number) => void
@@ -31,7 +34,7 @@ const TodoItem = ({
     onDetailChange,
     onMove,
     onDelete
-}: Props) => (
+}: Props & Callbacks) => (
     <ListItem
         style={{
             display: 'flex',

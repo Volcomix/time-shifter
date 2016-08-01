@@ -5,7 +5,7 @@ import { List } from 'material-ui/List'
 import Todo from '../model/Todo'
 import EditableTodo from '../containers/EditableTodo'
 
-interface Props {
+export interface Props {
     todos: Todo[]
 }
 
