@@ -1,6 +1,6 @@
 import { Action } from 'redux'
 import * as moment from 'moment'
-import { last, sortedIndex, assign, without } from 'lodash'
+import { last, sortedIndexBy, assign, without } from 'lodash'
 
 import Todo from '../model/Todo'
 import { TodoAction, MoveAction, TodoActionType } from '../actions'
@@ -66,7 +66,7 @@ const moveTodo = (state: TodosState, fromPos: number, toPos: number) => {
     const rangeMax = Math.max(fromPos, toPos)
     const orderedTodos = [...state.orderedTodos]
     orderedTodos.splice(toPos, 0, ...orderedTodos.splice(fromPos, 1))
-    return assign<{}, TodosState>({}, state, {
+    return assign({}, state, {
         orderedTodos,
         todosById: orderedTodos.reduce((obj, id, order) => {
             let todo = state.todosById[id]
@@ -102,7 +102,7 @@ const todos = (state = initialState, action: Action): TodosState => {
             return {
                 todos: [...state.todos, id],
                 orderedTodos: [...state.orderedTodos, id],
-                todosById: assign<{}, TodosMap>({}, state.todosById, {
+                todosById: assign({}, state.todosById, {
                     [id]: {
                         id,
                         order: state.orderedTodos.length,
@@ -145,15 +145,22 @@ const todos = (state = initialState, action: Action): TodosState => {
         case TodoActionType.SetStartHour:
             const { id: startHourId, startHour } = action as TodoAction
             const startHourTodo = state.todosById[startHourId]
-            const startHourFromPos = startHourTodo.order
-            const startHourToPos = sortedIndex(
-                state.orderedTodos,
-                +startHour,
-                id => {
-                    return +(state.todosById[id].startHour)
-                }
-            )
-            return moveTodo(state, startHourFromPos, startHourToPos + 1)
+            let nextState = state
+            if (startHourTodo.startHour > startHour) {
+                const startHourFromPos = startHourTodo.order
+                const startHourToPos = sortedIndexBy(
+                    state.orderedTodos,
+                    startHourId,
+                    id => {
+                        if (id === startHourId) {
+                            return startHour
+                        }
+                        return state.todosById[id].startHour
+                    }
+                )
+                nextState = moveTodo(state, startHourFromPos, startHourToPos)
+            }
+            return nextState
         /*case TodoActionType.SetStartHour:
             const startHourAction = action as StartHourAction
             let nextState = state
@@ -195,15 +202,15 @@ const todos = (state = initialState, action: Action): TodosState => {
             const { id: durationId, duration } = action as TodoAction
             const durationTodo = state.todosById[durationId]
             const durationDiff = duration - durationTodo.duration
-            return assign<{}, TodosState>({}, state, {
+            return assign({}, state, {
                 todosById: state.todos.reduce((obj, id) => {
                     let todo = state.todosById[id]
                     if (id === durationId) {
-                        todo = assign<{}, Todo>({}, todo, {
+                        todo = assign({}, todo, {
                             duration
                         })
                     } else if (todo.order > durationTodo.order) {
-                        todo = assign<{}, Todo>({}, todo, {
+                        todo = assign({}, todo, {
                             startHour: moment(todo.startHour)
                                 .add(durationDiff, 'minutes')
                                 .toDate()
@@ -216,8 +223,8 @@ const todos = (state = initialState, action: Action): TodosState => {
         case TodoActionType.Toggle:
             const { id: toggleId } = action as TodoAction
             const toggleTodo = state.todosById[toggleId]
-            return assign<{}, TodosState>({}, state, {
-                todosById: assign<{}, TodosMap>({}, state.todosById, {
+            return assign({}, state, {
+                todosById: assign({}, state.todosById, {
                     [toggleId]: assign({}, toggleTodo, {
                         isDone: !toggleTodo.isDone
                     })
@@ -225,8 +232,8 @@ const todos = (state = initialState, action: Action): TodosState => {
             })
         case TodoActionType.SetTask:
             const { id: taskId, task} = action as TodoAction
-            return assign<{}, TodosState>({}, state, {
-                todosById: assign<{}, TodosMap>({}, state.todosById, {
+            return assign({}, state, {
+                todosById: assign({}, state.todosById, {
                     [taskId]: assign({}, state.todosById[taskId], {
                         task
                     })
@@ -234,8 +241,8 @@ const todos = (state = initialState, action: Action): TodosState => {
             })
         case TodoActionType.SetDetail:
             const { id: detailId, detail} = action as TodoAction
-            return assign<{}, TodosState>({}, state, {
-                todosById: assign<{}, TodosMap>({}, state.todosById, {
+            return assign({}, state, {
+                todosById: assign({}, state.todosById, {
                     [detailId]: assign({}, state.todosById[detailId], {
                         detail
                     })

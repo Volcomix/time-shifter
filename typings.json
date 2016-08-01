@@ -1,6 +1,6 @@
 {
   "globalDependencies": {
-    "lodash": "registry:dt/lodash#3.10.0+20160720001309",
+    "lodash": "registry:dt/lodash#0.0.0+20160720001309",
     "material-ui": "registry:dt/material-ui#0.15.1+20160720000941",
     "node": "registry:dt/node#6.0.0+20160728152422",
     "react": "registry:dt/react#0.14.0+20160720060442",
