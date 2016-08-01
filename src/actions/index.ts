@@ -2,23 +2,23 @@ import { Action } from 'redux'
 
 import Todo from '../model/Todo'
 
-export enum TodoActionType {
-    Add = 1,
-    Delete,
-    Move,
-    Toggle,
-    SetStartHour,
-    SetDuration,
-    SetTask,
-    SetDetail
+export const TodoActionType = {
+    Add: 'ADD_TODO',
+    Delete: 'DELETE_TODO',
+    Move: 'MOVE_TODO',
+    Toggle: 'TOGGLE_TODO',
+    SetStartHour: 'SET_TODO_START_HOUR',
+    SetDuration: 'SET_TODO_DURATION',
+    SetTask: 'SET_TODO_TASK',
+    SetDetail: 'SET_TODO_DETAIL'
 }
 
 export interface TodoAction extends Action, Todo {
-    type: TodoActionType
+    type: string
 }
 
 export interface MoveAction extends Action {
-    type: TodoActionType
+    type: string
     fromPos: number
     toPos: number
 }
