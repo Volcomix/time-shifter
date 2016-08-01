@@ -3,7 +3,7 @@ import * as moment from 'moment'
 import { last, sortedIndexBy, assign, without } from 'lodash'
 
 import Todo from '../model/Todo'
-import { TodoAction, MoveAction, TodoActionType } from '../actions'
+import { TodoAction, MoveAction, SetValueAction, TodoActionType } from '../actions'
 
 export interface TodosState {
     todos: number[]
@@ -119,7 +119,7 @@ const todos = (state = initialState, action: Action): TodosState => {
             const { fromPos: moveFromPos, toPos: moveToPos } = action as MoveAction
             return moveTodo(state, moveFromPos, moveToPos)
         case TodoActionType.SetStartHour:
-            const { id: startHourId, startHour } = action as TodoAction
+            const { id: startHourId, value: startHour } = action as SetValueAction
             let startHourTodo = state.todosById[startHourId]
             let nextState = state
             if (startHourTodo.startHour > startHour) {
@@ -158,9 +158,9 @@ const todos = (state = initialState, action: Action): TodosState => {
                 }, {} as TodosMap)
             })
         case TodoActionType.SetDuration:
-            const { id: durationId, duration } = action as TodoAction
+            const { id: durationId, value: duration } = action as SetValueAction
             const durationTodo = state.todosById[durationId]
-            const durationDiff = duration - durationTodo.duration
+            const durationDiff = (duration as number) - durationTodo.duration
             return assign({}, state, {
                 todosById: state.todos.reduce((obj, id) => {
                     let todo = state.todosById[id]
@@ -190,7 +190,7 @@ const todos = (state = initialState, action: Action): TodosState => {
                 })
             })
         case TodoActionType.SetTask:
-            const { id: taskId, task} = action as TodoAction
+            const { id: taskId, value: task} = action as SetValueAction
             return assign({}, state, {
                 todosById: assign({}, state.todosById, {
                     [taskId]: assign({}, state.todosById[taskId], {
@@ -199,7 +199,7 @@ const todos = (state = initialState, action: Action): TodosState => {
                 })
             })
         case TodoActionType.SetDetail:
-            const { id: detailId, detail} = action as TodoAction
+            const { id: detailId, value: detail} = action as SetValueAction
             return assign({}, state, {
                 todosById: assign({}, state.todosById, {
                     [detailId]: assign({}, state.todosById[detailId], {

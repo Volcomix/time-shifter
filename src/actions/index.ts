@@ -13,17 +13,20 @@ export const TodoActionType = {
     SetDetail: 'SET_TODO_DETAIL'
 }
 
-export interface TodoAction extends Action, Todo {
-    type: string
+export interface TodoAction extends Action {
+    id: number
 }
 
 export interface MoveAction extends Action {
-    type: string
     fromPos: number
     toPos: number
 }
 
-export const addTodo = (position?: number): TodoAction => {
+export interface SetValueAction extends TodoAction {
+    value: Date | number | string
+}
+
+export const addTodo = (position?: number): Action => {
     return {
         type: TodoActionType.Add
     }
@@ -51,34 +54,34 @@ export const toggleTodo = (id: number): TodoAction => {
     }
 }
 
-export const setTodoStartHour = (id: number, startHour: Date): TodoAction => {
+export const setTodoStartHour = (id: number, startHour: Date): SetValueAction => {
     return {
         type: TodoActionType.SetStartHour,
         id,
-        startHour
+        value: startHour
     }
 }
 
-export const setTodoDuration = (id: number, duration: number): TodoAction => {
+export const setTodoDuration = (id: number, duration: number): SetValueAction => {
     return {
         type: TodoActionType.SetDuration,
         id,
-        duration
+        value: duration
     }
 }
 
-export const setTodoTask = (id: number, task: string): TodoAction => {
+export const setTodoTask = (id: number, task: string): SetValueAction => {
     return {
         type: TodoActionType.SetTask,
         id,
-        task
+        value: task
     }
 }
 
-export const setTodoDetail = (id: number, detail: string): TodoAction => {
+export const setTodoDetail = (id: number, detail: string): SetValueAction => {
     return {
         type: TodoActionType.SetDetail,
         id,
-        detail
+        value: detail
     }
 }
