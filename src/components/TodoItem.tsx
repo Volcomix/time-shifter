@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as moment from 'moment'
 import { ListItem } from 'material-ui/List'
 import Checkbox from 'material-ui/Checkbox'
+import Toggle from 'material-ui/Toggle'
 import TimePicker from 'material-ui/TimePicker'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
@@ -38,6 +39,7 @@ const TodoItem = ({
     <ListItem
         style={{
             display: 'flex',
+            alignItems: 'center',
             position: 'absolute',
             top: todo.order * 80,
             left: 0,
@@ -46,11 +48,16 @@ const TodoItem = ({
         leftCheckbox={
             <Checkbox
                 checked={todo.isDone}
-                style={{ top: 24 }}
+                style={{ top: undefined }}
                 onCheck={() => onToggle(todo.id)}
             />
         }
     >
+        <Toggle style={{
+                width: undefined,
+                paddingRight: 16
+            }}
+        />
         <TimePicker
             hintText='Début'
             format='24hr'
