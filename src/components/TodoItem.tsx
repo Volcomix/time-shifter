@@ -7,8 +7,10 @@ import TimePicker from 'material-ui/TimePicker'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import ActionDelete from 'material-ui/svg-icons/action/delete'
+import ActionReorder from 'material-ui/svg-icons/action/reorder'
 import ArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import ArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import { grey500 } from 'material-ui/styles/colors'
 
 import Todo from '../model/Todo'
 
@@ -45,15 +47,15 @@ const TodoItem = ({
             left: 0,
             right: 0
         }}
-        leftCheckbox={
-            <Checkbox
-                checked={todo.isDone}
-                style={{ top: undefined }}
-                onCheck={() => onToggle(todo.id)}
-            />
-        }
+        disabled={true}
     >
-        <Toggle style={{
+        <Checkbox
+            style={{ width: undefined }}
+            checked={todo.isDone}
+            onCheck={() => onToggle(todo.id)}
+        />
+        <Toggle
+            style={{
                 width: undefined,
                 paddingRight: 16
             }}
@@ -112,6 +114,7 @@ const TodoItem = ({
         >
             <ActionDelete />
         </IconButton>
+        <ActionReorder style={{ cursor: 'move' }} color={grey500} />
     </ListItem>
 )
 
