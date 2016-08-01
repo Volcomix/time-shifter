@@ -32,7 +32,7 @@ const initialState: TodosState = {
 }
 
 const moveTodo = (state: TodosState, fromPos: number, toPos: number) => {
-    if (toPos < 0 || toPos >= state.orderedTodos.length) {
+    if (toPos < 0 || toPos >= state.orderedTodos.length || fromPos === toPos) {
         return state
     }
     const fromTodo = state.todosById[state.orderedTodos[fromPos]]
