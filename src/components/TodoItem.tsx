@@ -37,84 +37,105 @@ const TodoItem = ({
     onDetailChange,
     onMove,
     onDelete
-}: Props & Callbacks) => (
-    <ListItem
-        style={{
-            display: 'flex',
-            alignItems: 'center',
-            position: 'absolute',
-            top: todo.order * 80,
-            left: 0,
-            right: 0
-        }}
-        disabled={true}
-    >
-        <Checkbox
-            style={{ width: undefined }}
-            checked={todo.isDone}
-            onCheck={() => onToggle(todo.id)}
-        />
-        <Toggle
+}: Props & Callbacks) => {
+    let target: Node
+    let handle: HTMLDivElement
+
+    return (
+        <ListItem
             style={{
-                width: undefined,
-                paddingRight: 16
+                display: 'flex',
+                alignItems: 'center',
+                position: 'absolute',
+                top: todo.order * 80,
+                left: 0,
+                right: 0
             }}
-        />
-        <TimePicker
-            hintText='Début'
-            format='24hr'
-            value={todo.startHour}
-            style={{ display: 'inline' }}
-            textFieldStyle={{ width: 100 }}
-            onChange={(e: {}, t: Date) => {
-                const time = moment(t).startOf('minute').toDate()
-                onStartHourChange(todo.id, time)
+            disabled={true}
+            draggable={true}
+            onMouseDown={ev => target = ev.target as Node}
+            onDragStart={ev => {
+                if (handle.contains(target)) {
+                    ev.dataTransfer.effectAllowed = 'move'
+                    ev.dataTransfer.setData('text/plain', todo.id.toString())
+                } else {
+                    ev.preventDefault()
+                }
             }}
-        />
-        <TimePicker
-            hintText='Durée'
-            format='24hr'
-            value={moment({ 'minutes': todo.duration }).toDate()}
-            style={{ display: 'inline' }}
-            textFieldStyle={{ width: 100 }}
-            onChange={(e: {}, t: Date) => {
-                const time = moment(t).startOf('minute')
-                const today = moment({hour: 0})
-                const duration = time.diff(today, 'minutes')
-                onDurationChange(todo.id, duration)
-            }}
-        />
-        <TextField
-            hintText='Tâche'
-            value={todo.task}
-            style={{ flexGrow: 1 }}
-            onChange={e => onTaskChange(todo.id, (e.target as HTMLInputElement).value)}
-        />
-        <TextField
-            hintText='Détail'
-            value={todo.detail}
-            onChange={e => onDetailChange(todo.id, (e.target as HTMLInputElement).value)}
-        />
-        <IconButton
-            tooltip='Déplacer la tâche vers le haut'
-            onClick={() => onMove(todo.order, todo.order - 1)}
         >
-            <ArrowUp />
-        </IconButton>
-        <IconButton
-            tooltip='Déplacer la tâche vers le bas'
-            onClick={() => onMove(todo.order, todo.order + 1)}
-        >
-            <ArrowDown />
-        </IconButton>
-        <IconButton
-            tooltip='Supprimer la tâche'
-            onClick={() => onDelete(todo.id)}
-        >
-            <ActionDelete />
-        </IconButton>
-        <ActionReorder style={{ cursor: 'move' }} color={grey500} />
-    </ListItem>
-)
+            <Checkbox
+                style={{ width: undefined }}
+                checked={todo.isDone}
+                onCheck={() => onToggle(todo.id)}
+            />
+            <Toggle
+                style={{
+                    width: undefined,
+                    paddingRight: 16
+                }}
+            />
+            <TimePicker
+                hintText='Début'
+                format='24hr'
+                value={todo.startHour}
+                style={{ display: 'inline' }}
+                textFieldStyle={{ width: 100 }}
+                onChange={(e: {}, t: Date) => {
+                    const time = moment(t).startOf('minute').toDate()
+                    onStartHourChange(todo.id, time)
+                }}
+            />
+            <TimePicker
+                hintText='Durée'
+                format='24hr'
+                value={moment({ 'minutes': todo.duration }).toDate()}
+                style={{ display: 'inline' }}
+                textFieldStyle={{ width: 100 }}
+                onChange={(e: {}, t: Date) => {
+                    const time = moment(t).startOf('minute')
+                    const today = moment({hour: 0})
+                    const duration = time.diff(today, 'minutes')
+                    onDurationChange(todo.id, duration)
+                }}
+            />
+            <TextField
+                hintText='Tâche'
+                value={todo.task}
+                style={{ flexGrow: 1 }}
+                onChange={e =>
+                    onTaskChange(todo.id, (e.target as HTMLInputElement).value)
+                }
+            />
+            <TextField
+                hintText='Détail'
+                value={todo.detail}
+                onChange={e =>
+                    onDetailChange(todo.id, (e.target as HTMLInputElement).value)
+                }
+            />
+            <IconButton
+                tooltip='Déplacer la tâche vers le haut'
+                onClick={() => onMove(todo.order, todo.order - 1)}
+            >
+                <ArrowUp />
+            </IconButton>
+            <IconButton
+                tooltip='Déplacer la tâche vers le bas'
+                onClick={() => onMove(todo.order, todo.order + 1)}
+            >
+                <ArrowDown />
+            </IconButton>
+            <IconButton
+                tooltip='Supprimer la tâche'
+                onClick={() => onDelete(todo.id)}
+            >
+                <ActionDelete />
+            </IconButton>
+            <div ref={node => handle = node}>
+                <ActionReorder style={{ cursor: 'move' }} color={grey500} />
+            </div>
+        </ListItem>
+    )
+}
 
 export default TodoItem
