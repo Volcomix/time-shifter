@@ -57,6 +57,10 @@ const TodoItem = ({
             onDragStart={ev => {
                 if (handle.contains(target)) {
                     ev.dataTransfer.effectAllowed = 'move'
+
+                    // Typescript definition does not declare setDragImage
+                    ;(ev.dataTransfer as any).setDragImage(new Image(), 0, 0)
+                    
                     ev.dataTransfer.setData('text/plain', todo.id.toString())
                 } else {
                     ev.preventDefault()
