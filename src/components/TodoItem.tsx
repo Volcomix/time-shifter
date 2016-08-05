@@ -28,118 +28,140 @@ export interface Callbacks {
     onDelete: (id: number) => void
 }
 
-const TodoItem = ({
-    todo,
-    onToggle,
-    onStartHourChange,
-    onDurationChange,
-    onTaskChange,
-    onDetailChange,
-    onMove,
-    onDelete
-}: Props & Callbacks) => {
-    let target: Node
-    let handle: HTMLDivElement
+export interface State {
+    isDragging: boolean,
+    top: number
+}
 
-    return (
-        <ListItem
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                position: 'absolute',
-                top: todo.order * 80,
-                left: 0,
-                right: 0
-            }}
-            disabled={true}
-            draggable={true}
-            onMouseDown={ev => target = ev.target as Node}
-            onDragStart={ev => {
-                if (handle.contains(target)) {
-                    ev.dataTransfer.effectAllowed = 'move'
+class TodoItem extends React.Component<Props & Callbacks, State> {
+    private target: Node
+    private handle: HTMLDivElement
 
-                    // Typescript definition does not declare setDragImage
-                    ;(ev.dataTransfer as any).setDragImage(new Image(), 0, 0)
-                    
-                    ev.dataTransfer.setData('text/plain', todo.id.toString())
-                } else {
-                    ev.preventDefault()
-                }
-            }}
-        >
-            <Checkbox
-                style={{ width: undefined }}
-                checked={todo.isDone}
-                onCheck={() => onToggle(todo.id)}
-            />
-            <Toggle
+    constructor(props: Props & Callbacks) {
+        super(props)
+        this.state = { isDragging: false, top: -1 }
+    }
+
+    render() {
+        const {
+            todo,
+            onToggle,
+            onStartHourChange,
+            onDurationChange,
+            onTaskChange,
+            onDetailChange,
+            onMove,
+            onDelete
+        } = this.props
+
+        return (
+            <ListItem
                 style={{
-                    width: undefined,
-                    paddingRight: 16
+                    display: 'flex',
+                    alignItems: 'center',
+                    position: 'absolute',
+                    top: this.state.isDragging ? this.state.top : todo.order * 80,
+                    left: 0,
+                    right: 0,
+                    transition: this.state.isDragging ? 'all 0.1ms' : 'all 200ms'
                 }}
-            />
-            <TimePicker
-                hintText='Début'
-                format='24hr'
-                value={todo.startHour}
-                style={{ display: 'inline' }}
-                textFieldStyle={{ width: 100 }}
-                onChange={(e: {}, t: Date) => {
-                    const time = moment(t).startOf('minute').toDate()
-                    onStartHourChange(todo.id, time)
+                disabled={true}
+                draggable={true}
+                onMouseDown={ev => this.target = ev.target as Node}
+                onDragStart={ev => {
+                    if (this.handle.contains(this.target)) {
+                        ev.dataTransfer.effectAllowed = 'move'
+
+                        // Typescript definition does not declare setDragImage
+                        ;(ev.dataTransfer as any).setDragImage(new Image(), 0, 0)
+                        
+                        ev.dataTransfer.setData('text/plain', todo.id.toString())
+                        this.setState({ isDragging: true, top: ev.clientY - 50 })
+                    } else {
+                        ev.preventDefault()
+                    }
                 }}
-            />
-            <TimePicker
-                hintText='Durée'
-                format='24hr'
-                value={moment({ 'minutes': todo.duration }).toDate()}
-                style={{ display: 'inline' }}
-                textFieldStyle={{ width: 100 }}
-                onChange={(e: {}, t: Date) => {
-                    const time = moment(t).startOf('minute')
-                    const today = moment({hour: 0})
-                    const duration = time.diff(today, 'minutes')
-                    onDurationChange(todo.id, duration)
+                onDrag={ev => {
+                    this.setState({ isDragging: true, top: ev.clientY - 50 })
                 }}
-            />
-            <TextField
-                hintText='Tâche'
-                value={todo.task}
-                style={{ flexGrow: 1 }}
-                onChange={e =>
-                    onTaskChange(todo.id, (e.target as HTMLInputElement).value)
+                onDragEnd={ev =>
+                    this.setState({ isDragging: false, top: -1 })
                 }
-            />
-            <TextField
-                hintText='Détail'
-                value={todo.detail}
-                onChange={e =>
-                    onDetailChange(todo.id, (e.target as HTMLInputElement).value)
-                }
-            />
-            <IconButton
-                tooltip='Déplacer la tâche vers le haut'
-                onClick={() => onMove(todo.order, todo.order - 1)}
             >
-                <ArrowUp />
-            </IconButton>
-            <IconButton
-                tooltip='Déplacer la tâche vers le bas'
-                onClick={() => onMove(todo.order, todo.order + 1)}
-            >
-                <ArrowDown />
-            </IconButton>
-            <IconButton
-                tooltip='Supprimer la tâche'
-                onClick={() => onDelete(todo.id)}
-            >
-                <ActionDelete />
-            </IconButton>
-            <div ref={node => handle = node}>
-                <ActionReorder style={{ cursor: 'move' }} color={grey500} />
-            </div>
-        </ListItem>
-    )
+                <Checkbox
+                    style={{ width: undefined }}
+                    checked={todo.isDone}
+                    onCheck={() => onToggle(todo.id)}
+                />
+                <Toggle
+                    style={{
+                        width: undefined,
+                        paddingRight: 16
+                    }}
+                />
+                <TimePicker
+                    hintText='Début'
+                    format='24hr'
+                    value={todo.startHour}
+                    style={{ display: 'inline' }}
+                    textFieldStyle={{ width: 100 }}
+                    onChange={(e: {}, t: Date) => {
+                        const time = moment(t).startOf('minute').toDate()
+                        onStartHourChange(todo.id, time)
+                    }}
+                />
+                <TimePicker
+                    hintText='Durée'
+                    format='24hr'
+                    value={moment({ 'minutes': todo.duration }).toDate()}
+                    style={{ display: 'inline' }}
+                    textFieldStyle={{ width: 100 }}
+                    onChange={(e: {}, t: Date) => {
+                        const time = moment(t).startOf('minute')
+                        const today = moment({hour: 0})
+                        const duration = time.diff(today, 'minutes')
+                        onDurationChange(todo.id, duration)
+                    }}
+                />
+                <TextField
+                    hintText='Tâche'
+                    value={todo.task}
+                    style={{ flexGrow: 1 }}
+                    onChange={e =>
+                        onTaskChange(todo.id, (e.target as HTMLInputElement).value)
+                    }
+                />
+                <TextField
+                    hintText='Détail'
+                    value={todo.detail}
+                    onChange={e =>
+                        onDetailChange(todo.id, (e.target as HTMLInputElement).value)
+                    }
+                />
+                <IconButton
+                    tooltip='Déplacer la tâche vers le haut'
+                    onClick={() => onMove(todo.order, todo.order - 1)}
+                >
+                    <ArrowUp />
+                </IconButton>
+                <IconButton
+                    tooltip='Déplacer la tâche vers le bas'
+                    onClick={() => onMove(todo.order, todo.order + 1)}
+                >
+                    <ArrowDown />
+                </IconButton>
+                <IconButton
+                    tooltip='Supprimer la tâche'
+                    onClick={() => onDelete(todo.id)}
+                >
+                    <ActionDelete />
+                </IconButton>
+                <div ref={node => this.handle = node}>
+                    <ActionReorder style={{ cursor: 'move' }} color={grey500} />
+                </div>
+            </ListItem>
+        )
+    }
 }
 
 export default TodoItem
