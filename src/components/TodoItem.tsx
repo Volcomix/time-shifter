@@ -89,19 +89,19 @@ const TodoItem = ({
             onChange={e => onDetailChange(todo.id, (e.target as HTMLInputElement).value)}
         />
         <IconButton
-            tooltip='Déplacer la tâche vers le haut'
+            tooltip={''/*'Déplacer la tâche vers le haut'*/}
             onClick={() => onMove(todo.order, todo.order - 1)}
         >
             <ArrowUp />
         </IconButton>
         <IconButton
-            tooltip='Déplacer la tâche vers le bas'
+            tooltip={''/*'Déplacer la tâche vers le bas'*/}
             onClick={() => onMove(todo.order, todo.order + 1)}
         >
             <ArrowDown />
         </IconButton>
         <IconButton
-            tooltip='Supprimer la tâche'
+            tooltip={''/*'Supprimer la tâche'*/}
             tooltipPosition='bottom-left'
             onClick={() => onDelete(todo.id)}
         >

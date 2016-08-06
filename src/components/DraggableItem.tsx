@@ -39,7 +39,8 @@ class DraggableItem extends React.Component<Props, State> {
                         'all 1ms linear' :
                         'all 250ms ease-out',
                     padding: 10,
-                    zIndex: this.state.isDragging ? 20 : 0
+                    zIndex: this.state.isDragging ? 10000 : this.props.order,
+                    backgroundColor: 'white'
                 }}
                 zDepth={this.state.isDragging ? 3 : 1}
                 draggable={true}

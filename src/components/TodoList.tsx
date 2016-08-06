@@ -11,7 +11,7 @@ export interface Props {
 const todoHeight = 68
 
 const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
-    <div
+    <ul
         style={{
             position: 'absolute',
             top: 10,
@@ -26,7 +26,7 @@ const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
                 <EditableTodo todo={todo} />
             </DraggableItem>
         ))}
-    </div>
+    </ul>
 )
 
 export default TodoList
