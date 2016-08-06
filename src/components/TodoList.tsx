@@ -24,7 +24,12 @@ const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
         }}
     >
         {todos.map(todo => (
-            <DraggableItem key={todo.id} order={todo.order} height={todoHeight}>
+            <DraggableItem
+                key={todo.id}
+                id={todo.id}
+                order={todo.order}
+                height={todoHeight}
+            >
                 <EditableTodo todo={todo} />
             </DraggableItem>
         ))}

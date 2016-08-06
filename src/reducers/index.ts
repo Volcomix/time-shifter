@@ -9,6 +9,7 @@ export interface TodosState {
     todos: number[]
     todosById: TodosMap
     orderedTodos: number[]
+    draggingTodo: number
 }
 
 interface TodosMap {
@@ -28,7 +29,8 @@ const initialState: TodosState = {
             task: '',
             detail: ''
         }
-    }
+    },
+    draggingTodo: -1
 }
 
 const moveTodo = (state: TodosState, fromPos: number, toPos: number) => {
@@ -75,7 +77,7 @@ const todos = (state = initialState, action: Action): TodosState => {
             }
             const id = last(state.todos) + 1
             const lastTodo = state.todosById[last(state.orderedTodos)]
-            return {
+            return assign({}, state, {
                 todos: [...state.todos, id],
                 orderedTodos: [...state.orderedTodos, id],
                 todosById: assign({}, state.todosById, {
@@ -91,11 +93,11 @@ const todos = (state = initialState, action: Action): TodosState => {
                         detail: ''
                     }
                 })
-            }
+            })
         case TodoActionType.Delete:
             const { id: deleteId } = action as TodoAction
             const deleteTodo = state.todosById[deleteId]
-            return {
+            return assign({}, state, {
                 todos: without(state.todos, deleteId),
                 orderedTodos: without(state.orderedTodos, deleteId),
                 todosById: state.todos.reduce((obj, id) => {
@@ -114,7 +116,7 @@ const todos = (state = initialState, action: Action): TodosState => {
                     obj[id] = todo
                     return obj
                 }, {} as TodosMap)
-            }
+            })
         case TodoActionType.Move:
             const { fromPos: moveFromPos, toPos: moveToPos } = action as MoveAction
             return moveTodo(state, moveFromPos, moveToPos)
@@ -206,6 +208,15 @@ const todos = (state = initialState, action: Action): TodosState => {
                         detail
                     })
                 })
+            })
+        case TodoActionType.DragTodo:
+            const { id: dragId } = action as TodoAction
+            return assign({}, state, {
+                draggingTodo: id
+            })
+        case TodoActionType.DropTodo:
+            return assign({}, state, {
+                draggingTodo: -1
             })
         default:
             return state

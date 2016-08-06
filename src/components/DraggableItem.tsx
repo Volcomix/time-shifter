@@ -4,6 +4,7 @@ import ActionReorder from 'material-ui/svg-icons/action/reorder'
 import { grey500 } from 'material-ui/styles/colors'
 
 interface Props {
+    id: number
     order: number
     height: number
     children?: JSX.Element

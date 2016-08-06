@@ -10,7 +10,9 @@ export const TodoActionType = {
     SetStartHour: 'SET_TODO_START_HOUR',
     SetDuration: 'SET_TODO_DURATION',
     SetTask: 'SET_TODO_TASK',
-    SetDetail: 'SET_TODO_DETAIL'
+    SetDetail: 'SET_TODO_DETAIL',
+    DragTodo: 'DRAG_TODO',
+    DropTodo: 'DROP_TODO'
 }
 
 export interface TodoAction extends Action {
@@ -83,5 +85,18 @@ export const setTodoDetail = (id: number, detail: string): SetValueAction => {
         type: TodoActionType.SetDetail,
         id,
         value: detail
+    }
+}
+
+export const dragTodo = (id: number): TodoAction => {
+    return {
+        type: TodoActionType.DragTodo,
+        id
+    }
+}
+
+export const dropTodo = (): Action => {
+    return {
+        type: TodoActionType.DropTodo
     }
 }
