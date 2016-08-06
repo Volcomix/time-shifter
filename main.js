@@ -10,7 +10,7 @@ let win
 
 function createWindow() {
     // Create the browser window.
-    win = new BrowserWindow({width: 800, height: 600})
+    win = new BrowserWindow({width: 1200, height: 800})
 
     // and load the index.html of the app.
     if (process.argv.length === 3 && process.argv[2] === '--dev') {
