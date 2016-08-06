@@ -51,7 +51,7 @@ class DraggableItem extends React.Component<Props, State> {
 
                         this.setState({
                             isDragging: true,
-                            top: ev.clientY - this.props.height / 2 - 4
+                            top: ev.clientY - this.props.height / 2 - 5
                         })
                     } else {
                         ev.preventDefault()
@@ -60,7 +60,7 @@ class DraggableItem extends React.Component<Props, State> {
                 onDrag={ev => {
                     this.setState({
                         isDragging: true,
-                        top: ev.clientY - this.props.height / 2 - 4
+                        top: ev.clientY - this.props.height / 2 - 5
                     })
                 }}
                 onDragEnd={ev =>
