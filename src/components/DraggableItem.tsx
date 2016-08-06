@@ -35,9 +35,11 @@ class DraggableItem extends React.Component<Props, State> {
                         : this.props.order * this.props.height,
                     left: 0,
                     right: 0,
-                    transition: this.state.isDragging ? 'all 1ms' : 'all 250ms',
+                    transition: this.state.isDragging ?
+                        'all 1ms linear' :
+                        'all 250ms ease-out',
                     padding: 10,
-                    zIndex: this.state.isDragging ? 20 : 10
+                    zIndex: this.state.isDragging ? 20 : 0
                 }}
                 zDepth={this.state.isDragging ? 3 : 1}
                 draggable={true}
@@ -54,7 +56,7 @@ class DraggableItem extends React.Component<Props, State> {
 
                         this.setState({
                             isDragging: true,
-                            top: ev.clientY - this.props.height / 2 - 5
+                            top: ev.pageY - this.props.height / 2 - 5
                         })
                     } else {
                         ev.preventDefault()
@@ -63,7 +65,7 @@ class DraggableItem extends React.Component<Props, State> {
                 onDrag={ev => {
                     this.setState({
                         isDragging: true,
-                        top: ev.clientY - this.props.height / 2 - 5
+                        top: ev.pageY - this.props.height / 2 - 5
                     })
                 }}
                 onDragEnd={ev =>

@@ -102,6 +102,7 @@ const TodoItem = ({
         </IconButton>
         <IconButton
             tooltip='Supprimer la tâche'
+            tooltipPosition='bottom-left'
             onClick={() => onDelete(todo.id)}
         >
             <ActionDelete />
