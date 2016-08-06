@@ -17,7 +17,9 @@ const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
             top: 10,
             left: 10,
             right: 10,
+            marginTop: 0,
             marginBottom: 10,
+            padding: 0,
             height: todos.length * todoHeight
         }}
     >

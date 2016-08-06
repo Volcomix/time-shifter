@@ -16,7 +16,8 @@ let AddTodo: React.StatelessComponent<Props> = ({ dispatch }) => (
         style={{
             position: 'fixed',
             bottom: 15,
-            right: 15
+            right: 15,
+            zIndex: 100000
         }}
         onClick={() => dispatch(addTodo())}
     >
