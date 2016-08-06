@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Paper from 'material-ui/Paper'
 import ActionReorder from 'material-ui/svg-icons/action/reorder'
 import { grey500 } from 'material-ui/styles/colors'
 
@@ -24,7 +25,7 @@ class DraggableItem extends React.Component<Props, State> {
 
     render() {
         return (
-            <li
+            <Paper
                 style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -34,9 +35,11 @@ class DraggableItem extends React.Component<Props, State> {
                         : this.props.order * this.props.height,
                     left: 0,
                     right: 0,
-                    transition: this.state.isDragging ? 'top 1ms' : 'top 250ms',
-                    padding: 10
+                    transition: this.state.isDragging ? 'all 1ms' : 'all 250ms',
+                    padding: 10,
+                    zIndex: this.state.isDragging ? 20 : 10
                 }}
+                zDepth={this.state.isDragging ? 3 : 1}
                 draggable={true}
                 onMouseDown={ev => this.dragTarget = ev.target as Node}
                 onDragStart={ev => {
@@ -67,11 +70,14 @@ class DraggableItem extends React.Component<Props, State> {
                     this.setState({ isDragging: false, top: -1 })
                 }
             >
-                {this.props.children}
                 <div ref={node => this.handle = node}>
-                    <ActionReorder style={{ cursor: 'move' }} color={grey500} />
+                    <ActionReorder style={{
+                        padding: 12,
+                        cursor: 'move'
+                    }} color={grey500} />
                 </div>
-            </li>
+                {this.props.children}
+            </Paper>
         )
     }
 }

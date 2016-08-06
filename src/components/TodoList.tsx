@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Paper from 'material-ui/Paper'
 
 import Todo from '../model/Todo'
 import EditableTodo from '../containers/EditableTodo'
@@ -12,7 +11,7 @@ export interface Props {
 const todoHeight = 68
 
 const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
-    <Paper
+    <div
         style={{
             position: 'absolute',
             top: 10,
@@ -22,14 +21,12 @@ const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
             height: todos.length * todoHeight
         }}
     >
-        <ul>
-            {todos.map(todo => (
-                <DraggableItem key={todo.id} order={todo.order} height={todoHeight}>
-                    <EditableTodo todo={todo} />
-                </DraggableItem>
-            ))}
-        </ul>
-    </Paper>
+        {todos.map(todo => (
+            <DraggableItem key={todo.id} order={todo.order} height={todoHeight}>
+                <EditableTodo todo={todo} />
+            </DraggableItem>
+        ))}
+    </div>
 )
 
 export default TodoList
