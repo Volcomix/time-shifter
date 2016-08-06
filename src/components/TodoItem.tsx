@@ -1,16 +1,13 @@
 import * as React from 'react'
 import * as moment from 'moment'
-import { ListItem } from 'material-ui/List'
 import Checkbox from 'material-ui/Checkbox'
 import Toggle from 'material-ui/Toggle'
 import TimePicker from 'material-ui/TimePicker'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import ActionDelete from 'material-ui/svg-icons/action/delete'
-import ActionReorder from 'material-ui/svg-icons/action/reorder'
 import ArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import ArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-import { grey500 } from 'material-ui/styles/colors'
 
 import Todo from '../model/Todo'
 
@@ -28,20 +25,7 @@ export interface Callbacks {
     onDelete: (id: number) => void
 }
 
-export interface State {
-    isDragging: boolean,
-    top: number
-}
-
-class TodoItem extends React.Component<Props & Callbacks, State> {
-    private target: Node
-    private handle: HTMLDivElement
-
-    constructor(props: Props & Callbacks) {
-        super(props)
-        this.state = { isDragging: false, top: -1 }
-    }
-
+class TodoItem extends React.Component<Props & Callbacks, {}> {
     render() {
         const {
             todo,
@@ -55,38 +39,12 @@ class TodoItem extends React.Component<Props & Callbacks, State> {
         } = this.props
 
         return (
-            <ListItem
+            <div
                 style={{
                     display: 'flex',
                     alignItems: 'center',
-                    position: 'absolute',
-                    top: this.state.isDragging ? this.state.top : todo.order * 80,
-                    left: 0,
-                    right: 0,
-                    transition: this.state.isDragging ? 'all 0.1ms' : 'all 200ms'
+                    flexGrow: 1
                 }}
-                disabled={true}
-                draggable={true}
-                onMouseDown={ev => this.target = ev.target as Node}
-                onDragStart={ev => {
-                    if (this.handle.contains(this.target)) {
-                        ev.dataTransfer.effectAllowed = 'move'
-
-                        // Typescript definition does not declare setDragImage
-                        ;(ev.dataTransfer as any).setDragImage(new Image(), 0, 0)
-                        
-                        ev.dataTransfer.setData('text/plain', todo.id.toString())
-                        this.setState({ isDragging: true, top: ev.clientY - 50 })
-                    } else {
-                        ev.preventDefault()
-                    }
-                }}
-                onDrag={ev => {
-                    this.setState({ isDragging: true, top: ev.clientY - 50 })
-                }}
-                onDragEnd={ev =>
-                    this.setState({ isDragging: false, top: -1 })
-                }
             >
                 <Checkbox
                     style={{ width: undefined }}
@@ -156,10 +114,7 @@ class TodoItem extends React.Component<Props & Callbacks, State> {
                 >
                     <ActionDelete />
                 </IconButton>
-                <div ref={node => this.handle = node}>
-                    <ActionReorder style={{ cursor: 'move' }} color={grey500} />
-                </div>
-            </ListItem>
+            </div>
         )
     }
 }

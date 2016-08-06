@@ -1,13 +1,15 @@
 import * as React from 'react'
 import Paper from 'material-ui/Paper'
-import { List } from 'material-ui/List'
 
 import Todo from '../model/Todo'
 import EditableTodo from '../containers/EditableTodo'
+import DraggableItem from './DraggableItem'
 
 export interface Props {
     todos: Todo[]
 }
+
+const todoHeight = 68
 
 const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
     <Paper
@@ -17,14 +19,16 @@ const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
             left: 10,
             right: 10,
             marginBottom: 10,
-            height: todos.length * 80
+            height: todos.length * todoHeight
         }}
     >
-        <List>
+        <ul>
             {todos.map(todo => (
-                <EditableTodo key={todo.id} todo={todo} />
+                <DraggableItem key={todo.id} order={todo.order} height={todoHeight}>
+                    <EditableTodo todo={todo} />
+                </DraggableItem>
             ))}
-        </List>
+        </ul>
     </Paper>
 )
 
