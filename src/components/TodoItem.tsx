@@ -25,98 +25,88 @@ export interface Callbacks {
     onDelete: (id: number) => void
 }
 
-class TodoItem extends React.Component<Props & Callbacks, {}> {
-    render() {
-        const {
-            todo,
-            onToggle,
-            onStartHourChange,
-            onDurationChange,
-            onTaskChange,
-            onDetailChange,
-            onMove,
-            onDelete
-        } = this.props
-
-        return (
-            <div
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexGrow: 1
-                }}
-            >
-                <Checkbox
-                    style={{ width: undefined }}
-                    checked={todo.isDone}
-                    onCheck={() => onToggle(todo.id)}
-                />
-                <Toggle
-                    style={{
-                        width: undefined,
-                        paddingRight: 16
-                    }}
-                />
-                <TimePicker
-                    hintText='Début'
-                    format='24hr'
-                    value={todo.startHour}
-                    style={{ display: 'inline' }}
-                    textFieldStyle={{ width: 100 }}
-                    onChange={(e: {}, t: Date) => {
-                        const time = moment(t).startOf('minute').toDate()
-                        onStartHourChange(todo.id, time)
-                    }}
-                />
-                <TimePicker
-                    hintText='Durée'
-                    format='24hr'
-                    value={moment({ 'minutes': todo.duration }).toDate()}
-                    style={{ display: 'inline' }}
-                    textFieldStyle={{ width: 100 }}
-                    onChange={(e: {}, t: Date) => {
-                        const time = moment(t).startOf('minute')
-                        const today = moment({hour: 0})
-                        const duration = time.diff(today, 'minutes')
-                        onDurationChange(todo.id, duration)
-                    }}
-                />
-                <TextField
-                    hintText='Tâche'
-                    value={todo.task}
-                    style={{ flexGrow: 1 }}
-                    onChange={e =>
-                        onTaskChange(todo.id, (e.target as HTMLInputElement).value)
-                    }
-                />
-                <TextField
-                    hintText='Détail'
-                    value={todo.detail}
-                    onChange={e =>
-                        onDetailChange(todo.id, (e.target as HTMLInputElement).value)
-                    }
-                />
-                <IconButton
-                    tooltip='Déplacer la tâche vers le haut'
-                    onClick={() => onMove(todo.order, todo.order - 1)}
-                >
-                    <ArrowUp />
-                </IconButton>
-                <IconButton
-                    tooltip='Déplacer la tâche vers le bas'
-                    onClick={() => onMove(todo.order, todo.order + 1)}
-                >
-                    <ArrowDown />
-                </IconButton>
-                <IconButton
-                    tooltip='Supprimer la tâche'
-                    onClick={() => onDelete(todo.id)}
-                >
-                    <ActionDelete />
-                </IconButton>
-            </div>
-        )
-    }
-}
+const TodoItem = ({
+    todo,
+    onToggle,
+    onStartHourChange,
+    onDurationChange,
+    onTaskChange,
+    onDetailChange,
+    onMove,
+    onDelete
+}: Props & Callbacks) => (
+    <div
+        style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexGrow: 1
+        }}
+    >
+        <Checkbox
+            style={{ width: undefined }}
+            checked={todo.isDone}
+            onCheck={() => onToggle(todo.id)}
+        />
+        <Toggle
+            style={{
+                width: undefined,
+                paddingRight: 16
+            }}
+        />
+        <TimePicker
+            hintText='Début'
+            format='24hr'
+            value={todo.startHour}
+            style={{ display: 'inline' }}
+            textFieldStyle={{ width: 100 }}
+            onChange={(e: {}, t: Date) => {
+                const time = moment(t).startOf('minute').toDate()
+                onStartHourChange(todo.id, time)
+            }}
+        />
+        <TimePicker
+            hintText='Durée'
+            format='24hr'
+            value={moment({ 'minutes': todo.duration }).toDate()}
+            style={{ display: 'inline' }}
+            textFieldStyle={{ width: 100 }}
+            onChange={(e: {}, t: Date) => {
+                const time = moment(t).startOf('minute')
+                const today = moment({hour: 0})
+                const duration = time.diff(today, 'minutes')
+                onDurationChange(todo.id, duration)
+            }}
+        />
+        <TextField
+            hintText='Tâche'
+            value={todo.task}
+            style={{ flexGrow: 1 }}
+            onChange={e => onTaskChange(todo.id, (e.target as HTMLInputElement).value)}
+        />
+        <TextField
+            hintText='Détail'
+            value={todo.detail}
+            onChange={e => onDetailChange(todo.id, (e.target as HTMLInputElement).value)}
+        />
+        <IconButton
+            tooltip='Déplacer la tâche vers le haut'
+            onClick={() => onMove(todo.order, todo.order - 1)}
+        >
+            <ArrowUp />
+        </IconButton>
+        <IconButton
+            tooltip='Déplacer la tâche vers le bas'
+            onClick={() => onMove(todo.order, todo.order + 1)}
+        >
+            <ArrowDown />
+        </IconButton>
+        <IconButton
+            tooltip='Supprimer la tâche'
+            onClick={() => onDelete(todo.id)}
+        >
+            <ActionDelete />
+        </IconButton>
+    </div>
+    )
 
 export default TodoItem
