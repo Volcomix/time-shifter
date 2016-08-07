@@ -1,27 +1,38 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import ActionReorder from 'material-ui/svg-icons/action/reorder'
 import { grey500 } from 'material-ui/styles/colors'
 
-interface Props {
-    id: number
-    order: number
-    height: number
+export interface Props {
+    isDragging: boolean
+    y: number
     children?: JSX.Element
 }
 
-export interface State {
-    isDragging: boolean,
-    top: number
+export interface Callbacks {
+    onDragStart: React.DragEventHandler
+    onDragEnd: React.DragEventHandler
 }
 
-class DraggableItem extends React.Component<Props, State> {
+class DraggableItem extends React.Component<Props & Callbacks, {}> {
     private handle: HTMLDivElement
     private dragTarget: Node
 
-    constructor(props: Props) {
-        super(props)
-        this.state = { isDragging: false, top: -1 }
+    private handleDragStart: React.DragEventHandler = ev => {
+        if (this.handle.contains(this.dragTarget)) {
+            ev.dataTransfer.effectAllowed = 'move'
+
+            // Typescript definition does not declare setDragImage
+            ;(ev.dataTransfer as any).setDragImage(new Image(), 0, 0)
+            
+            // Make it work on Firefox
+            ev.dataTransfer.setData('text/plain', null)
+
+            this.props.onDragStart(ev)
+        } else {
+            ev.preventDefault()
+        }
     }
 
     render() {
@@ -31,54 +42,30 @@ class DraggableItem extends React.Component<Props, State> {
                     display: 'flex',
                     alignItems: 'center',
                     position: 'absolute',
-                    top: this.state.isDragging
-                        ? this.state.top
-                        : this.props.order * this.props.height,
+                    top: this.props.y,
                     left: 0,
                     right: 0,
-                    transition: this.state.isDragging ?
-                        'all 1ms linear' :
+                    transition: this.props.isDragging ?
+                        'all 150ms ease-out, top 1ms linear' :
                         'all 250ms ease-out',
                     padding: 10,
-                    zIndex: this.state.isDragging ? 10000 : this.props.order,
+                    zIndex: this.props.isDragging ? 10000 : this.props.y,
                     backgroundColor: 'white'
                 }}
-                zDepth={this.state.isDragging ? 3 : 1}
+                zDepth={this.props.isDragging ? 3 : 1}
                 draggable={true}
                 onMouseDown={ev => this.dragTarget = ev.target as Node}
-                onDragStart={ev => {
-                    if (this.handle.contains(this.dragTarget)) {
-                        ev.dataTransfer.effectAllowed = 'move'
-
-                        // Typescript definition does not declare setDragImage
-                        ;(ev.dataTransfer as any).setDragImage(new Image(), 0, 0)
-                        
-                        // Make it work on Firefox
-                        ev.dataTransfer.setData('text/plain', null)
-
-                        this.setState({
-                            isDragging: true,
-                            top: ev.pageY - this.props.height / 2 - 5
-                        })
-                    } else {
-                        ev.preventDefault()
-                    }
-                }}
-                onDrag={ev => {
-                    this.setState({
-                        isDragging: true,
-                        top: ev.pageY - this.props.height / 2 - 5
-                    })
-                }}
-                onDragEnd={ev =>
-                    this.setState({ isDragging: false, top: -1 })
-                }
+                onDragStart={this.handleDragStart}
+                onDragEnd={this.props.onDragEnd}
             >
                 <div ref={node => this.handle = node}>
-                    <ActionReorder style={{
-                        padding: 12,
-                        cursor: 'move'
-                    }} color={grey500} />
+                    <ActionReorder
+                        style={{
+                            padding: 12,
+                            cursor: 'move'
+                        }}
+                        color={grey500}
+                    />
                 </div>
                 {this.props.children}
             </Paper>

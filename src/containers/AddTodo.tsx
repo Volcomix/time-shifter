@@ -7,10 +7,10 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 import { addTodo, TodoAction } from '../actions'
 
 interface Props {
-    dispatch?: Dispatch<TodoAction>
+    dispatch: Dispatch<TodoAction>
 }
 
-let AddTodo: React.StatelessComponent<Props> = ({ dispatch }) => (
+let AddTodo = ({ dispatch }: Props) => (
     <FloatingActionButton
         secondary={true}
         style={{
@@ -25,6 +25,4 @@ let AddTodo: React.StatelessComponent<Props> = ({ dispatch }) => (
     </FloatingActionButton>
 )
 
-AddTodo = connect()(AddTodo)
-
-export default AddTodo
+export default connect(null)(AddTodo)

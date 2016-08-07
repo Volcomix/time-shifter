@@ -75,14 +75,14 @@ const todos = (state = initialState, action: Action): TodosState => {
             if (state.todos.length === 0) {
                 return initialState
             }
-            const id = last(state.todos) + 1
+            const addId = last(state.todos) + 1
             const lastTodo = state.todosById[last(state.orderedTodos)]
             return assign({}, state, {
-                todos: [...state.todos, id],
-                orderedTodos: [...state.orderedTodos, id],
+                todos: [...state.todos, addId],
+                orderedTodos: [...state.orderedTodos, addId],
                 todosById: assign({}, state.todosById, {
-                    [id]: {
-                        id,
+                    [addId]: {
+                        id: addId,
                         order: state.orderedTodos.length,
                         isDone: false,
                         startHour: moment(lastTodo.startHour)
@@ -212,7 +212,7 @@ const todos = (state = initialState, action: Action): TodosState => {
         case TodoActionType.DragTodo:
             const { id: dragId } = action as TodoAction
             return assign({}, state, {
-                draggingTodo: id
+                draggingTodo: dragId
             })
         case TodoActionType.DropTodo:
             return assign({}, state, {

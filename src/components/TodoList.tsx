@@ -1,16 +1,16 @@
 import * as React from 'react'
 
 import Todo from '../model/Todo'
-import EditableTodo from '../containers/EditableTodo'
-import DraggableItem from './DraggableItem'
+import DraggableTodo from '../containers/DraggableTodo'
 
 export interface Props {
     todos: Todo[]
+    draggingTodo: number
 }
 
 const todoHeight = 68
 
-const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
+const TodoList = ({ todos, draggingTodo }: Props) => (
     <ul
         style={{
             position: 'absolute',
@@ -24,14 +24,12 @@ const TodoList: React.StatelessComponent<Props> = ({ todos }) => (
         }}
     >
         {todos.map(todo => (
-            <DraggableItem
+            <DraggableTodo
                 key={todo.id}
-                id={todo.id}
-                order={todo.order}
-                height={todoHeight}
-            >
-                <EditableTodo todo={todo} />
-            </DraggableItem>
+                isDragging={draggingTodo === todo.id}
+                todo={todo}
+                y={todo.order * todoHeight}
+            />
         ))}
     </ul>
 )
