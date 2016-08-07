@@ -5,8 +5,7 @@ import TodoList, { Props } from '../components/TodoList'
 
 const mapStateToProps = (state: TodosState): Props => {
     return {
-        todos: getTodos(state),
-        draggingTodo: state.draggingTodo
+        todos: getTodos(state)
     }
 }
 

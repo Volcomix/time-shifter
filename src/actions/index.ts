@@ -11,8 +11,9 @@ export const TodoActionType = {
     SetDuration: 'SET_TODO_DURATION',
     SetTask: 'SET_TODO_TASK',
     SetDetail: 'SET_TODO_DETAIL',
+    StartDraggingTodo: 'START_DRAGGING_TODO',
     DragTodo: 'DRAG_TODO',
-    DropTodo: 'DROP_TODO'
+    StopDraggingTodo: 'STOP_DRAGGING_TODO'
 }
 
 export interface TodoAction extends Action {
@@ -26,6 +27,13 @@ export interface MoveAction extends Action {
 
 export interface SetValueAction extends TodoAction {
     value: Date | number | string
+}
+
+export interface DragAction extends Action {
+    y: number
+}
+
+export interface StartDraggingAction extends TodoAction, DragAction {
 }
 
 export const addTodo = (position?: number): Action => {
@@ -88,15 +96,23 @@ export const setTodoDetail = (id: number, detail: string): SetValueAction => {
     }
 }
 
-export const dragTodo = (id: number): TodoAction => {
+export const startDraggingTodo = (id: number, y: number): StartDraggingAction => {
     return {
-        type: TodoActionType.DragTodo,
-        id
+        type: TodoActionType.StartDraggingTodo,
+        id,
+        y
     }
 }
 
-export const dropTodo = (): Action => {
+export const dragTodo = (y: number): DragAction => {
     return {
-        type: TodoActionType.DropTodo
+        type: TodoActionType.DragTodo,
+        y
+    }
+}
+
+export const stopDraggingTodo = (): Action => {
+    return {
+        type: TodoActionType.StopDraggingTodo
     }
 }

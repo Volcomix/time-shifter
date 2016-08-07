@@ -3,13 +3,21 @@ import * as moment from 'moment'
 import { last, sortedIndexBy, assign, without } from 'lodash'
 
 import Todo from '../model/Todo'
-import { TodoAction, MoveAction, SetValueAction, TodoActionType } from '../actions'
+import {
+    TodoAction,
+    MoveAction,
+    SetValueAction,
+    StartDraggingAction,
+    DragAction,
+    TodoActionType
+} from '../actions'
 
 export interface TodosState {
     todos: number[]
     todosById: TodosMap
     orderedTodos: number[]
     draggingTodo: number
+    draggingY: number
 }
 
 interface TodosMap {
@@ -30,7 +38,8 @@ const initialState: TodosState = {
             detail: ''
         }
     },
-    draggingTodo: -1
+    draggingTodo: -1,
+    draggingY: -1
 }
 
 const moveTodo = (state: TodosState, fromPos: number, toPos: number) => {
@@ -209,12 +218,21 @@ const todos = (state = initialState, action: Action): TodosState => {
                     })
                 })
             })
-        case TodoActionType.DragTodo:
-            const { id: dragId } = action as TodoAction
+        case TodoActionType.StartDraggingTodo:
+            const {
+                id: startDraggingId,
+                y: startDraggingY
+            } = action as StartDraggingAction
             return assign({}, state, {
-                draggingTodo: dragId
+                draggingTodo: startDraggingId,
+                draggingY: startDraggingY
             })
-        case TodoActionType.DropTodo:
+        case TodoActionType.DragTodo:
+            const { y: dragY } = action as DragAction
+            return assign({}, state, {
+                draggingY: dragY
+            })
+        case TodoActionType.StopDraggingTodo:
             return assign({}, state, {
                 draggingTodo: -1
             })

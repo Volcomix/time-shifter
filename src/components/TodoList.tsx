@@ -5,12 +5,11 @@ import DraggableTodo from '../containers/DraggableTodo'
 
 export interface Props {
     todos: Todo[]
-    draggingTodo: number
 }
 
 const todoHeight = 68
 
-const TodoList = ({ todos, draggingTodo }: Props) => (
+const TodoList = ({ todos }: Props) => (
     <ul
         style={{
             position: 'absolute',
@@ -26,9 +25,8 @@ const TodoList = ({ todos, draggingTodo }: Props) => (
         {todos.map(todo => (
             <DraggableTodo
                 key={todo.id}
-                isDragging={draggingTodo === todo.id}
                 todo={todo}
-                y={todo.order * todoHeight}
+                height={todoHeight}
             />
         ))}
     </ul>
