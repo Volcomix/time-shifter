@@ -12,8 +12,8 @@ export interface Props {
 }
 
 export interface Callbacks {
-    onDragStart: React.DragEventHandler
-    onDrag: React.DragEventHandler
+    onDragStart: (y: number) => void
+    onDrag: (y: number, position: number) => void
     onDragEnd: React.DragEventHandler
 }
 
@@ -60,12 +60,14 @@ const DraggableItem = ({
                     // Make it work on Firefox
                     ev.dataTransfer.setData('text/plain', null)
 
-                    onDragStart(ev)
+                    onDragStart(ev.pageY)
                 } else {
                     ev.preventDefault()
                 }
             }}
-            onDrag={onDrag}
+            onDrag={ev => {
+                onDrag(ev.pageY, Math.floor((ev.pageY - 10) / height))
+            }}
             onDragEnd={onDragEnd}
         >
             <div ref={node => handle = node}>

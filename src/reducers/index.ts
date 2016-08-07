@@ -228,8 +228,10 @@ const todos = (state = initialState, action: Action): TodosState => {
                 draggingY: startDraggingY
             })
         case TodoActionType.DragTodo:
-            const { y: dragY } = action as DragAction
-            return assign({}, state, {
+            const { y: dragY, position: dragPos } = action as DragAction
+            const fromPos = state.todosById[state.draggingTodo].order
+            const dragState = moveTodo(state, fromPos, dragPos)
+            return assign({}, dragState, {
                 draggingY: dragY
             })
         case TodoActionType.StopDraggingTodo:

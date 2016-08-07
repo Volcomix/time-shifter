@@ -29,11 +29,13 @@ export interface SetValueAction extends TodoAction {
     value: Date | number | string
 }
 
-export interface DragAction extends Action {
+export interface StartDraggingAction extends TodoAction {
     y: number
 }
 
-export interface StartDraggingAction extends TodoAction, DragAction {
+export interface DragAction extends Action {
+    y: number,
+    position: number
 }
 
 export const addTodo = (position?: number): Action => {
@@ -49,7 +51,7 @@ export const deleteTodo = (id: number): TodoAction => {
     }
 }
 
-export const moveTodo = (fromPos: number, toPos: number): MoveAction => {
+export const moveTodo = (fromPos: number, toPos?: number): MoveAction => {
     return {
         type: TodoActionType.Move,
         fromPos,
@@ -104,10 +106,11 @@ export const startDraggingTodo = (id: number, y: number): StartDraggingAction =>
     }
 }
 
-export const dragTodo = (y: number): DragAction => {
+export const dragTodo = (y: number, position: number): DragAction => {
     return {
         type: TodoActionType.DragTodo,
-        y
+        y,
+        position
     }
 }
 

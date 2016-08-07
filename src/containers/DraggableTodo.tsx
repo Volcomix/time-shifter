@@ -45,11 +45,11 @@ const mapDispatchToProps = (
     { todo }: OwnProps
 ): Callbacks => {
     return {
-        onDragStart: ev => {
-            dispatch(Actions.startDraggingTodo(todo.id, ev.pageY))
+        onDragStart: y => {
+            dispatch(Actions.startDraggingTodo(todo.id, y))
         },
-        onDrag: ev => {
-            dispatch(Actions.dragTodo(ev.pageY))
+        onDrag: (y, position) => {
+            dispatch(Actions.dragTodo(y, position))
         },
         onDragEnd: () => {
             dispatch(Actions.stopDraggingTodo())
