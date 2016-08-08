@@ -6,8 +6,6 @@ import TimePicker from 'material-ui/TimePicker'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import ActionDelete from 'material-ui/svg-icons/action/delete'
-import ArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import ArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 
 import Todo from '../model/Todo'
 
@@ -88,18 +86,6 @@ const TodoItem = ({
             value={todo.detail}
             onChange={e => onDetailChange(todo.id, (e.target as HTMLInputElement).value)}
         />
-        <IconButton
-            tooltip={''/*'Déplacer la tâche vers le haut'*/}
-            onClick={() => onMove(todo.order, todo.order - 1)}
-        >
-            <ArrowUp />
-        </IconButton>
-        <IconButton
-            tooltip={''/*'Déplacer la tâche vers le bas'*/}
-            onClick={() => onMove(todo.order, todo.order + 1)}
-        >
-            <ArrowDown />
-        </IconButton>
         <IconButton
             tooltip={''/*'Supprimer la tâche'*/}
             tooltipPosition='bottom-left'
