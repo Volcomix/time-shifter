@@ -1,3 +1,5 @@
+const webpack = require("webpack")
+
 module.exports = {
     entry: "./src/index.tsx",
     output: {
@@ -19,6 +21,17 @@ module.exports = {
             { test: /\.js$/, loader: "source-map-loader" }
         ]
     },
+
+    plugins: [
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify("production")
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    ],
 
     externals: {
         "moment": "moment"
