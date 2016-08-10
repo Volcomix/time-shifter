@@ -13,7 +13,9 @@ export const TodoActionType = {
     SetDetail: 'SET_TODO_DETAIL',
     StartDraggingTodo: 'START_DRAGGING_TODO',
     DragTodo: 'DRAG_TODO',
-    StopDraggingTodo: 'STOP_DRAGGING_TODO'
+    StopDraggingTodo: 'STOP_DRAGGING_TODO',
+    MouseOverTodo: 'MOUSE_OVER_TODO',
+    MouseOutTodo: 'MOUSE_OUT_TODO'
 }
 
 export interface TodoAction extends Action {
@@ -117,5 +119,18 @@ export const dragTodo = (y: number, position: number): DragAction => {
 export const stopDraggingTodo = (): Action => {
     return {
         type: TodoActionType.StopDraggingTodo
+    }
+}
+
+export const mouseOverTodo = (id: number): TodoAction => {
+    return {
+        type: TodoActionType.MouseOverTodo,
+        id
+    }
+}
+
+export const mouseOutTodo = (): Action => {
+    return {
+        type: TodoActionType.MouseOutTodo
     }
 }

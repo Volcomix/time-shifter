@@ -7,9 +7,13 @@ export interface Props {
     todos: Todo[]
 }
 
+export interface Callbacks {
+    onMouseOut: React.MouseEventHandler
+}
+
 const todoHeight = 68
 
-const TodoList = ({ todos }: Props) => (
+const TodoList = ({ todos, onMouseOut }: Props & Callbacks) => (
     <ul
         style={{
             position: 'absolute',
@@ -21,6 +25,7 @@ const TodoList = ({ todos }: Props) => (
             padding: 0,
             height: todos.length * todoHeight
         }}
+        onMouseOut={onMouseOut}
     >
         {todos.map(todo => (
             <DraggableTodo

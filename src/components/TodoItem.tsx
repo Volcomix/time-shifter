@@ -11,6 +11,7 @@ import Todo from '../model/Todo'
 
 export interface Props {
     todo: Todo
+    hover: boolean
 }
 
 export interface Callbacks {
@@ -25,6 +26,7 @@ export interface Callbacks {
 
 const TodoItem = ({
     todo,
+    hover,
     onToggle,
     onStartHourChange,
     onDurationChange,
@@ -88,6 +90,10 @@ const TodoItem = ({
         />
         <IconButton
             tooltip={''/*'Supprimer la tâche'*/}
+            iconStyle={{
+                transition: 'all 150ms linear',
+                width: hover ? 24 : 0
+            }}
             tooltipPosition='bottom-left'
             onClick={() => onDelete(todo.id)}
         >

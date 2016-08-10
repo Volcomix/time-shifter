@@ -8,10 +8,12 @@ export interface Props {
     height: number
     isDragging: boolean
     draggingY: number
+    hover: boolean
     children?: JSX.Element
 }
 
 export interface Callbacks {
+    onMouseOver: React.MouseEventHandler
     onDragStart: (y: number) => void
     onDrag: (y: number, position: number) => void
     onDragEnd: React.DragEventHandler
@@ -22,7 +24,9 @@ const DraggableItem = ({
     height,
     isDragging,
     draggingY,
+    hover,
     children,
+    onMouseOver,
     onDragStart,
     onDrag,
     onDragEnd
@@ -43,12 +47,13 @@ const DraggableItem = ({
                 transition: isDragging ?
                     'all 150ms ease-out, top 1ms linear' :
                     'all 250ms ease-out',
-                padding: 10,
+                padding: '10px 0px',
                 zIndex: isDragging ? 10000 : order,
                 backgroundColor: 'white'
             }}
             zDepth={isDragging ? 3 : 1}
             draggable={true}
+            onMouseOver={onMouseOver}
             onMouseDown={ev => dragTarget = ev.target as Node}
             onDragStart={ev => {
                 if (handle.contains(dragTarget)) {
@@ -70,8 +75,22 @@ const DraggableItem = ({
             }}
             onDragEnd={onDragEnd}
         >
-            <div ref={node => handle = node}>
-                <ActionReorder style={{ padding: 12, cursor: 'move' }} color={grey500} />
+            <div
+                ref={node => handle = node}
+                style={{
+                    width: 48
+                }}
+            >
+                <ActionReorder
+                    style={{
+                        transition: 'all 150ms linear',
+                        margin: hover ? 12 : 24,
+                        width: hover ? 24 : 0,
+                        height: hover ? 24 : 0,
+                        cursor: 'move'
+                    }}
+                    color={grey500}
+                />
             </div>
             {children}
         </Paper>

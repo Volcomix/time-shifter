@@ -18,6 +18,7 @@ export interface TodosState {
     orderedTodos: number[]
     draggingTodo: number
     draggingY: number
+    mouseOverTodo: number
 }
 
 interface TodosMap {
@@ -39,7 +40,8 @@ const initialState: TodosState = {
         }
     },
     draggingTodo: -1,
-    draggingY: -1
+    draggingY: -1,
+    mouseOverTodo: -1
 }
 
 const moveTodo = (state: TodosState, fromPos: number, toPos: number) => {
@@ -237,6 +239,15 @@ const todos = (state = initialState, action: Action): TodosState => {
         case TodoActionType.StopDraggingTodo:
             return assign({}, state, {
                 draggingTodo: -1
+            })
+        case TodoActionType.MouseOverTodo:
+            const { id: overId } = action as TodoAction
+            return assign({}, state, {
+                mouseOverTodo: overId
+            })
+        case TodoActionType.MouseOutTodo:
+            return assign({}, state, {
+                mouseOverTodo: -1
             })
         default:
             return state
