@@ -75,10 +75,7 @@ const DraggableItem = ({
             }}
             onDragEnd={onDragEnd}
         >
-            <div
-                ref={node => handle = node}
-                style={{ width: 48 }}
-            >
+            <div ref={node => handle = node}>
                 <ActionReorder
                     style={{
                         transition: 'initial',
