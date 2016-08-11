@@ -83,7 +83,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                         style={{
                             transition: 'initial',
                             visibility: hover ? 'visible' : 'hidden',
-                            margin: 12,
+                            margin: '12px 4px',
                             cursor: 'move'
                         }}
                         color={grey500}
