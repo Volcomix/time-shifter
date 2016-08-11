@@ -26,7 +26,7 @@ export interface Callbacks {
 
 const style = {
     timeTextField: {
-        width: 100
+        width: 60
     } as React.CSSProperties,
 
     timeInput: {
