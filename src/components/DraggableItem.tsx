@@ -77,9 +77,7 @@ const DraggableItem = ({
         >
             <div
                 ref={node => handle = node}
-                style={{
-                    width: 48
-                }}
+                style={{ width: 48 }}
             >
                 <ActionReorder
                     style={{
