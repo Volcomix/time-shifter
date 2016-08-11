@@ -24,6 +24,24 @@ export interface Callbacks {
     onDelete: (id: number) => void
 }
 
+const style = {
+    timeTextField: {
+        width: 100
+    } as React.CSSProperties,
+
+    timeInput: {
+        cursor: 'pointer'
+    } as React.CSSProperties,
+
+    underlineStyle: {
+        borderBottomWidth: 0
+    } as React.CSSProperties,
+
+    underlineFocusStyle: {
+        borderBottomWidth: 2
+    } as React.CSSProperties
+}
+
 const TodoItem = ({
     todo,
     hover,
@@ -57,42 +75,48 @@ const TodoItem = ({
             hintText='Début'
             format='24hr'
             value={todo.startHour}
-            style={{ display: 'inline' }}
-            textFieldStyle={{ width: 100 }}
+            textFieldStyle={style.timeTextField}
+            inputStyle={style.timeInput}
             onChange={(e: {}, t: Date) => {
                 const time = moment(t).startOf('minute').toDate()
                 onStartHourChange(todo.id, time)
             }}
+            underlineShow={false}
         />
         <TimePicker
             hintText='Durée'
             format='24hr'
             value={moment({ 'minutes': todo.duration }).toDate()}
-            style={{ display: 'inline' }}
-            textFieldStyle={{ width: 100 }}
+            textFieldStyle={style.timeTextField}
+            inputStyle={style.timeInput}
             onChange={(e: {}, t: Date) => {
                 const time = moment(t).startOf('minute')
                 const today = moment({hour: 0})
                 const duration = time.diff(today, 'minutes')
                 onDurationChange(todo.id, duration)
             }}
+            underlineShow={false}
         />
         <TextField
             hintText='Tâche'
             value={todo.task}
             style={{ flexGrow: 1 }}
             onChange={e => onTaskChange(todo.id, (e.target as HTMLInputElement).value)}
+            underlineStyle={style.underlineStyle}
+            underlineFocusStyle={style.underlineFocusStyle}
         />
         <TextField
             hintText='Détail'
             value={todo.detail}
             onChange={e => onDetailChange(todo.id, (e.target as HTMLInputElement).value)}
+            underlineStyle={style.underlineStyle}
+            underlineFocusStyle={style.underlineFocusStyle}
         />
         <IconButton
             tooltip={''/*'Supprimer la tâche'*/}
             iconStyle={{
-                transition: 'all 150ms linear',
-                width: hover ? 24 : 0
+                transition: 'initial',
+                visibility: hover ? 'visible' : 'hidden'
             }}
             tooltipPosition='bottom-left'
             onClick={() => onDelete(todo.id)}

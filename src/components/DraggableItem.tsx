@@ -51,7 +51,7 @@ const DraggableItem = ({
                 zIndex: isDragging ? 10000 : order,
                 backgroundColor: 'white'
             }}
-            zDepth={isDragging ? 3 : 1}
+            zDepth={isDragging ? 2 : 1}
             draggable={true}
             onMouseOver={onMouseOver}
             onMouseDown={ev => dragTarget = ev.target as Node}
@@ -83,10 +83,9 @@ const DraggableItem = ({
             >
                 <ActionReorder
                     style={{
-                        transition: 'all 150ms linear',
-                        margin: hover ? 12 : 24,
-                        width: hover ? 24 : 0,
-                        height: hover ? 24 : 0,
+                        transition: 'initial',
+                        visibility: hover ? 'visible' : 'hidden',
+                        margin: 12,
                         cursor: 'move'
                     }}
                     color={grey500}
