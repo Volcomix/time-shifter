@@ -61,9 +61,18 @@ const moveTodo = (state: TodosState, fromPos: number, toPos: number) => {
             let todo = state.todosById[id]
             if (order >= rangeMin && order <= rangeMax) {
                 if (todo.order === fromPos) {
+                    let newStartHour: Date
+                    if (fromPos < toPos) {
+                        newStartHour = moment(toTodo.startHour)
+                            .subtract(fromTodo.duration, 'minutes')
+                            .add(toTodo.duration, 'minutes')
+                            .toDate()
+                    } else {
+                        newStartHour = toTodo.startHour
+                    }
                     todo = assign({}, todo, {
                         order,
-                        startHour: toTodo.startHour
+                        startHour: newStartHour
                     })
                 } else {
                     todo = assign({}, todo, {
