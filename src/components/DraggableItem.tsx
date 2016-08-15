@@ -19,6 +19,8 @@ export interface Callbacks {
     onDragEnd: React.DragEventHandler
 }
 
+const emptyImage = new Image()
+
 class DraggableItem extends React.Component<Props & Callbacks, {}> {
 
     private handle: HTMLDivElement
@@ -63,7 +65,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                         ev.dataTransfer.effectAllowed = 'move'
 
                         // Typescript definition does not declare setDragImage
-                        ;(ev.dataTransfer as any).setDragImage(new Image(), 0, 0)
+                        ;(ev.dataTransfer as any).setDragImage(emptyImage, 0, 0)
                         
                         // Make it work on Firefox
                         ev.dataTransfer.setData('text/plain', null)
@@ -74,7 +76,10 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                     }
                 }}
                 onDrag={ev => {
-                    onDrag(ev.pageY, Math.floor((ev.pageY - 10) / height))
+                    ev.preventDefault()
+                    if (ev.pageY > 0) {
+                        onDrag(ev.pageY, Math.floor((ev.pageY - 10) / height))
+                    }
                 }}
                 onDragEnd={onDragEnd}
             >
