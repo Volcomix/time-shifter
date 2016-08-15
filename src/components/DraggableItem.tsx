@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Paper from 'material-ui/Paper'
 import ActionReorder from 'material-ui/svg-icons/action/reorder'
 import { grey500 } from 'material-ui/styles/colors'
 
@@ -41,7 +40,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
         } = this.props
 
         return (
-            <Paper
+            <li
                 style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -54,9 +53,15 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                         'all 250ms ease-out',
                     padding: '10px 0px',
                     zIndex: isDragging ? 10000 : order,
+                    boxShadow: isDragging ? (
+                        '0px 8px 30px rgba(0, 0, 0, 0.16), ' +
+                        '0px 8px 30px rgba(0, 0, 0, 0.23)'
+                    ) : (
+                        '0px 6px 5px rgba(0, 0, 0, 0.12), ' +
+                        '0px 4px 3px rgba(0, 0, 0, 0.12)'
+                    ),
                     backgroundColor: 'white'
                 }}
-                zDepth={isDragging ? 2 : 1}
                 draggable={true}
                 onMouseOver={onMouseOver}
                 onMouseDown={ev => this.dragTarget = ev.target as Node}
@@ -95,7 +100,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                     />
                 </div>
                 {children}
-            </Paper>
+            </li>
         )
     }
 }
