@@ -8,6 +8,7 @@ export interface Props {
     isDragging: boolean
     draggingY: number
     hover: boolean
+    isDeleting: boolean
     children?: JSX.Element
 }
 
@@ -32,6 +33,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
             isDragging,
             draggingY,
             hover,
+            isDeleting,
             children,
             onMouseOver,
             onDragStart,
@@ -43,24 +45,36 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
             <li
                 style={{
                     display: 'flex',
+                    justifyContent: 'flex-end',
                     alignItems: 'center',
                     position: 'absolute',
-                    top: isDragging ? draggingY - height / 2 - 10 : order * height,
-                    left: 0,
+                    overflow: 'hidden',
+                    top: isDragging ? (
+                        draggingY - height / 2 - 10
+                    ) : isDeleting ? (
+                        order * height + height / 2 - 24
+                    ) : (
+                        order * height
+                    ),
                     right: 0,
                     transition: isDragging ?
                         'all 250ms ease-out, top 1ms linear' :
                         'all 250ms ease-out',
-                    padding: '10px 0px',
-                    zIndex: isDragging ? 10000 : order,
+                    zIndex: isDragging ? 10000 : isDeleting ? 0 : order + 100,
                     boxShadow: isDragging ? (
                         '0px 8px 30px rgba(0, 0, 0, 0.16), ' +
                         '0px 8px 30px rgba(0, 0, 0, 0.23)'
+                    ) : isDeleting ? (
+                        '0px 3px 2px rgba(0, 0, 0, 0.12), ' +
+                        '0px 2px 1px rgba(0, 0, 0, 0.12)'
                     ) : (
                         '0px 6px 5px rgba(0, 0, 0, 0.12), ' +
                         '0px 4px 3px rgba(0, 0, 0, 0.12)'
                     ),
-                    backgroundColor: 'white'
+                    backgroundColor: 'white', 
+                    borderRadius: isDeleting ? 24 : 0,
+                    width: isDeleting ? 48 : '100%',
+                    height: isDeleting ? 48 : undefined
                 }}
                 draggable={true}
                 onMouseOver={onMouseOver}

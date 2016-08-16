@@ -22,6 +22,7 @@ export interface Callbacks {
     onDetailChange: (id: number, detail: string) => void
     onMove: (fromPos: number, toPos: number) => void
     onDelete: (id: number) => void
+    onDeleted: (id: number) => void
 }
 
 const style = {
@@ -51,7 +52,8 @@ const TodoItem = ({
     onTaskChange,
     onDetailChange,
     onMove,
-    onDelete
+    onDelete,
+    onDeleted
 }: Props & Callbacks) => (
     <div
         style={{
@@ -65,12 +67,12 @@ const TodoItem = ({
             checked={todo.isDone}
             onCheck={() => onToggle(todo.id)}
         />
-        <Toggle
+        {/*<Toggle
             style={{
                 width: undefined,
                 paddingRight: 16
             }}
-        />
+        />*/}
         <TimePicker
             hintText='Début'
             format='24hr'
@@ -83,7 +85,7 @@ const TodoItem = ({
             }}
             underlineShow={false}
         />
-        <TimePicker
+        {/*<TimePicker
             hintText='Durée'
             format='24hr'
             value={moment({ 'minutes': todo.duration }).toDate()}
@@ -96,7 +98,7 @@ const TodoItem = ({
                 onDurationChange(todo.id, duration)
             }}
             underlineShow={false}
-        />
+        />*/}
         <TextField
             hintText='Tâche'
             value={todo.task}
@@ -116,7 +118,7 @@ const TodoItem = ({
             tooltip={''/*'Supprimer la tâche'*/}
             iconStyle={{
                 transition: 'initial',
-                visibility: hover ? 'visible' : 'hidden'
+                visibility: hover || todo.isDeleting ? 'visible' : 'hidden'
             }}
             tooltipPosition='bottom-left'
             onClick={() => onDelete(todo.id)}

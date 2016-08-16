@@ -11,7 +11,7 @@ export interface Callbacks {
     onMouseOut: React.MouseEventHandler
 }
 
-const todoHeight = 68
+const todoHeight = 48
 
 const TodoList = ({ todos, onMouseOut }: Props & Callbacks) => (
     <ul

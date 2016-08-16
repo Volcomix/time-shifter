@@ -6,6 +6,7 @@ interface Todo {
     duration: number
     task: string
     detail: string
+    isDeleting: boolean
 }
 
 export default Todo
