@@ -22,7 +22,6 @@ export interface Callbacks {
     onDetailChange: (id: number, detail: string) => void
     onMove: (fromPos: number, toPos: number) => void
     onDelete: (id: number) => void
-    onDeleted: (id: number) => void
 }
 
 const style = {
@@ -52,8 +51,7 @@ const TodoItem = ({
     onTaskChange,
     onDetailChange,
     onMove,
-    onDelete,
-    onDeleted
+    onDelete
 }: Props & Callbacks) => (
     <div
         style={{
@@ -118,7 +116,7 @@ const TodoItem = ({
             tooltip={''/*'Supprimer la tâche'*/}
             iconStyle={{
                 transition: 'initial',
-                visibility: hover || todo.isDeleting ? 'visible' : 'hidden'
+                visibility: hover ? 'visible' : 'hidden'
             }}
             tooltipPosition='bottom-left'
             onClick={() => onDelete(todo.id)}

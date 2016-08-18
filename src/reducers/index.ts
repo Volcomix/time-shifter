@@ -36,8 +36,7 @@ const initialState: TodosState = {
             startHour: moment({ hour: 9 }).toDate(),
             duration: 60,
             task: '',
-            detail: '',
-            isDeleting: false
+            detail: ''
         }
     },
     draggingTodo: -1,
@@ -111,8 +110,7 @@ const todos = (state = initialState, action: Action): TodosState => {
                             .toDate(),
                         duration: 60,
                         task: '',
-                        detail: '',
-                        deleting: false
+                        detail: ''
                     }
                 })
             })
@@ -120,41 +118,18 @@ const todos = (state = initialState, action: Action): TodosState => {
             const { id: deleteId } = action as TodoAction
             const deleteTodo = state.todosById[deleteId]
             return assign({}, state, {
+                todos: without(state.todos, deleteId),
                 orderedTodos: without(state.orderedTodos, deleteId),
                 todosById: state.todos.reduce((obj, id) => {
-                    let todo = state.todosById[id]
                     if (id === deleteId) {
-                        todo = assign({}, todo, {
-                            isDeleting: true
-                        })
-                    } else if (todo.order > deleteTodo.order) {
+                        return obj
+                    }
+                    let todo = state.todosById[id]
+                    if (todo.order > deleteTodo.order) {
                         todo = assign({}, todo, {
                             order: todo.order - 1,
                             startHour: moment(todo.startHour)
                                 .subtract(deleteTodo.duration, 'minutes')
-                                .toDate()
-                        })
-                    }
-                    obj[id] = todo
-                    return obj
-                }, {} as TodosMap)
-            })
-        case TodoActionType.Deleted:
-            const { id: deletedId } = action as TodoAction
-            const deletedTodo = state.todosById[deletedId]
-            return assign({}, state, {
-                todos: without(state.todos, deletedId),
-                orderedTodos: without(state.orderedTodos, deletedId),
-                todosById: state.todos.reduce((obj, id) => {
-                    if (id === deletedId) {
-                        return obj
-                    }
-                    let todo = state.todosById[id]
-                    if (todo.order > deletedTodo.order) {
-                        todo = assign({}, todo, {
-                            order: todo.order - 1,
-                            startHour: moment(todo.startHour)
-                                .subtract(deletedTodo.duration, 'minutes')
                                 .toDate()
                         })
                     }

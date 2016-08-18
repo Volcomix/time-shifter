@@ -26,7 +26,6 @@ let DraggableTodo = (props: StateProps & OwnProps & Callbacks) => (
         isDragging={props.isDragging}
         draggingY={props.draggingY}
         hover={props.hover}
-        isDeleting={props.todo.isDeleting}
         onMouseOver={props.onMouseOver}
         onDragStart={props.onDragStart}
         onDrag={props.onDrag}
