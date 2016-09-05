@@ -18,7 +18,7 @@ const TodoList = ({ todos, onMouseOut }: Props & Callbacks) => (
         style={{
             position: 'absolute',
             backgroundColor: 'rgba(0, 0, 0, 0.04)',
-            borderTop: '1px solid rgba(0, 0, 0, 0.005)',
+            borderTop: todos.length ? '1px solid rgba(0, 0, 0, 0.005)' : undefined,
             top: 9,
             left: 10,
             right: 10,
