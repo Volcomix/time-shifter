@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ActionReorder from 'material-ui/svg-icons/action/reorder'
-import { grey500 } from 'material-ui/styles/colors'
+import { grey900, grey600 } from 'material-ui/styles/colors'
 
 export interface Props {
     order: number
@@ -97,7 +97,8 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                             margin: '12px 4px',
                             cursor: 'move'
                         }}
-                        color={grey500}
+                        color={grey600}
+                        hoverColor={grey900}
                     />
                 </div>
                 {children}

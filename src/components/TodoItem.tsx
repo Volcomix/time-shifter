@@ -6,6 +6,7 @@ import TimePicker from 'material-ui/TimePicker'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import ActionDelete from 'material-ui/svg-icons/action/delete'
+import { grey900, grey600 } from 'material-ui/styles/colors'
 
 import Todo from '../model/Todo'
 
@@ -121,7 +122,10 @@ const TodoItem = ({
             tooltipPosition='bottom-left'
             onClick={() => onDelete(todo.id)}
         >
-            <ActionDelete />
+            <ActionDelete
+                color={grey600}
+                hoverColor={grey900}
+            />
         </IconButton>
     </div>
     )
