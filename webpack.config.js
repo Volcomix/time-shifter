@@ -14,7 +14,7 @@ module.exports = {
 
     module: {
         loaders: [
-            { test: /\.tsx?$/, loaders: ['react-hot', 'ts'] }
+            { test: /\.tsx?$/, loaders: ['react-hot-loader/webpack', 'ts'] }
         ],
 
         preLoaders: [
