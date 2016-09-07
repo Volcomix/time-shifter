@@ -9,18 +9,26 @@ const {BrowserWindow} = electron
 let win
 
 function createWindow() {
+    let options = { width: 1200, height: 800 }
+    if (process.argv.length >= 4 && process.argv[3] === '--enable-transparent-visuals') {
+        options.transparent = true
+        options.frame = false
+    }
+
     // Create the browser window.
-    win = new BrowserWindow({width: 1200, height: 800})
+    win = new BrowserWindow(options)
 
     // and load the index.html of the app.
-    if (process.argv.length === 3 && process.argv[2] === '--dev') {
+    if (process.argv.length >= 3 && process.argv[2] === '--dev') {
         win.loadURL('http://localhost:8080')
     } else {
         win.loadURL(`file://${__dirname}/index.html`)
     }
 
     // Open the DevTools.
-    win.webContents.openDevTools()
+    if (!options.transparent) {
+        win.webContents.openDevTools()
+    }
 
     // Emitted when the window is closed.
     win.on('closed', () => {
