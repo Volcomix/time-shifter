@@ -52,8 +52,8 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                     top: isDragging ? draggingY - height / 2 - 10 : order * height,
                     left: 0,
                     transition: isDragging ?
-                        'all 350ms ease-out, top 1ms linear' :
-                        'all 350ms ease-out, width 250ms ease-in',
+                        'all 250ms ease-out, top 1ms linear' :
+                        'all 250ms ease-out, width 250ms ease-in',
                     zIndex: isDragging ? 10000 : order + 100,
                     boxShadow: isDragging ? (
                         '0px 10px 30px rgba(0, 0, 0, 0.19), ' +
