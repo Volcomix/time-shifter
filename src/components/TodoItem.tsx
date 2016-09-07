@@ -99,7 +99,7 @@ const TodoItem = ({
             underlineShow={false}
         />*/}
         <TextField
-            hintText='Tâche'
+            hintText={hover ? 'Tâche' : undefined}
             value={todo.task}
             style={{ flexGrow: 1 }}
             onChange={e => onTaskChange(todo.id, (e.target as HTMLInputElement).value)}
@@ -107,7 +107,7 @@ const TodoItem = ({
             underlineFocusStyle={style.underlineFocusStyle}
         />
         <TextField
-            hintText='Détail'
+            hintText={hover ? 'Détail' : undefined}
             value={todo.detail}
             onChange={e => onDetailChange(todo.id, (e.target as HTMLInputElement).value)}
             underlineStyle={style.underlineStyle}
