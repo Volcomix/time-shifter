@@ -5,6 +5,7 @@ import { grey900, grey600 } from 'material-ui/styles/colors'
 export interface Props {
     order: number
     height: number
+    isDeleting: boolean
     isDragging: boolean
     draggingY: number
     hover: boolean
@@ -29,6 +30,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
         const {
             order,
             height,
+            isDeleting,
             isDragging,
             draggingY,
             hover,
@@ -48,10 +50,10 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                     position: 'absolute',
                     overflow: 'hidden',
                     top: isDragging ? draggingY - height / 2 - 10 : order * height,
-                    right: 0,
+                    left: 0,
                     transition: isDragging ?
                         'all 250ms ease-out, top 1ms linear' :
-                        'all 250ms ease-out',
+                        'all 250ms ease-out, width 350ms ease-in',
                     zIndex: isDragging ? 10000 : order + 100,
                     boxShadow: isDragging ? (
                         '0px 10px 30px rgba(0, 0, 0, 0.19), ' +
@@ -61,7 +63,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                         '0px 4px 3px rgba(0, 0, 0, 0.12)'
                     ),
                     backgroundColor: 'white',
-                    width: '100%'
+                    width: isDeleting ? 0 : '100%'
                 }}
                 draggable={true}
                 onMouseOver={onMouseOver}

@@ -9,6 +9,7 @@ import DraggableItem, { Callbacks } from '../components/DraggableItem'
 import EditableTodo from './EditableTodo'
 
 interface StateProps {
+    isDeleting: boolean
     isDragging: boolean
     draggingY: number
     hover: boolean
@@ -23,6 +24,7 @@ let DraggableTodo = (props: StateProps & OwnProps & Callbacks) => (
     <DraggableItem
         order={props.todo.order}
         height={props.height}
+        isDeleting={props.isDeleting}
         isDragging={props.isDragging}
         draggingY={props.draggingY}
         hover={props.hover}
@@ -38,6 +40,7 @@ let DraggableTodo = (props: StateProps & OwnProps & Callbacks) => (
 const mapStateToProps = (state: TodosState, { todo }: OwnProps): StateProps => {
     const isDragging = state.draggingTodo === todo.id
     return {
+        isDeleting: todo.isDeleting,
         isDragging,
         draggingY: isDragging ? state.draggingY : -1,
         hover: state.mouseOverTodo === todo.id

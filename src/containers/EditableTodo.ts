@@ -27,6 +27,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions.TodoAction>): Callbacks =
         },
         onDelete: (id: number) => {
             dispatch(Actions.deleteTodo(id))
+            setTimeout(() => dispatch(Actions.setTodoDeleted(id)), 350)
         }
     }
 }

@@ -36,7 +36,8 @@ const initialState: TodosState = {
             startHour: moment({ hour: 9 }).toDate(),
             duration: 60,
             task: '',
-            detail: ''
+            detail: '',
+            isDeleting: false
         }
     },
     draggingTodo: -1,
@@ -110,26 +111,36 @@ const todos = (state = initialState, action: Action): TodosState => {
                             .toDate(),
                         duration: 60,
                         task: '',
-                        detail: ''
+                        detail: '',
+                        isDeleting: false
                     }
                 })
             })
         case TodoActionType.Delete:
             const { id: deleteId } = action as TodoAction
-            const deleteTodo = state.todosById[deleteId]
             return assign({}, state, {
-                todos: without(state.todos, deleteId),
-                orderedTodos: without(state.orderedTodos, deleteId),
+                todosById: assign({}, state.todosById, {
+                    [deleteId]: assign({}, state.todosById[deleteId], {
+                        isDeleting: true
+                    })
+                })
+            })
+        case TodoActionType.Deleted:
+            const { id: deletedId } = action as TodoAction
+            const deletedTodo = state.todosById[deletedId]
+            return assign({}, state, {
+                todos: without(state.todos, deletedId),
+                orderedTodos: without(state.orderedTodos, deletedId),
                 todosById: state.todos.reduce((obj, id) => {
-                    if (id === deleteId) {
+                    if (id === deletedId) {
                         return obj
                     }
                     let todo = state.todosById[id]
-                    if (todo.order > deleteTodo.order) {
+                    if (todo.order > deletedTodo.order) {
                         todo = assign({}, todo, {
                             order: todo.order - 1,
                             startHour: moment(todo.startHour)
-                                .subtract(deleteTodo.duration, 'minutes')
+                                .subtract(deletedTodo.duration, 'minutes')
                                 .toDate()
                         })
                     }

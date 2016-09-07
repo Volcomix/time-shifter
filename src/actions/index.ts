@@ -5,6 +5,7 @@ import Todo from '../model/Todo'
 export const TodoActionType = {
     Add: 'ADD_TODO',
     Delete: 'DELETE_TODO',
+    Deleted: 'TODO_DELETED',
     Move: 'MOVE_TODO',
     Toggle: 'TOGGLE_TODO',
     SetStartHour: 'SET_TODO_START_HOUR',
@@ -49,6 +50,13 @@ export const addTodo = (position?: number): Action => {
 export const deleteTodo = (id: number): TodoAction => {
     return {
         type: TodoActionType.Delete,
+        id
+    }
+}
+
+export const setTodoDeleted = (id: number): TodoAction => {
+    return {
+        type: TodoActionType.Deleted,
         id
     }
 }
