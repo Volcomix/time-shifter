@@ -21,7 +21,7 @@ let AddTodo = ({ dispatch }: Props) => (
         }}
         onClick={() => {
             dispatch(addTodo())
-            setTimeout(() => dispatch(setTodoCreated()), 0)
+            setTimeout(() => dispatch(setTodoCreated()), 150)
         }}
     >
         <ContentAdd />
