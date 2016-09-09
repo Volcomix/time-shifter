@@ -16,16 +16,17 @@ const todoHeight = 48
 const TodoList = ({ todos, onMouseOut }: Props & Callbacks) => (
     <ul
         style={{
-            position: 'absolute',
+            position: 'fixed',
             /*backgroundColor: 'rgba(0, 0, 0, 0.04)',*/
             /*borderTop: todos.length ? '1px solid rgba(0, 0, 0, 0.005)' : undefined,*/
             top: 10,
             left: 10,
             right: 10,
+            bottom: 10,
             marginTop: 0,
-            marginBottom: 10,
+            marginBottom: 0,
             padding: 0,
-            height: todos.length * todoHeight
+            //height: todos.length * todoHeight
         }}
         onMouseOut={onMouseOut}
     >

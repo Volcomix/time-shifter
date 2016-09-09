@@ -4,6 +4,7 @@ import Todo from '../model/Todo'
 
 export const TodoActionType = {
     Add: 'ADD_TODO',
+    Added: 'TODO_ADDED',
     Delete: 'DELETE_TODO',
     Deleted: 'TODO_DELETED',
     Move: 'MOVE_TODO',
@@ -44,6 +45,12 @@ export interface DragAction extends Action {
 export const addTodo = (position?: number): Action => {
     return {
         type: TodoActionType.Add
+    }
+}
+
+export const setTodoCreated = (): Action => {
+    return {
+        type: TodoActionType.Added
     }
 }
 

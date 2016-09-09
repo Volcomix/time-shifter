@@ -37,6 +37,7 @@ const initialState: TodosState = {
             duration: 60,
             task: '',
             detail: '',
+            isCreating: false,
             isDeleting: false
         }
     },
@@ -93,11 +94,8 @@ const moveTodo = (state: TodosState, fromPos: number, toPos: number) => {
 const todos = (state = initialState, action: Action): TodosState => {
     switch (action.type) {
         case TodoActionType.Add:
-            if (state.todos.length === 0) {
-                return initialState
-            }
-            const addId = last(state.todos) + 1
             const lastTodo = state.todosById[last(state.orderedTodos)]
+            const addId = lastTodo ? last(state.todos) + 1 : 0
             return assign({}, state, {
                 todos: [...state.todos, addId],
                 orderedTodos: [...state.orderedTodos, addId],
@@ -106,15 +104,33 @@ const todos = (state = initialState, action: Action): TodosState => {
                         id: addId,
                         order: state.orderedTodos.length,
                         isDone: false,
-                        startHour: moment(lastTodo.startHour)
+                        startHour: lastTodo ? (
+                            moment(lastTodo.startHour)
                             .add(lastTodo.duration, 'minutes')
-                            .toDate(),
+                            .toDate()
+                        ) : (
+                            moment({ hour: 9 }).toDate()
+                        ),
                         duration: 60,
                         task: '',
                         detail: '',
+                        isCreating: true,
                         isDeleting: false
                     }
                 })
+            })
+        case TodoActionType.Added:
+            return assign({}, state, {
+                todosById: state.todos.reduce((obj, id) => {
+                    let todo = state.todosById[id]
+                    if (todo.isCreating) {
+                        todo = assign({}, todo, {
+                            isCreating: false
+                        })
+                    }
+                    obj[id] = todo
+                    return obj
+                }, {} as TodosMap)
             })
         case TodoActionType.Delete:
             const { id: deleteId } = action as TodoAction

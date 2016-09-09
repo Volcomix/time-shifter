@@ -6,6 +6,7 @@ interface Todo {
     duration: number
     task: string
     detail: string
+    isCreating: boolean
     isDeleting: boolean
 }
 

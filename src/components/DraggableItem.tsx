@@ -5,6 +5,7 @@ import { grey900, grey600 } from 'material-ui/styles/colors'
 export interface Props {
     order: number
     height: number
+    isCreating: boolean
     isDeleting: boolean
     isDragging: boolean
     draggingY: number
@@ -30,6 +31,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
         const {
             order,
             height,
+            isCreating,
             isDeleting,
             isDragging,
             draggingY,
@@ -49,12 +51,20 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                     alignItems: 'center',
                     position: 'absolute',
                     overflow: 'hidden',
-                    top: isDragging ? draggingY - height / 2 - 10 : order * height,
-                    left: 0,
+                    top: isDragging ? (
+                        draggingY - height / 2 - 10
+                    ) : isCreating ? (
+                        '100%'
+                    ) : (
+                        order * height
+                    ),
+                    left: isCreating ? '100%' : 0,
+                    marginTop: isCreating ? -61 : undefined,
+                    marginLeft: isCreating ? -61 : undefined,
                     transition: isDragging ?
                         'all 250ms ease-out, top 1ms linear' :
                         'all 250ms ease-out, width 250ms ease-in',
-                    zIndex: isDragging ? 10000 : order + 100,
+                    zIndex: isDragging ? 10000 : isCreating ? 20000 : order + 100,
                     boxShadow: isDragging ? (
                         '0px 10px 30px rgba(0, 0, 0, 0.19), ' +
                         '0px 6px 10px rgba(0, 0, 0, 0.23)'
@@ -63,7 +73,9 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                         '0px 4px 3px rgba(0, 0, 0, 0.12)'
                     ),
                     backgroundColor: 'white',
-                    width: isDeleting ? 0 : '100%'
+                    width: isDeleting ? 0 : isCreating ? 56 : '100%',
+                    height: isCreating ? 56 : undefined,
+                    borderRadius: isCreating ? 28 : undefined
                 }}
                 draggable={true}
                 onMouseOver={onMouseOver}
