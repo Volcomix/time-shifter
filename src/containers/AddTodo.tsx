@@ -43,7 +43,7 @@ class AddTodo extends React.Component<Props, State> {
                         setTimeout(() => {
                             this.setState({ isShowing: false, isCreating: false })
                         }, 50)
-                    }, 450)
+                    }, 250)
                 }}
             >
                 <ContentAdd />
