@@ -72,7 +72,7 @@ class DraggableItem extends React.Component<Props & Callbacks, {}> {
                         '0px 6px 5px rgba(0, 0, 0, 0.12), ' +
                         '0px 4px 3px rgba(0, 0, 0, 0.12)'
                     ),
-                    backgroundColor: 'white',
+                    backgroundColor: isCreating ? 'rgb(255, 64, 129)' : 'white',
                     width: isDeleting ? 0 : isCreating ? 56 : '100%',
                     height: isCreating ? 56 : undefined,
                     borderRadius: isCreating ? 28 : undefined

@@ -144,6 +144,9 @@ const todos = (state = initialState, action: Action): TodosState => {
         case TodoActionType.Deleted:
             const { id: deletedId } = action as TodoAction
             const deletedTodo = state.todosById[deletedId]
+            if (!deletedTodo) {
+                return state
+            }
             return assign({}, state, {
                 todos: without(state.todos, deletedId),
                 orderedTodos: without(state.orderedTodos, deletedId),
